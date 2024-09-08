@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "dev": "node --watch index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "cross-env NODE_ENV=prod node index.js",
+    "dev": "cross-env NODE_ENV=dev node --watch index.js",
+    "test": "cross-env NODE_ENV=test node index.js"
   },
   "keywords": [],
   "type": "module",
@@ -13,6 +13,11 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "express": "^4.19.2"
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "sequelize": "^6.37.3"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3"
   }
 }
