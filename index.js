@@ -1,12 +1,12 @@
 import express from 'express';
+import routerApi from './src/routes/index.js';
+import { config } from './src/config/config.js';
 
 const app = express();
-const port = 3000;
+const port = config.port;
 
-// Ruta principal
-app.get('/', (req, res) => {
-  res.send('Hello, World!');
-});
+app.use(express.json());
+routerApi(app);
 
 // Iniciar el servidor
 app.listen(port, () => {
