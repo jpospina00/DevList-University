@@ -34,7 +34,7 @@ router.post("/create-user", async (req, res) => {
       roleId: roleId,
       password: hashedPassword, 
     });
-    res.status(200).json({ message: "Create user successful" });
+    res.status(201).json({ message: "Create user successful" });
   } catch (error) {
     console.error(error);
     res.status(401).json({ message: "Invalid credentials" });
