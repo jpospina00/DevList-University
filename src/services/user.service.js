@@ -60,9 +60,9 @@ class UserService {
     }
   }
 
-  async deleteUser(id) {
+  async deleteUser(idUser) {
     try {
-      const deleted = await User.destroy({ where: { id } });
+      const deleted = await User.destroy({ where: { idUser } });
       if (deleted === 0) {
         throw new Error('User not found');
       }

@@ -1,6 +1,7 @@
 import express from 'express';
 import routerApi from './src/routes/index.js';
 import { config } from './src/config/config.js';
+import e from 'express';
 
 const app = express();
 const port = config.port;
@@ -12,3 +13,5 @@ routerApi(app);
 app.listen(port, () => {
   console.log(`App running at http://localhost:${port}`);
 });
+
+export default app;
