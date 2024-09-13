@@ -1,4 +1,7 @@
 import express from "express";
+import bcrypt from "bcryptjs";
+
+import crypto from "crypto";
 import UserService from "../services/user.service.js";
 
 const router = express.Router();
@@ -13,12 +16,25 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.post("/login", async (req, res) => {
+router.post("/create-user", async (req, res) => {
   try {
-    const { email, password } = req.body;
-    const userAuthenticated = await userService.getUserByEmail(email);
-    console.log(userAuthenticated.dataValues);
-    res.status(200).json({ message: "Login successful" });
+    const { identificationNumber, name, email, roleId } = req.body;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({ message: "Invalid email format" });
+    }
+    const randomPassword = crypto.randomBytes(8).toString('hex');
+    console.log(randomPassword);
+    const hashedPassword = await bcrypt.hash(randomPassword, 10);
+
+     await userService.createUser({
+      userId: identificationNumber,
+      name,
+      email,
+      roleId: roleId,
+      password: hashedPassword, 
+    });
+    res.status(200).json({ message: "Create user successful" });
   } catch (error) {
     console.error(error);
     res.status(401).json({ message: "Invalid credentials" });
