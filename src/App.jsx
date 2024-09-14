@@ -1,17 +1,8 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom"
-import Login from "./views/Login"
+import { RouterProvider } from 'react-router-dom';
+import router from './pages/router';
 
-
-function App() {
-  
-
+export default function App() {
   return (
-   <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Login />}/>
-      </Routes>
-   </BrowserRouter>
+    <RouterProvider router={router} />
   )
 }
-
-export default App
