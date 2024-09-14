@@ -3,11 +3,12 @@ import bcrypt from "bcryptjs";
 
 import crypto from "crypto";
 import UserService from "../services/user.service.js";
+import authenticateToken from "../middlewares/auth.handler.js";
 
 const router = express.Router();
 const userService = new UserService();
 
-router.get("/", async (req, res) => {
+router.get("/",authenticateToken, async (req, res) => {
   try {
     const users = await userService.getAllUsers();
     res.status(200).json(users);
