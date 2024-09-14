@@ -1,11 +1,10 @@
 import supertest from "supertest";
 import app from "../../index.js";
-import bcrypt from "bcryptjs";
-import UserService from "../services/user.service.js";
+
 
 const api = supertest(app);
 let userCredentials;
-const userService = new UserService();
+
 beforeAll(async () => {
     // Crear un usuario antes de los tests
     console.log("Creando usuario de prueba...");
@@ -19,12 +18,11 @@ beforeAll(async () => {
 
     expect(userResponse.statusCode).toBe(201); // Asegúrate de que el usuario se creó correctamente
      
-    user = await userService.getUserByEmail("juan@dev.co")
    
     // Guardar las credenciales para usarlas en los tests
     userCredentials = {
         email: "juan@dev.co",
-        password: '123' // La contraseña del usuario recién creado
+        password: 'testpassword123' // La contraseña del usuario recién creado
     };
 });
 
