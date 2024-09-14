@@ -15,11 +15,12 @@ router.post("/login", async (req, res) => {
     if (!isMatch) {
       return res.status(401).json({ message: "Invalid password", error: true });
     }
+    console.log(userAuthenticated);
     const token = jwt.sign(
       {
-        userId: userAuthenticated.id,
+        userId: userAuthenticated.userId,
         email: userAuthenticated.email,
-        role: userAuthenticated.role,
+        role: userAuthenticated.roleId,
       },
       config.jwtSecret, // La clave secreta
       { expiresIn: '24h' } // Tiempo de expiración
