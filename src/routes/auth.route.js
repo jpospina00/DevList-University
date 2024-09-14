@@ -13,7 +13,7 @@ router.post("/login", async (req, res) => {
     const userAuthenticated = await userService.getUserByEmail(email);
     const isMatch = await bcrypt.compare(password, userAuthenticated.password);
     if (!isMatch) {
-      return res.status(401).json({ message: "Invalid password" });
+      return res.status(401).json({ message: "Invalid password", error: true });
     }
     const token = jwt.sign(
       {
@@ -22,14 +22,13 @@ router.post("/login", async (req, res) => {
         role: userAuthenticated.role,
       },
       config.jwtSecret, // La clave secreta
-      { expiresIn: '1m' } // Tiempo de expiración
+      { expiresIn: '24h' } // Tiempo de expiración
     );
     console.log(userAuthenticated.dataValues);
     console.log(token);
     res.status(200).json({ message: "Login successful", token });
   } catch (error) {
-    console.error(error);
-    res.status(401).json({ message: "Invalid credentials" });
+    res.status(401).json({ message: "Invalid credentials", error: true});
   }
 });
 
