@@ -49,11 +49,15 @@ class UserService {
 
   async updateUser(id, data) {
     try {
-      const [updated] = await User.update(data, { where: { id }, returning: true });
+      const updated = await User.update(data, { where: { userId: id }, returning: true });
+      console.log(updated);
       if (updated === 0) {
         throw new Error('User not found');
       }
       const updatedUser = await User.findByPk(id);
+      if (!updatedUser) {
+        throw new Error('User not found');
+      }
       return updatedUser;
     } catch (error) {
       throw new Error(`Error updating user: ${error.message}`);
