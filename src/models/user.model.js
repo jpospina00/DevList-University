@@ -21,6 +21,11 @@ const User = sequelize.define('User', {
     type: DataTypes.STRING(255), // Agregamos el campo de password
     allowNull: false,
   },
+  active: {
+    type: DataTypes.BOOLEAN, 
+    allowNull: false,
+    defaultValue: true,
+  },
   token: {
     type: DataTypes.STRING(255), // Agregamos el campo de token
     allowNull: true,
