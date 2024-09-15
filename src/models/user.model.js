@@ -49,6 +49,14 @@ const User = sequelize.define('User', {
     },
     onDelete: 'SET NULL',     // Acción en cascada si se elimina el rol
   },
+  phone: {
+    type: DataTypes.STRING(20),
+    allowNull: true,
+  },
+  address: {
+    type: DataTypes.STRING(30),
+    allowNull: true,
+  },
 }, {
   tableName: 'users',
   timestamps: true,            // Esto ya gestiona createdAt y updatedAt automáticamente

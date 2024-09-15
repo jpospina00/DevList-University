@@ -5,6 +5,7 @@ import crypto from "crypto";
 import UserService from "../services/user.service.js";
 import authenticateToken from "../middlewares/auth.handler.js";
 import { RoleService } from "../services/role.service.js";
+import { ok } from "assert";
 
 
 const router = express.Router();
@@ -57,7 +58,6 @@ router.post("/create-user",authenticateToken, async (req, res) => {
     const randomPassword = process.env.NODE_ENV === 'test' 
     ? 'testpassword123' 
     : crypto.randomBytes(8).toString('hex');
-
     const hashedPassword = await bcrypt.hash(randomPassword, 10);
 
      await userService.createUser({
@@ -98,12 +98,34 @@ router.patch("/disable-monitor/:id",authenticateToken, async (req, res) => {
     }
     const updatedUser = await userService.updateUser(id, { active: false });
     res.status(200).json({
-      name: updatedUser.name,
-      active: updatedUser.active,
-      roleId: updatedUser.roleId
+      ok: true,
     });
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(400).json({ message: error.message, error: true });
+  }
+});
+
+router.put("/update-monitor",authenticateToken, async (req, res) => {
+  try {
+    const { role, userId } = req.user; 
+    const { phone, address } = req.body;
+    if (!role) {
+      return res.status(403).json({ message: "Role information missing from token", error: true });
+    }
+    if (!userId) {
+      return res.status(403).json({ message: "userId information missing from token", error: true });
+    }
+    const roleData = await roleService.getRoleById(role);
+    if (roleData.name !== 'monitor') {
+      return res.status(401).json({ message: "Unauthorized", error: true });
+    }
+    await userService.updateUser(userId, { phone, address });
+
+    res.status(200).json({
+      ok: true,
+    });
+  } catch (error) {
+    res.status(400).json({ message: error.message, error: true });
   }
 });
 
