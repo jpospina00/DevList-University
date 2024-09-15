@@ -105,6 +105,16 @@ router.patch("/disable-monitor/:id",authenticateToken, async (req, res) => {
   }
 });
 
+/**
+ * Updates a monitor's information.
+ * 
+ * @function
+ * @name updateMonitor
+ * @memberof module:user.route
+ * @param {Object} req - The request object. * @returns {Object} - The response object with a success message.
+ * @returns {Object} - The response object with a success m  }
+ * @throws {Object} - The error object if an error occurs.
+*/
 router.put("/update-monitor",authenticateToken, async (req, res) => {
   try {
     const { role, userId } = req.user; 
