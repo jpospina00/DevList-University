@@ -6,6 +6,8 @@ import UserService from "../services/user.service.js";
 import authenticateToken from "../middlewares/auth.handler.js";
 import { RoleService } from "../services/role.service.js";
 import { ok } from "assert";
+import { validateRequestBody } from "../middlewares/validate.handler.js";
+import { createUserSchema, updateUserSchema } from "../schemas/user.schema.js";
 
 
 const router = express.Router();
@@ -44,7 +46,7 @@ router.get("/",authenticateToken, async (_, res) => {
  * @throws {Object} - The error object if an error occurs.
  */
 
-router.post("/create-user",authenticateToken, async (req, res) => {
+router.post("/create-user",authenticateToken, validateRequestBody(createUserSchema), async (req, res) => {
   try {
     const { identificationNumber, name, email, roleId } = req.body;
     const { role } = req.user; 
@@ -115,7 +117,7 @@ router.patch("/disable-monitor/:id",authenticateToken, async (req, res) => {
  * @returns {Object} - The response object with a success m  }
  * @throws {Object} - The error object if an error occurs.
 */
-router.put("/update-monitor",authenticateToken, async (req, res) => {
+router.put("/update-monitor",authenticateToken, validateRequestBody(updateUserSchema), async (req, res) => {
   try {
     const { role, userId } = req.user; 
     const { phone, address } = req.body;
