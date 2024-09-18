@@ -1,11 +1,13 @@
 import express from "express";
 import bcrypt from "bcryptjs";
 import jwt from 'jsonwebtoken';
+import crypto from "crypto";
 
 import UserService from "../services/user.service.js";
 import { config } from "../config/config.js";
 import { validateRequestBody } from "../middlewares/validate.handler.js";
 import loginSchema from "../schemas/auth.schema.js";
+import { sendPasswordResetEmail } from "../tools/emails.js";
 
 const router = express.Router();
 const userService = new UserService();
@@ -44,6 +46,17 @@ router.post("/login",validateRequestBody(loginSchema), async (req, res) => {
     res.status(200).json({ message: "Login successful", token });
   } catch (error) {
     res.status(401).json({ message: "Invalid credentials", error: true});
+  }
+});
+
+router.post('/send-email', async (req, res) => {
+  try {
+    const { email, name } = req.body;
+    let token = crypto.randomBytes(20).toString('hex');
+    sendPasswordResetEmail( email, name, token);
+    res.status(200).json({ message: "Email sent"});
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 });
 

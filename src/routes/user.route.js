@@ -5,7 +5,6 @@ import crypto from "crypto";
 import UserService from "../services/user.service.js";
 import authenticateToken from "../middlewares/auth.handler.js";
 import { RoleService } from "../services/role.service.js";
-import { ok } from "assert";
 import { validateRequestBody } from "../middlewares/validate.handler.js";
 import { createUserSchema, updateUserSchema } from "../schemas/user.schema.js";
 
