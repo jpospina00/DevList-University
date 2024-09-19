@@ -12,3 +12,8 @@ export const updateUserSchema = vine.object({
     address: vine.string().maxLength(30).nullable().optional(),
   });
 
+
+  export const recoveryPasswordSchema = vine.object({
+    email: vine.string().email(),
+  });
+

@@ -8,6 +8,7 @@ import { config } from "../config/config.js";
 import { validateRequestBody } from "../middlewares/validate.handler.js";
 import loginSchema from "../schemas/auth.schema.js";
 import { sendPasswordResetEmail } from "../tools/emails.js";
+import { recoveryPasswordSchema } from "../schemas/user.schema.js";
 
 const router = express.Router();
 const userService = new UserService();
@@ -49,14 +50,35 @@ router.post("/login",validateRequestBody(loginSchema), async (req, res) => {
   }
 });
 
-router.post('/send-email', async (req, res) => {
+/**
+     * Generates a JSON Web Token (JWT) for an authenticated user.
+     *
+     * @param {Object} userAuthenticated - The authenticated user object.
+     * @param {string} userAuthenticated.userId - The ID of the authenticated user.
+     * @param {string} userAuthenticated.email - The email of the authenticated user.
+     * @param {number} userAuthenticated.roleId - The role ID of the authenticated user.
+     * @param {Object} config - The configuration object.
+     * @param {string} config.jwtSecret - The secret key used to sign the JWT.
+     * @returns {string} The generated JWT.
+     */
+    
+router.post('/send-email-recovery',validateRequestBody(recoveryPasswordSchema), async (req, res) => {
   try {
-    const { email, name } = req.body;
-    let token = crypto.randomBytes(20).toString('hex');
-    sendPasswordResetEmail( email, name, token);
+    const { email } = req.body;
+    const userAuthenticated = await userService.getUserByEmail(email);
+    const token = jwt.sign(
+      {
+        userId: userAuthenticated.userId,
+        email: userAuthenticated.email,
+        role: userAuthenticated.roleId,
+      },
+      config.jwtSecret, // La clave secreta
+      { expiresIn: '1h' } // Tiempo de expiración
+    );
+    await sendPasswordResetEmail( email, userAuthenticated.name, token);
     res.status(200).json({ message: "Email sent"});
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ message: error.message, error: true });
   }
 });
 

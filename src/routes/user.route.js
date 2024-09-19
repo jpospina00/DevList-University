@@ -7,6 +7,7 @@ import authenticateToken from "../middlewares/auth.handler.js";
 import { RoleService } from "../services/role.service.js";
 import { validateRequestBody } from "../middlewares/validate.handler.js";
 import { createUserSchema, updateUserSchema } from "../schemas/user.schema.js";
+import { sendAccountCreationEmail } from "../tools/emails.js";
 
 
 const router = express.Router();
@@ -68,6 +69,7 @@ router.post("/create-user",authenticateToken, validateRequestBody(createUserSche
       roleId: roleId,
       password: hashedPassword, 
     });
+    await sendAccountCreationEmail(email, name);
     res.status(201).json({ message: "Create user successful" });
   } catch (error) {
     res.status(401).json({ message: "Invalid credentials", error: true });
