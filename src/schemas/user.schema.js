@@ -13,7 +13,5 @@ export const updateUserSchema = vine.object({
   });
 
 
-  export const recoveryPasswordSchema = vine.object({
-    email: vine.string().email(),
-  });
+
 
