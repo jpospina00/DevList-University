@@ -5,6 +5,7 @@ import iconUser from "../assets/icon user.svg";
 import { IoEye } from "react-icons/io5";
 import { IoEyeOff } from "react-icons/io5";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function Login2() {
   const [user, setUser] = useState("");
@@ -88,9 +89,9 @@ export default function Login2() {
           >
             Iniciar sesión
           </button>
-          <p className="text-background">
-            ¿Olvidó su nombre de usuario o contraseña?
-          </p>
+          <Link to="/restablecer-contraseña">
+            <p className="text-background">¿Olvidó su contraseña?</p>
+          </Link>
         </form>
       </section>
     </main>
