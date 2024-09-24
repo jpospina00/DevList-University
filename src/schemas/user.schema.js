@@ -1,19 +1,19 @@
 import vine from "@vinejs/vine";
 
 export const createUserSchema = vine.object({
-  identificationNumber: vine.string().maxLength(20),
-  name: vine.string().maxLength(50),
-  email: vine.string().email(),
-  roleId: vine.number().withoutDecimals().positive(),
+	identificationNumber: vine.string().maxLength(20),
+	name: vine.string().maxLength(50),
+	email: vine.string().email(),
+	roleId: vine.number().withoutDecimals().positive(),
 });
 
 export const updateUserSchema = vine.object({
-    phone: vine.string().maxLength(20).nullable().optional(),
-    address: vine.string().maxLength(30).nullable().optional(),
-  });
+	phone: vine.string().maxLength(20).nullable().optional(),
+	address: vine.string().maxLength(30).nullable().optional(),
+});
 
 
-  export const recoveryPasswordSchema = vine.object({
-    email: vine.string().email(),
-  });
+export const recoveryPasswordSchema = vine.object({
+	email: vine.string().email(),
+});
 
