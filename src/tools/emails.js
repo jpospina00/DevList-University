@@ -90,3 +90,49 @@ export const sendAccountCreationEmail = async (to, name) => {
     const info = await transporter.sendMail(mailOptions);
     console.log('Email sent: ' + info.response);
 }
+
+export const sendChangedPasswordEmail = async (to, name) => {
+    const dateToday = new Date();
+    const day = dateToday.getDate();
+    const month = dateToday.getMonth() + 1;
+    const year = dateToday.getFullYear();
+    const mailOptions = {
+        from: config.email,
+        to,
+        subject: 'Confirmación de cambio de contraseña',
+        html: `
+            <div style="font-family: Arial, sans-serif; color: #333; background-color: #f7f7f7; padding: 20px; border-radius: 10px;">
+                <div style="background-color: #18333F; color: white; padding: 15px; text-align: center; border-radius: 10px 10px 0 0;">
+                    <h1 style="margin: 0;">¡¡Cambio de contraseña exitoso!!</h1>
+                </div>
+                <div style="padding: 20px; background-color: white; border-radius: 0 0 10px 10px;">
+                    <p style="font-size: 16px; color: #18333F;"> Estimado/a ${name}</p>
+                    
+                    <p style="font-size: 16px; color: #555;">
+                        Nos complace informarte que el cambio de contraseña para tu cuenta se ha realizado con éxito. 
+                        Este cambio se efectuó en la fecha y hora: ${day}/${month}/${year}.
+                    </p>
+                    
+                    <p style="font-size: 16px; color: #555;">
+                        Si no solicitaste este cambio o sospechas de actividad no autorizada en tu cuenta, 
+                        por favor contáctanos de inmediato para garantizar la seguridad de tu información.
+                    </p>
+
+                    <p style="font-size: 16px; color: #555;">
+                        Te recordamos que, por razones de seguridad, nunca compartas tu contraseña con nadie 
+                        y asegúrate de utilizar una clave fuerte y única.
+                    </p>
+                    
+                    <p style="font-size: 14px; color: #999;">
+                        Si tienes alguna pregunta o necesitas asistencia, no dudes en contactarnos.
+                    </p>
+
+                    <p style="font-size: 14px; color: #999;">Saludos cordiales,<br>El equipo de DevList University</p>
+                </div>
+            </div>
+        `
+    };
+
+    const info = await transporter.sendMail(mailOptions);
+    console.log('Email sent: ' + info.response);
+}

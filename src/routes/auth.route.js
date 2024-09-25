@@ -7,7 +7,7 @@ import UserService from "../services/user.service.js";
 import { config } from "../config/config.js";
 import { validateRequestBody } from "../middlewares/validate.handler.js";
 import { loginSchema, changePasswordSchema } from "../schemas/auth.schema.js";
-import { sendPasswordResetEmail } from "../tools/emails.js";
+import { sendChangedPasswordEmail, sendPasswordResetEmail } from "../tools/emails.js";
 import { recoveryPasswordSchema } from "../schemas/user.schema.js";
 import authenticateToken from "../middlewares/auth.handler.js";
 import passwordValidateHandler from "../middlewares/password-validate.handler.js";
@@ -98,11 +98,9 @@ router.post('/send-email-recovery', validateRequestBody(recoveryPasswordSchema),
 
 router.put('/change-password', authenticateToken, validateRequestBody(changePasswordSchema), passwordValidateHandler, async (req, res) => {
 	try {
-		console.log('Controller');
-		
 		req.body.newPassword = await bcrypt.hash(req.body.newPassword, 10);
 		await userService.updateUser(req.user.userId, { password: req.body.newPassword })
-		
+		await sendChangedPasswordEmail(req.user.email, req.user.name);
 		return res.status(200).json({ message: "Password changed successfully!", success: true })
 	} catch (error) {
 		res.status(500).json({ message: error.message, error: true });

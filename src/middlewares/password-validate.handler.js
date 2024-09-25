@@ -5,6 +5,7 @@ export default async (req, res, next) => {
     try {
         const user = await User.findByPk(req.user.userId);
         if (bcrypt.compare(req.body.password, user.password)) {
+            req.user = user;
             return next();
         }
     } catch (error) {
