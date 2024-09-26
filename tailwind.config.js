@@ -22,7 +22,10 @@ module.exports = {
       accent: '#ffc107',
       dark: '#000000',
     },
-      extend: {}
+      extend: {
+        fontFamily:{
+          'montserrat':['Montserrat','sans-serif']}
+      }
   },
   variants: {},
   plugins: []
