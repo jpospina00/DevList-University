@@ -17,7 +17,7 @@ export default function SendEmail({setToken}) {
           <div className="flex flex-col justify-center items-center gap-10">
             <button
               type="submit"
-              className="bg-secondary0 w-[192px] rounded-xl h-[50px] text-background font-montserrat rounder-[10px]"
+              className="bg-secondary0 w-[192px] rounded-xl h-[50px] hover:bg-secondary0Hover text-background font-montserrat rounder-[10px]"
               onClick={() => {
                 setToken("123");
               }}

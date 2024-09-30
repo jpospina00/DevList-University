@@ -23,7 +23,7 @@ export default function DigitarCorreo({ setShow, show }) {
         <div className="flex flex-col justify-center items-center gap-10">
           <button
             type="submit"
-            className="bg-secondary0 w-[192px] rounded-xl h-[50px] text-background font-montserrat rounder-[10px]"
+            className="bg-secondary0 w-[192px] rounded-xl h-[50px] hover:bg-secondary0Hover text-background font-montserrat rounder-[10px]"
             onClick={() => {
               setShow(!show);
             }}
@@ -31,7 +31,7 @@ export default function DigitarCorreo({ setShow, show }) {
             Aceptar
           </button>
           {/* <Link to="/cancelar"> */}
-          <p className="text-background font-montserrat">Cancelar</p>
+          <p className="text-background font-montserrat underline">Cancelar</p>
           {/* </Link> */}
         </div>
       </div>
