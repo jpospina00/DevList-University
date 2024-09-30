@@ -8,8 +8,8 @@ import Main from '../layouts/Main';
 
 export default createBrowserRouter([
     // { path: '/', element: <Login /> },
-    { path: '/', element: <Login2 />},
-    { path: '/restablecer-contraseña', element: <ForgetPassword />}
+    { path: '/', element: <Login2 /> },
+    { path: '/restablecer-contraseña', element: <ForgetPassword /> },
     { path: '/', element: <Login /> },
     { path: '/login', element: <Login2 /> },
     {
