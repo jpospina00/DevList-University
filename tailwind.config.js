@@ -11,7 +11,8 @@ module.exports = {
       primary2: "#99cfd0",
       disable: "#fdf5f5",
       secondary0: "#214455",
-      secondary1: "#617a86",
+      secondary0Hover: "#227b98",
+      secondary1: "#f4f6f7",
       secondary2: "#99a9b1",
       third0: "#a1b6b7",
       third1: "#bccbcc",
@@ -21,7 +22,10 @@ module.exports = {
       accent: '#ffc107',
       dark: '#000000',
     },
-      extend: {}
+      extend: {
+        fontFamily:{
+          'montserrat':['Montserrat','sans-serif']}
+      }
   },
   variants: {},
   plugins: []

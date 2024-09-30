@@ -1,0 +1,10 @@
+# Define code owners for specific files or directories
+
+# The following line sets the owner of the entire repository
+* @jpospina00 @JulianEscobar1 
+
+# The following line sets the owner for files in the 'back' directory
+/back/ @back_team
+
+# The following line sets the owner for files in the 'front' directory
+/front/ @front_team
