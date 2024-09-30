@@ -26,7 +26,7 @@ export default function Login2() {
     <>
     <Header/>
       <main className="flex justify-center items-center relative">
-        <div className="absolute top-10 left-10 z-50">Volver</div>{" "}
+        <div className="absolute top-10 left-10 z-50">Volver</div>
         {/* Configurar boton retroceso*/}
         <img
           className="h-screen w-screen absolute top-0 left-0"

@@ -20,6 +20,11 @@ export default function ChangeNewPassword() {
         <h1 className="text-secondary1 font-semibold text-[36px] font-montserrat w-[975px] h-[44px]">
           Digite su nueva contraseña
         </h1>
+        <p className="text-primary0 font-semibold text-[26px] font-montserrat w-[975px] h-[150px]">
+          Crea una contraseña de al menos 8 caracteres, usando letras
+          mayúsculas, minúsculas, números y símbolos. Evita información personal
+          para mayor seguridad.
+        </p>
       </div>
       <div className="flex flex-col justify-center items-center gap-10">
         <div className="w-[352px] h-[58px] relative">
