@@ -24,16 +24,16 @@ export default function Login2() {
   };
   return (
     <>
-    <Header/>
       <main className="flex justify-center items-center relative">
-        <div className="absolute top-10 left-10 z-50">Volver</div>
+        <Header />
+        <div className="absolute top-40 left-10 z-50">Volver</div>
         {/* Configurar boton retroceso*/}
         <img
           className="h-screen w-screen absolute top-0 left-0"
           src={loginImg}
           alt=""
         />
-        <section className="relative w-[600px] rounded-xl flex flex-col items-center p-[60px] gap-10">
+        <section className="relative w-[600px] rounded-xl flex flex-col items-center p-[60px] gap-10 mt-[100px]">
           <img src={imagenLogin} alt="" />
           <form
             onSubmit={handleSubmit}
