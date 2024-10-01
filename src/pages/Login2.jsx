@@ -11,8 +11,10 @@ import Header from "../components/header";
 export default function Login2() {
   const [user, setUser] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const navigate = useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -21,6 +23,9 @@ export default function Login2() {
   };
   const handleTogglePassword = () => {
     setShowPassword(!showPassword);
+  };
+  const handleToggleConfirmPassword = () => {
+    setShowConfirmPassword(!showConfirmPassword);
   };
   return (
     <>
@@ -39,32 +44,57 @@ export default function Login2() {
             onSubmit={handleSubmit}
             className="gap-5 flex flex-col items-center"
           >
-            <div className="bg-background flex gap-2 items-center p-2 hover:shadow-xl duration-300 hover:border-2 border-gray-400 group delay-200 rounded-full w-[350px]">
-              <img src={iconUser} />
-              <input
-                value={user}
-                onChange={(e) => setUser(e.target.value)}
-                required
-                type="text"
-                name="text"
-                className="flex-1 focus:outline-none"
-                placeholder="User"
-              />
-            </div>
-            <div className="bg-background flex gap-2 items-center p-2 hover:shadow-xl duration-300 hover:border-2 border-gray-400 group delay-200 rounded-full w-[350px]">
-              <img src={iconPasword} />
+            <div className="w-[352px] h-[58px] relative">
               <input
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 type={showPassword ? "text" : "password"}
-                name="text"
-                className="flex-1 focus:outline-none"
-                placeholder="password"
+                className="peer w-full p-4 pt-6 pl-10 pr-4 bg-inherit border-2 rounded-full outline-none transition disabled:opacity-70 disabled:cursor-not-allowed border-gray-500 focus:border-purple-500"
+                placeholder=""
+                name="password"
+                id="username"
               />
-              <span onClick={handleTogglePassword}>
+              <span
+                className="absolute top-6 right-5"
+                onClick={handleTogglePassword}
+              >
                 {showPassword ? <IoEyeOff /> : <IoEye />}
               </span>
+
+              <label
+                className="absolute text-gray-500 text-base duration-150 transform -translate-y-3 top-5 z-10 origin-[0] left-10 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 peer-focus:text-purple-500"
+                for="username"
+              >
+                Nueva contraseña
+              </label>
+              <img className="absolute top-6 left-4" src={iconPasword} />
+            </div>
+            <div className="w-[352px] h-[58px] relative rounded-[50px]">
+              <input
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                required
+                type={showConfirmPassword ? "text" : "password"}
+                className="peer w-full p-4 pt-6 pl-10 pr-4 bg-inherit border-2 rounded-full outline-none transition disabled:opacity-70 disabled:cursor-not-allowed border-gray-500 focus:border-purple-500"
+                placeholder=""
+                name="username"
+                id="username"
+              />
+              <span
+                className="absolute top-6 right-5"
+                onClick={handleToggleConfirmPassword}
+              >
+                {showConfirmPassword ? <IoEyeOff /> : <IoEye />}
+              </span>
+
+              <label
+                className="absolute text-gray-500 text-base duration-150 transform -translate-y-3 top-5 z-10 origin-[0] left-10 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 peer-focus:text-purple-500"
+                for="username"
+              >
+                Contraseña
+              </label>
+              <img className="absolute top-6 left-4" src={iconPasword} />
             </div>
             <button
               type="submit"
