@@ -1,9 +1,11 @@
 import express from 'express';
 import routerApi from './src/routes/index.js';
+import cors from 'cors';
 import { config } from './src/config/config.js';
 
 const app = express();
 const port = config.port;
+app.use(cors())
 
 app.use(express.json());
 routerApi(app);
