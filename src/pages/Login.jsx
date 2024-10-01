@@ -4,12 +4,13 @@ import iconPasword from "../assets/icon pasword.svg";
 import iconUser from "../assets/icon user.svg";
 import { IoEye } from "react-icons/io5";
 import { IoEyeOff } from "react-icons/io5";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export default function Login() {
-  const [user, setUser] = useState("");
-  const [password, setPassword] = useState("");
+  const user = useRef();
+  const password = useRef();
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -26,6 +27,17 @@ export default function Login() {
   const handleToggleConfirmPassword = () => {
     setShowConfirmPassword(!showConfirmPassword);
   };
+  const submit = async() => {
+    const data = {
+      email: user.current.value.trim(),
+      password: password.current.value.trim()
+    }
+    axios.post("https://devlist-university.onrender.com/api/v1/auth/login", data).then((res) => {
+      console.log(res);
+    }).catch((error) => {
+      console.log(error)
+    })
+  }
   return (
     <>
       <main className="flex justify-center items-center relative">
@@ -44,22 +56,14 @@ export default function Login() {
           >
             <div className="w-[352px] h-[58px] relative">
               <input
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                ref={user}
                 required
-                type={showPassword ? "text" : "password"}
+                type="text"
                 className="peer w-full p-4 pt-6 pl-10 pr-4 bg-inherit border-2 rounded-full outline-none transition disabled:opacity-70 disabled:cursor-not-allowed border-gray-500 focus:border-purple-500"
                 placeholder=""
                 name="password"
                 id="username"
               />
-              <span
-                className="absolute top-6 right-5"
-                onClick={handleTogglePassword}
-              >
-                {showPassword ? <IoEyeOff /> : <IoEye />}
-              </span>
-
               <label
                 className="absolute text-gray-500 text-base duration-150 transform -translate-y-3 top-5 z-10 origin-[0] left-10 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 peer-focus:text-purple-500"
                 for="username"
@@ -70,8 +74,7 @@ export default function Login() {
             </div>
             <div className="w-[352px] h-[58px] relative rounded-[50px]">
               <input
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
+                ref={password}
                 required
                 type={showConfirmPassword ? "text" : "password"}
                 className="peer w-full p-4 pt-6 pl-10 pr-4 bg-inherit border-2 rounded-full outline-none transition disabled:opacity-70 disabled:cursor-not-allowed border-gray-500 focus:border-purple-500"
@@ -95,7 +98,8 @@ export default function Login() {
               <img className="absolute top-6 left-4" src={iconPasword} />
             </div>
             <button
-              type="submit"
+              onClick={() => {submit()}} 
+              type="button"
               className="bg-secondary0 w-[150px] rounded-xl h-[50px] hover:bg-secondary0Hover text-background"
             >
               Iniciar sesión
