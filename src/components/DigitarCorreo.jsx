@@ -1,9 +1,6 @@
-import Header from "./Header.jsx";
-
 export default function DigitarCorreo({ setShow, show }) {
   return (
     <>
-      <Header/>
       <div className="flex flex-col justify-center gap-9">
         <h1 className="text-secondary1 font-semibold text-[36px] font-montserrat w-[428px] h-[44px]">
           ¿Olvidó su contraseña?
