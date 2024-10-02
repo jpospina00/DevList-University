@@ -46,7 +46,7 @@ router.get("/",authenticateToken, async (_, res) => {
  * @throws {Object} - The error object if an error occurs.
  */
 
-router.post("/create-user",authenticateToken, validateRequestBody(createUserSchema), async (req, res) => {
+router.post("/create-user",authenticateToken, validateRequestBody(createUserSchema, 'body'), async (req, res) => {
   try {
     const { identificationNumber, name, email, roleId } = req.body;
     const { role } = req.user; 
@@ -118,7 +118,7 @@ router.patch("/disable-monitor/:id",authenticateToken, async (req, res) => {
  * @returns {Object} - The response object with a success m  }
  * @throws {Object} - The error object if an error occurs.
 */
-router.put("/update-monitor",authenticateToken, validateRequestBody(updateUserSchema), async (req, res) => {
+router.put("/update-monitor",authenticateToken, validateRequestBody(updateUserSchema, 'body'), async (req, res) => {
   try {
     const { role, userId } = req.user; 
     const { phone, address } = req.body;
