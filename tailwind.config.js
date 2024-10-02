@@ -24,7 +24,9 @@ module.exports = {
     },
       extend: {
         fontFamily:{
-          'montserrat':['Montserrat','sans-serif']}
+          'montserrat':['Montserrat','sans-serif'],
+          'lilita': ["Lilita One", "sans-serif"],
+        }
       }
   },
   variants: {},
