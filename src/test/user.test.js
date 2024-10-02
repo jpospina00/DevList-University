@@ -44,7 +44,7 @@ describe('users create', () => {
                 identificationNumber: "123456789",
                 name: "Test User",
                 email: "test@user.co",
-                role_id: 2
+                roleId: 2
             })
     });
     test("incorrect email", async () => {
@@ -68,7 +68,7 @@ describe('users create', () => {
                 identificationNumber: "12345679",
                 name: "Test User",
                 email: "test@user.co",
-                role_id: 2
+                roleId: 2
             })
     });
 
@@ -133,7 +133,7 @@ describe('users update monitor', () => {
             .send({
                 name: "Unauthorized Monitor",
                 email: "unauthorized@monitor.co",
-                role_id: 3
+                roleId: 3
             });
     });
 
@@ -146,7 +146,7 @@ describe('users update monitor', () => {
             .send({
                 name: "hola",
                 email: "invalid@monitor.co",
-                role_id: "invalid_role"
+                roleId: "invalid_role"
             });
     });
 });

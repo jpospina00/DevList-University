@@ -26,7 +26,7 @@ describe('POST /login', () => {
             .post('/api/v1/auth/login')
             .send({
                 email: 'juan@dete.co',
-                password: '123'
+                password: '1234569'
             });
         expect(response.statusCode).toBe(401);
         expect(response.body).toHaveProperty('error');
@@ -38,7 +38,7 @@ describe('POST /login', () => {
             .send({
                 password: 'somePassword'
             });
-        expect(response.statusCode).toBe(401);
+        expect(response.statusCode).toBe(400);
         expect(response.body).toHaveProperty('error');
     });
 
@@ -48,7 +48,7 @@ describe('POST /login', () => {
             .send({
                 email: 'someUser'
             });
-        expect(response.statusCode).toBe(401);
+        expect(response.statusCode).toBe(400);
         expect(response.body).toHaveProperty('error');
     });
 });

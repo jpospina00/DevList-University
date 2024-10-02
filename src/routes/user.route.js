@@ -104,6 +104,7 @@ router.patch("/disable-monitor/:id",authenticateToken, async (req, res) => {
       ok: true,
     });
   } catch (error) {
+    
     res.status(400).json({ message: error.message, error: true });
   }
 });
