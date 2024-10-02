@@ -1,13 +1,21 @@
-import vine from "@vinejs/vine";
+import joi from "joi";
 
-export const createDeviceSchema = vine.object({
+const deviceName = joi.string().max(50);
+const deviceType = joi.number().integer().positive();
+const warehouse = joi.number().integer().positive();
+const deviceStatus = joi.number().integer().positive();
+const deviceDescription = joi.string().max(50).allow(null).optional();
+const brand = joi.string().max(50);
 
-    deviceName: vine.string().maxLength(50),
-    deviceType: vine.number().withoutDecimals().positive(),
-    warehouse: vine.number().withoutDecimals().positive(),
-    deviceStatus: vine.number().withoutDecimals().positive(),
-    deviceDescription: vine.string().maxLength().nullable().optional(),
-    brand: vine.string().maxLength(50)
+
+export const createDeviceSchema = joi.object({
+
+    deviceName: deviceName.required(),
+    deviceType: deviceType.required(),
+    warehouse: warehouse,
+    deviceStatus: deviceStatus.required(),
+    deviceDescription: deviceDescription,
+    brand: brand,
 });
 
 

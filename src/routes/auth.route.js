@@ -24,7 +24,7 @@ const userService = new UserService();
  * @param {string} config.jwtSecret - The secret key used to sign the token.
  * @returns {string} The generated JWT.
  */
-router.post("/login",validateRequestBody(loginSchema), async (req, res) => {
+router.post("/login",validateRequestBody(loginSchema, 'body'), async (req, res) => {
   try {
     const { email, password } = req.body;
     const userAuthenticated = await userService.getUserByEmail(email);
@@ -63,7 +63,7 @@ router.post("/login",validateRequestBody(loginSchema), async (req, res) => {
      * @returns {string} The generated JWT.
      */
     
-router.post('/send-email-recovery',validateRequestBody(getEmailForRecoveryPasswordSchema), async (req, res) => {
+router.post('/send-email-recovery',validateRequestBody(getEmailForRecoveryPasswordSchema, 'body'), async (req, res) => {
   try {
     const { email } = req.body;
     const userAuthenticated = await userService.getUserByEmail(email);
@@ -96,7 +96,7 @@ router.post('/send-email-recovery',validateRequestBody(getEmailForRecoveryPasswo
  * @returns {Object} 500 - Internal server error.
  * @security JWT
  */
-router.post('/recovery-password', authenticateToken, validateRequestBody(recoveryPasswordSchema),async (req, res) => {
+router.post('/recovery-password', authenticateToken, validateRequestBody(recoveryPasswordSchema, 'body'),async (req, res) => {
   try {
     const { password } = req.body;
     const { userId } = req.user; 

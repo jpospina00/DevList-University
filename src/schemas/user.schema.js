@@ -1,15 +1,21 @@
-import vine from "@vinejs/vine";
+import joi from "joi";
 
-export const createUserSchema = vine.object({
-  identificationNumber: vine.string().maxLength(20),
-  name: vine.string().maxLength(50),
-  email: vine.string().email(),
-  roleId: vine.number().withoutDecimals().positive(),
+const identificationNumber = joi.string().max(20);
+const name = joi.string().max(50);
+const email = joi.string().email();
+const roleId = joi.number().integer().positive();
+const phone = joi.string().max(20).allow(null).optional();
+const address = joi.string().max(30).allow(null).optional();
+export const createUserSchema = joi.object({
+  identificationNumber: identificationNumber.required(),
+  name: name.required(),
+  email: email.required(),
+  roleId: roleId.required(),
 });
 
-export const updateUserSchema = vine.object({
-    phone: vine.string().maxLength(20).nullable().optional(),
-    address: vine.string().maxLength(30).nullable().optional(),
+export const updateUserSchema = joi.object({
+    phone: phone,
+    address: address,
   });
 
 

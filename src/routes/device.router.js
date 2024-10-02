@@ -25,7 +25,7 @@ const upload = multer({ storage: storage });
  * @param {Buffer} imageBuffer - The buffer containing the file data.
  * @returns {Promise<string>} - A promise that resolves to the ID of the uploaded file.
  */
-router.post("/create", upload.single("image"), authenticateToken, validateRequestBody(createDeviceSchema), async (req, res) => {
+router.post("/create", upload.single("image"), authenticateToken, validateRequestBody(createDeviceSchema, 'body'), async (req, res) => {
   if (!req.file) {
     return res.status(400).send("No image uploaded.");
   }

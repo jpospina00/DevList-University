@@ -1,22 +1,23 @@
-import vine from '@vinejs/vine'
+import Joi from 'joi';
 
-const loginSchema = vine.object({
-  email: vine.string().email(),
-  password: vine
-    .string()
-    .minLength(6)
-    .maxLength(32)
-})
+const email = Joi.string().email();
+const password = Joi.string().min(6).max(32);
 
-export const getEmailForRecoveryPasswordSchema = vine.object({
-  email: vine.string().email(),
+// Esquema para login
+const loginSchema = Joi.object({
+  email: email.required(),
+  password: password.required(),
 });
 
-export const recoveryPasswordSchema = vine.object({
-  password: vine
-    .string()
-    .minLength(6)
-    .maxLength(32)
+// Esquema para recuperar contraseña usando email
+export const getEmailForRecoveryPasswordSchema = Joi.object({
+  email: email.required(),
 });
 
-export default loginSchema
+// Esquema para la recuperación de la contraseña
+export const recoveryPasswordSchema = Joi.object({
+  password: password.required(),
+});
+
+export default loginSchema;
+
