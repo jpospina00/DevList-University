@@ -18,7 +18,7 @@ export default function CardInventory({ img, title, referencia, bodega, tipo, fe
                         <p> {fecha} </p>
                         <p> Tipo de dispositivo: {tipo} </p>
                         <label class="relative inline-flex items-center cursor-pointer">
-                            <input type="checkbox" class="sr-only peer" value="" checked={activo} />
+                            <input type="checkbox" class="sr-only peer" value="" defaultChecked={activo} />
                             <div
                                 class="group peer rounded-full duration-300 w-16 h-8 ring-2 ring-[#FF0D0D] after:duration-300 after:bg-[#FF0D0D] peer-checked:after:bg-[#23FFD3] peer-checked:ring-[#23FFD3] after:rounded-full after:absolute after:h-6 after:w-6 after:top-1 after:left-1 after:flex after:justify-center after:items-center peer-checked:after:translate-x-8 peer-hover:after:scale-95"
                             ></div>
