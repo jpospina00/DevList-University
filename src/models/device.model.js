@@ -1,5 +1,6 @@
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../lib/connection.js'; // Ajusta la ruta al archivo de instancia de Sequelize
+import DeviceType from './deviceType.model.js';
 
 const Device = sequelize.define('Device', {
   deviceId: {
@@ -70,5 +71,6 @@ const Device = sequelize.define('Device', {
   tableName: 'devices',          // Nombre de la tabla en la BD
   timestamps: true,              // createdAt y updatedAt se gestionan automáticamente
 });
-
+// DeviceType.hasMany(Device, { foreignKey: 'deviceTypeId' });
+// Device.belongsTo(DeviceType, { foreignKey: 'deviceTypeId' });
 export default Device;

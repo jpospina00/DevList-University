@@ -6,6 +6,7 @@ const warehouse = joi.number().integer().positive();
 const deviceStatus = joi.number().integer().positive();
 const deviceDescription = joi.string().max(50).allow(null).optional();
 const brand = joi.string().max(50);
+const quantity = joi.number().integer().positive();
 
 
 export const createDeviceSchema = joi.object({
@@ -16,6 +17,7 @@ export const createDeviceSchema = joi.object({
     deviceStatus: deviceStatus.required(),
     deviceDescription: deviceDescription,
     brand: brand,
+    quantity: quantity.required(),
 });
 
 
