@@ -43,7 +43,7 @@ export default function Home() {
                 <h1 className='font-montserrat text-5xl'> Pagina Principal </h1>
             </div>
             <Filters />
-            <div className='pt-28 w-screen grid grid-cols-3 place-items-center gap-14'>
+            <div className='w-full pt-28 pb-28 grid grid-cols-4 place-items-center gap-14 pl-10 pr-10'>
                 {
                     data.map((device, i) => <Card key={i} img={device.img} title={device.title} available={device.available} stock={device.stock}/>)
                 }

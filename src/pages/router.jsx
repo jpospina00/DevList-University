@@ -5,6 +5,7 @@ import ForgetPassword from './ForgetPassword';
 import Home from './Home';
 import Main from '../layouts/Main';
 import MainDashboard from '../layouts/MainDashboard';
+import Inventory from './Inventory';
 
 export default createBrowserRouter([
     {
@@ -27,6 +28,9 @@ export default createBrowserRouter([
                     return (!token) && redirect("/")
                 }
             },
+            {
+                path: '/inventory', element: <Inventory />
+            }
         ]
     }
 ])

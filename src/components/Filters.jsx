@@ -2,7 +2,7 @@ import filterIcon from '../assets/Filter.svg';
 
 export default function Filters() {
     return (
-        <div className='flex w-screen h-[70px] items-center justify-around bg-[#18333F] text-disable'>
+        <div className='flex w-full h-[70px] items-center justify-around bg-[#18333F] text-disable'>
             <div className='flex items-center w-6/12'>
                 <div className='flex gap-2 pr-[50px] border-r-2 border-r-disable'>
                     <img src={filterIcon} alt="Filter" />
