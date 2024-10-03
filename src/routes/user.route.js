@@ -142,6 +142,37 @@ router.put("/update-user",authenticateToken, validateRequestBody(updateUserSchem
   }
 });
 
+/**
+ * Disables a monitor by ID.
+ * @function
+ * @name activationUser
+ * @memberof module:user.route
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} - The response object with the updated user information.
+ * @throws {Object} - The error object if an error occurs.
+ */
+
+router.patch("/activation-user/:id",authenticateToken, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { role } = req.user; 
+    if (!role) {
+      return res.status(403).json({ message: "Role information missing from token", error: true });
+    }
+    const roleData = await roleService.getRoleById(role);
+    if (roleData.name !== 'administrator') {
+      return res.status(401).json({ message: "Unauthorized", error: true });
+    }
+    const updatedUser = await userService.updateUser(id, { active: true });
+    res.status(200).json({
+      ok: true,
+      message: "User activated successfully"
+    });
+  } catch (error) {
+    res.status(400).json({ message: error.message, error: true });
+  }
+});
 
 
 export default router;
