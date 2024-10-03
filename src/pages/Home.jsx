@@ -37,13 +37,13 @@ export default function Home() {
     ];
 
     return (
-        <main className="relative top-[145px]">
+        <main className="relative top-[105px]">
             <img className="absolute w-full h-[304px]" src={imgHome} alt="Fondo" />
             <div className='flex items-center justify-center h-[300px]'>
                 <h1 className='font-montserrat text-5xl'> Pagina Principal </h1>
             </div>
             <Filters />
-            <div className='pt-28 w-screen grid grid-cols-2 place-items-center gap-14'>
+            <div className='pt-28 w-screen grid grid-cols-3 place-items-center gap-14'>
                 {
                     data.map((device, i) => <Card key={i} img={device.img} title={device.title} available={device.available} stock={device.stock}/>)
                 }

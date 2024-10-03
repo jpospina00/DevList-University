@@ -2,7 +2,7 @@ import logo from '../assets/LogoSinFondo.svg';
 
 export default function HeaderDashboard() {
     return(
-        <header className='flex items-center justify-around w-screen bg-primary0 h-[150px] absolute'>
+        <header className='flex items-center justify-around w-screen bg-primary0 h-[110px] absolute'>
             <div className='flex w-[40%] justify-around'>
                 <img className='w-[110px] h-[95px]' src={logo} alt="Logo" />
                 <div className='flex w-[400px] justify-around items-center text-5xl font-lilita'>
