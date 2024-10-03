@@ -12,6 +12,8 @@
     width: fit-content;
     display: flex;
     list-style: none;
+    background-color: #ffffff;
+    border-radius: 16px 16px 16px 16px;
 }
 
 .menu a {
@@ -51,7 +53,7 @@
 .menu .link svg {
     width: 14px;
     height: 14px;
-    fill: #ffffff;
+    fill: #000000;
     transition: all 0.48s cubic-bezier(0.23, 1, 0.32, 1);
 }
 

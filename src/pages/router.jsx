@@ -9,7 +9,12 @@ import MainDashboard from '../layouts/MainDashboard';
 export default createBrowserRouter([
     {
         path: '/', element: <Main />, children: [
-            { path: '/', element: <Login /> },
+            {
+                path: '/', element: <Login />, loader: () => {
+                    const token = localStorage.getItem("token");
+                    return (token) && redirect("/home");
+                }
+            },
             { path: '/restablecer-contraseña', element: <ForgetPassword /> }
 
         ]

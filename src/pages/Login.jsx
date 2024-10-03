@@ -33,6 +33,7 @@ export default function Login() {
       email: user.current.value?.trim(),
       password: password.current.value?.trim(),
     };
+    console.log(data)
     axios
       .post("https://devlist-university.onrender.com/api/v1/auth/login", data)
       .then((res) => {
