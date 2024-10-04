@@ -12,7 +12,7 @@ import Swal from "sweetalert2";
 export default function Login() {
   const user = useRef();
   const password = useRef();
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [loader, setLoader] = useState(false);
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -29,33 +29,36 @@ export default function Login() {
     setShowConfirmPassword(!showConfirmPassword);
   };
   const submit = async () => {
+    setLoader(!loader);
     const data = {
       email: user.current.value?.trim(),
       password: password.current.value?.trim(),
     };
     console.log(data)
-    axios
+    await axios
       .post("https://devlist-university.onrender.com/api/v1/auth/login", data)
       .then((res) => {
         localStorage.setItem("token", JSON.stringify(res.data.token));
+        setLoader(false);
         Swal.fire({
           position: "center",
           icon: "success",
           title: "!Bienvenido a DevList¡",
           showConfirmButton: false,
-          timer: 1500
-        });
+          timer: 1500
+        });
         setTimeout(() => {
           window.location.replace("/home");
         }, 1000)
       })
       .catch((error) => {
         console.log(error);
+        setLoader(false);
         Swal.fire({
           icon: "error",
           title: "Oops...",
           text: "!Credenciales Incorrectas¡"
-        });
+        });
       });
   };
   return (
@@ -75,6 +78,7 @@ export default function Login() {
             <input
               ref={user}
               required
+              disabled={loader}
               type="text"
               className="peer w-full p-4 pt-6 pl-10 pr-4 bg-inherit border-2 rounded-full outline-none transition disabled:opacity-70 disabled:cursor-not-allowed border-gray-500 focus:border-purple-500"
               placeholder=""
@@ -93,6 +97,7 @@ export default function Login() {
             <input
               ref={password}
               required
+              disabled={loader}
               type={showConfirmPassword ? "text" : "password"}
               className="peer w-full p-4 pt-6 pl-10 pr-4 bg-inherit border-2 rounded-full outline-none transition disabled:opacity-70 disabled:cursor-not-allowed border-gray-500 focus:border-purple-500"
               placeholder=""
@@ -119,9 +124,18 @@ export default function Login() {
               submit();
             }}
             type="button"
-            className="bg-secondary0 w-[150px] rounded-xl h-[50px] hover:bg-secondary0Hover text-background"
+            disabled={loader}
+            className={
+              loader ? 
+              "flex items-center justify-center bg-secondary0 w-[150px] rounded-xl h-[50px] text-background":
+              "flex items-center justify-center bg-secondary0 w-[150px] rounded-xl h-[50px] hover:bg-secondary0Hover text-background"
+            }
           >
-            Iniciar sesión
+            {
+              loader ? <div
+                class="z-50 w-10 h-10 border-4 border-t-primary0 border-dark rounded-full animate-spin"
+              ></div> : "Iniciar sesión"
+            }
           </button>
           <Link to="/restablecer-contraseña">
             <p className="text-background underline">¿Olvidó su contraseña?</p>
