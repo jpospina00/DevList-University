@@ -14,7 +14,7 @@ beforeAll(async () => {
         .expect("Content-Type", /application\/json/)
         .send({
             email: "juan@dev.co",
-            password: "61f8a3909bb5b7bb"
+            password: '61f8a3909bb5b7bb'
         });
 
     tokenAdmin = response.body.token;

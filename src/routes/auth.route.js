@@ -33,7 +33,7 @@ router.post("/login",validateRequestBody(loginSchema, 'body'), async (req, res) 
     if(userAuthenticated.active == false) {
       return res.status(401).json({ message: "User is not active", error: true });
     }
-    const isMatch = await bcrypt.compare(password, userAuthenticated.password);
+    const isMatch = bcrypt.compareSync(password, userAuthenticated.password);
     if (!isMatch) {
       return res.status(401).json({ message: "Invalid password", error: true });
     }
@@ -126,7 +126,7 @@ router.post('/recovery-password', authenticateToken, validateRequestBody(recover
 		 * @returns {string} The generated JWT.
 		 */
 
-router.put('/change-password', authenticateToken, validateRequestBody(changePasswordSchema), passwordValidateHandler, async (req, res) => {
+router.put('/change-password', authenticateToken, validateRequestBody(changePasswordSchema, 'body'), passwordValidateHandler, async (req, res) => {
 	try {
 		req.body.newPassword = await bcrypt.hash(req.body.newPassword, 10);
 		await userService.updateUser(req.user.userId, { password: req.body.newPassword })

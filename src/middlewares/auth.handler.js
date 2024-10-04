@@ -13,7 +13,7 @@ const authenticateToken = (req, res, next) => {
         req.user = verified; // Almacena los datos del usuario en `req.user`
         next();
     } catch (error) {
-        return res.status(401).json({ message: 'Invalid token' });
+        return res.status(401).json({ message: 'Invalid token', error: true });
     }
 };
 
