@@ -1,0 +1,1 @@
+export default "https://devlist-university.onrender.com/api/v1/";

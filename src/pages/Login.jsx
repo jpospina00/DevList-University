@@ -8,13 +8,13 @@ import { useRef, useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
+import Api from "../Api";
 
 export default function Login() {
   const user = useRef();
   const password = useRef();
   const [loader, setLoader] = useState(false);
   const [error, setError] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const navigate = useNavigate();
   const handleSubmit = (e) => {
@@ -22,12 +22,11 @@ export default function Login() {
     setError(null);
     console.log(user, password);
   };
-  const handleTogglePassword = () => {
-    setShowPassword(!showPassword);
-  };
+  
   const handleToggleConfirmPassword = () => {
     setShowConfirmPassword(!showConfirmPassword);
   };
+
   const submit = async () => {
     setLoader(!loader);
     const data = {
@@ -36,7 +35,7 @@ export default function Login() {
     };
     console.log(data)
     await axios
-      .post("https://devlist-university.onrender.com/api/v1/auth/login", data)
+      .post(`${Api}auth/login`, data)
       .then((res) => {
         localStorage.setItem("token", JSON.stringify(res.data.token));
         setLoader(false);
@@ -71,7 +70,6 @@ export default function Login() {
       <section className="relative w-[600px] rounded-xl flex flex-col items-center p-[60px] gap-10">
         <img src={imagenLogin} alt="" />
         <form
-          // onSubmit={handleSubmit}
           className="gap-5 flex flex-col items-center"
         >
           <div className="w-[352px] h-[58px] relative">
@@ -137,7 +135,7 @@ export default function Login() {
               ></div> : "Iniciar sesión"
             }
           </button>
-          <Link to="/restablecer-contraseña">
+          <Link to="/restablecer-contraseña/null">
             <p className="text-background underline">¿Olvidó su contraseña?</p>
           </Link>
         </form>

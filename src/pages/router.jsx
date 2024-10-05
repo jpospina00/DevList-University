@@ -16,7 +16,12 @@ export default createBrowserRouter([
                     return (token) && redirect("/home");
                 }
             },
-            { path: '/restablecer-contraseña', element: <ForgetPassword /> }
+            {
+                path: '/restablecer-contraseña/:token', element: <ForgetPassword />, loader: () => {
+                    const token = localStorage.getItem("token");
+                    return (token) && redirect("/home");
+                }
+            }
 
         ]
     },
@@ -29,7 +34,10 @@ export default createBrowserRouter([
                 }
             },
             {
-                path: '/inventory', element: <Inventory />
+                path: '/inventory', element: <Inventory />, loader: () => {
+                    const token = localStorage.getItem("token");
+                    return (!token) && redirect("/")
+                }
             }
         ]
     }

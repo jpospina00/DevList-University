@@ -3,9 +3,12 @@ import loginImg from "../assets/FondoLogin.png";
 import DigitarCorreo from "../components/DigitarCorreo";
 import SendEmail from "../components/SendEmail";
 import ChangeNewPassword from "../components/ChangeNewPassword";
+import { useParams } from "react-router-dom";
 export default function ForgetPassword() {
+
+  const params = useParams();
+  const token = params.token;
   const [show, setShow] = useState(true);
-  const [token, setToken] = useState("");
 
   return (
     <main className="flex flex-col justify-center items-center h-screen w-screen">
@@ -14,12 +17,12 @@ export default function ForgetPassword() {
         src={loginImg}
         alt=""
       />
-      {token ? (
-        <ChangeNewPassword/>
+      {token.localeCompare("null") ? (
+        <ChangeNewPassword token={token}/>
       ) : show ? (
        <DigitarCorreo setShow={setShow} show={show}/>
       ) : (
-       <SendEmail setToken={setToken}/>
+       <SendEmail />
       )}
     </main>
   );

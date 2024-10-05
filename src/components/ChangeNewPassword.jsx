@@ -1,11 +1,15 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import iconPasword from "../assets/icon pasword.svg";
 import { IoEye } from "react-icons/io5";
 import { IoEyeOff } from "react-icons/io5";
+import Swal from "sweetalert2";
+import axios from "axios";
+import Api from "../Api";
 
-export default function ChangeNewPassword() {
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+export default function ChangeNewPassword({ token }) {
+
+  const newPassword = useRef();
+  const confirmPassword = useRef();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const handleTogglePassword = () => {
@@ -14,6 +18,35 @@ export default function ChangeNewPassword() {
   const handleToggleConfirmPassword = () => {
     setShowConfirmPassword(!showConfirmPassword);
   };
+
+  const submit = () => {
+    const data = { password: newPassword.current.value?.trim() }
+    const header = { headers: { 'Authorization': `Bearer ${token}` } }
+    console.log(data);
+    console.log(header);
+
+    if (newPassword.current.value?.trim() == confirmPassword.current.value?.trim()) {
+      axios.post(`${Api}auth/recovery-password`, data, header).then((res) => {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "!Se cambio la contraseña correctamente¡",
+          showConfirmButton: false,
+          timer: 1500
+        });
+        setTimeout(() => {
+          window.location.replace("/");
+        }, 1000)
+      });
+      return;
+    }
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: "!Las contraseñas no coinciden¡"
+    });
+    return;
+  }
   return (
     <div className="w-full flex flex-col items-center justify-around h-[50%]">
       <div className="flex flex-col justify-center gap-9 ">
@@ -29,8 +62,7 @@ export default function ChangeNewPassword() {
       <div className="flex flex-col justify-center items-center gap-10">
         <div className="w-[352px] h-[58px] relative">
           <input
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            ref={newPassword}
             required
             type={showPassword ? "text" : "password"}
             className="peer w-full p-4 pt-6 pl-10 pr-4 bg-inherit border-2 rounded-full outline-none transition disabled:opacity-70 disabled:cursor-not-allowed border-gray-500 focus:border-purple-500"
@@ -55,8 +87,7 @@ export default function ChangeNewPassword() {
         </div>
         <div className="w-[352px] h-[58px] relative rounded-[50px]">
           <input
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
+            ref={confirmPassword}
             required
             type={showConfirmPassword ? "text" : "password"}
             className="peer w-full p-4 pt-6 pl-10 pr-4 bg-inherit border-2 rounded-full outline-none transition disabled:opacity-70 disabled:cursor-not-allowed border-gray-500 focus:border-purple-500"
@@ -81,7 +112,8 @@ export default function ChangeNewPassword() {
         </div>
         <div className="flex flex-col justify-center items-center gap-10">
           <button
-            type="submit"
+            type="button"
+            onClick={() => submit()}
             className="bg-secondary0 w-[192px] rounded-xl h-[50px] hover:bg-secondary0Hover text-background font-montserrat rounder-[10px]"
           >
             Cambiar contraseña
