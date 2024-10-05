@@ -8,6 +8,7 @@ export default async (req, res, next) => {
             req.user = user;
             return next();
         }
+        return res.status(401).json({ message: "Invalid Password!", error: true });
     } catch (error) {
         return res.status(401).json({ message: "Invalid Password!", error: true });
     }

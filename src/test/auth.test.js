@@ -114,7 +114,7 @@ describe('PUT /change-password', () => {
         expect(response.body).toHaveProperty('error');
     });
 
-    it('The password change should fail because the password is not correct.', async () => {
+    test('The password change should fail because the password is not correct.', async () => {
         const response = await api
             .put('/api/v1/auth/change-password')
             .set('Authorization', `Bearer ${tokenAdmin}`)
