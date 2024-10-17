@@ -6,6 +6,7 @@ import Home from './Home';
 import Main from '../layouts/Main';
 import MainDashboard from '../layouts/MainDashboard';
 import Inventory from './Inventory';
+import UserRegister from '../components/UserRegister';
 
 export default createBrowserRouter([
     {
@@ -39,6 +40,10 @@ export default createBrowserRouter([
                     return (!token) && redirect("/")
                 }
             }
-        ]
+          
+        ]       
+    },
+    {
+        path: '/UserRegister', element: <UserRegister />    
     }
 ])
