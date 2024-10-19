@@ -22,6 +22,9 @@ export default createBrowserRouter([
                     const token = localStorage.getItem("token");
                     return (token) && redirect("/home");
                 }
+            },
+            {
+                path: '/UserRegister', element: <UserRegister />    
             }
 
         ]
@@ -43,7 +46,4 @@ export default createBrowserRouter([
           
         ]       
     },
-    {
-        path: '/UserRegister', element: <UserRegister />    
-    }
 ])
