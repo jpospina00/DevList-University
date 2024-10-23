@@ -1,11 +1,26 @@
 import IconUserRegister from "../assets/IconUserRegister.svg";
 import IconUsersRegister from "../assets/ImagenFondoUser.svg";
+import iconPasword from "../assets/icon pasword.svg";
+import { IoEye } from "react-icons/io5";
+import { IoEyeOff } from "react-icons/io5";
+import { useState, useRef } from "react";
 
 export default function UserRegister() {
+  const password = useRef();
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [showConfirmPassword2, setShowConfirmPassword2] = useState(false);
+
+  const handleToggleConfirmPassword = () => {
+    setShowConfirmPassword(!showConfirmPassword);
+  };
+
+  const handleToggleConfirmPassword2 = () => {
+    setShowConfirmPassword2(!showConfirmPassword2);
+  };
   return (
     <>
       <div className="flex justify-center h-screen pt-20 bg-disable w-[100%] items-center">
-        <div className="w-[45%] flex flex-col justify-center h-full gap-5">
+        <div className="w-[45%] flex flex-col h-full gap-5 pt-8">
           <div className="flex flex-col justify-center items-center w-full gap-7">
             <h1 className="flex font-bold text-left text-2xl  items-center justify-center">
               Registre el Usuario
@@ -13,9 +28,8 @@ export default function UserRegister() {
             <div className="flex flex-col justify-center items-center w-32">
               <img src={IconUserRegister}></img>
             </div>
-
           </div>
-          <div className="flex flex-col justify-start items-center w-[100%] gap-4">
+          <div className="flex flex-col justify-start items-center w-[100%] gap-4 ">
             {/* Input para Nombre */}
             <div className="">
               <label
@@ -28,7 +42,7 @@ export default function UserRegister() {
                 id="name"
                 type="text"
                 placeholder="Ingrese su nombre"
-                className="shadow appearance-none border rounded w-[600px] py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="shadow appearance-none border rounded w-[600px] py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mt-4"
               />
             </div>
 
@@ -44,7 +58,7 @@ export default function UserRegister() {
                 id="email"
                 type="email"
                 placeholder="Ingrese su correo electrónico"
-                className="shadow appearance-none border rounded w-[600px] py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline "
+                className="shadow appearance-none border rounded w-[600px] py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mt-4"
               />
             </div>
 
@@ -60,7 +74,7 @@ export default function UserRegister() {
                 id="phone"
                 type="tel"
                 placeholder="Ingrese su número de teléfono"
-                className="shadow appearance-none border rounded w-[600px] py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="shadow appearance-none border rounded w-[600px] py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mt-4"
               />
             </div>
 
@@ -76,7 +90,7 @@ export default function UserRegister() {
                 id="address"
                 type="text"
                 placeholder="Ingrese su dirección"
-                className="shadow appearance-none border rounded w-[600px] py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="shadow appearance-none border rounded w-[600px] py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mt-4 "
               />
             </div>
 
@@ -88,12 +102,21 @@ export default function UserRegister() {
               >
                 Contraseña
               </label>
-              <input
-                id="password"
-                type="password"
-                placeholder="Ingrese su contraseña"
-                className="shadow appearance-none border rounded w-[600px] py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              />
+              <div className="flex gap-2 shadow appearance-none border rounded w-[600px] py-2 px-3 text-gray-700 bg-whiteColor mt-4 relative">
+                <img className="" src={iconPasword} />
+                <input
+                  id="password"
+                  type={showConfirmPassword ? "text" : "password"}
+                  placeholder="Ingrese su contraseña"
+                  className="w-[80%] border-none focus:outline-none"
+                />
+                <span
+                  className="absolute top-2 right-3"
+                  onClick={handleToggleConfirmPassword}
+                >
+                  {showConfirmPassword ? <IoEyeOff fontSize={25} /> : <IoEye fontSize={25} />}
+                </span>
+              </div>
             </div>
 
             {/* Input para Confirmar Contraseña */}
@@ -104,26 +127,35 @@ export default function UserRegister() {
               >
                 Confirmar Contraseña
               </label>
-              <input
-                id="confirmPassword"
-                type="password"
-                placeholder="Confirme su contraseña"
-                className="shadow appearance-none border rounded w-[600px] py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              />
+              <div className="flex gap-2 shadow appearance-none border rounded w-[600px] py-2 px-3 text-gray-700 bg-whiteColor mt-4 relative">
+                <img className="" src={iconPasword} />
+                <input
+                  id="confirmPassword"
+                  type={showConfirmPassword2 ? "text" : "password"}
+                  placeholder="Confirme su contraseña"
+                  className="w-[80%] border-none focus:outline-none"
+                />
+                <span
+                  className="absolute top-2 right-3"
+                  onClick={handleToggleConfirmPassword2}
+                >
+                  {showConfirmPassword2 ? <IoEyeOff fontSize={25} /> : <IoEye fontSize={25} />}
+                </span>
+              </div>
             </div>
 
             {/* Botones Guardar y Cancelar */}
             <div className="flex items-center justify-around w-[50%]">
               <button
-                className="bg-[#FFFFFF] hover:bg-secondary0 border border-secondary0 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                className="bg-[#FFFFFF] hover:bg-secondary0Hover border border-secondary0 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-7"
                 type="submit"
               >
                 Guardar
               </button>
               <button
-                className="bg-[#FFFFFF] hover:bg-secondary0 border border-secondary0 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                className="bg-[#FFFFFF] hover:bg-secondary0Hover border border-secondary0 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-7"
                 type="button"
-              // onClick={() => alert('Cancelar')}
+                // onClick={() => alert('Cancelar')}
               >
                 Cancelar
               </button>
