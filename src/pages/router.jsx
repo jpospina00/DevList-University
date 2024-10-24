@@ -6,6 +6,7 @@ import Home from './Home';
 import Main from '../layouts/Main';
 import MainDashboard from '../layouts/MainDashboard';
 import Inventory from './Inventory';
+import FormAddDevice from './FormAddDevice';
 
 export default createBrowserRouter([
     {
@@ -21,6 +22,9 @@ export default createBrowserRouter([
                     const token = localStorage.getItem("token");
                     return (token) && redirect("/home");
                 }
+            },
+            {
+                path: '/add-device', element: <FormAddDevice />
             }
 
         ]
