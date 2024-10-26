@@ -44,7 +44,7 @@ const DatePicker = ({ selectedDate, onChange, setShowCalendar, setSelectedDate }
             <div className="days grid grid-cols-7 gap-1">
                 {renderDays()}
             </div>
-        </div>
+        </div>  
     );
 };
 
