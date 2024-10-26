@@ -9,17 +9,17 @@ import InputText from '../components/InputText';
 export default function FormAddDevice() {
 
     const description = useRef();
-    const [count, setCount] = useState(0);
     const [day, setDay] = useState("");
-    const [month, setMonth] = useState("");
     const [year, setYear] = useState("");
-    const [selectedImage, setSelectedImage] = useState(null);
-    const [selectedOption, setSelectedOption] = useState('all');
+    const [count, setCount] = useState(0);
+    const [month, setMonth] = useState("");
     const [isOpen, setIsOpen] = useState(false);
     const [isOpenType, setIsOpenType] = useState(false);
-    const [selectedOptionType, setSelectedOptionType] = useState('all-1');
     const [selectedDate, setSelectedDate] = useState(null);
     const [showCalendar, setShowCalendar] = useState(false);
+    const [selectedImage, setSelectedImage] = useState(null);
+    const [selectedOption, setSelectedOption] = useState('all');
+    const [selectedOptionType, setSelectedOptionType] = useState('all-1');
 
     const getDate = (date) => {
         if (date == null) {
