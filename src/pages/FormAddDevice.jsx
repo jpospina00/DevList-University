@@ -57,7 +57,7 @@ export default function FormAddDevice() {
 
     return (
         <div className="h-screen w-full flex justify-around items-center">
-            <div className='flex flex-col justify-center gap-7 items-center font-montserrat font-semibold w-2/4 h-full shadow-[0_35px_35px_35px_rgba(0,0,0,0.3)]'>
+            <div className='flex flex-col justify-center gap-12 items-center font-montserrat font-semibold w-2/4 h-full shadow-[0_35px_35px_35px_rgba(0,0,0,0.3)]'>
                 <h1 className='text-2xl'> Agregar un dispositivo </h1>
                 <div className='flex w-4/5 gap-5'>
                     <InputText title={"N° de referencia"} />
