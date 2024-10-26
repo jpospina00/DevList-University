@@ -2,6 +2,7 @@ import express from 'express';
 import userRoutes from './user.route.js';
 import authRoutes from './auth.route.js';
 import deviceRouter from './device.router.js';
+import scheduleRouter from './schedule.route.js';
 
 
 /**
@@ -15,7 +16,7 @@ function routerApi(app) {
     router.use('/user', userRoutes);
     router.use('/auth', authRoutes);
     router.use('/device', deviceRouter);
-
+    router.use('/schedule', scheduleRouter);
 }
 
 export default routerApi;
