@@ -108,7 +108,7 @@ export default function FormAddDevice() {
             </div>
             <div className='w-2/4 h-full flex items-center justify-center'>
                 <input id='loadImg' className='hidden' type="file" accept='image/*' onChange={loadImage} />
-                <img className='w-[70%] cursor-pointer'
+                <img className={`w-[70%] cursor-pointer ${selectedImage ? "shadow-[0px_0px_15px_5px_rgba(0,0,0,0.3)]" : ""}`}
                     onClick={clickLoadImg}
                     src={selectedImage ? URL.createObjectURL(selectedImage) : imgAddDevice}
                     alt="Carga imagen del dispositivo" />
