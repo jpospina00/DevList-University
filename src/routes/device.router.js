@@ -107,15 +107,16 @@ router.post("/", authenticateToken, async (req, res) => {
         .json({ message: "Role information missing from token", error: true });
     }
     let devices;
+    
     if (filters) {
       console.log(filters);
       devices = await deviceService.getDevicesByFilters(filters, page, pageSize);
     } else {
       devices = await deviceService.getAllDevices();
     }
-    res.status(200).json(devices);
+    return res.status(200).json(devices);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    return res.status(500).json({ error: error.message });
   }
 });
 
@@ -123,9 +124,9 @@ router.delete("/", async (req, res) => {
   try {
     let devices = await deviceService.deleteAllDevices();
     console.log(devices);
-    res.status(200).json(devices);
+    return res.status(200).json(devices);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    return res.status(500).json({ error: error.message });
   }
 });
 
@@ -133,9 +134,21 @@ router.post('/create-device-type', async (req, res) => {
   try {
     const { name } = req.body;
     const deviceType = await deviceTypeService.createDeviceType({ name });
-    res.status(200).json(deviceType);
+    return res.status(200).json(deviceType);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    return res.status(500).json({ error: error.message });
+  }
+});
+
+router.post('/get-device', async (req, res) => {
+  try {
+    const { deviceId, count } = req.body;
+    if(count > 3) {
+      return res.status(400).json({ error: "Max count exceeded" });
+    }
+    return res.status(200).json({message: "Device found"});
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
   }
 });
 
