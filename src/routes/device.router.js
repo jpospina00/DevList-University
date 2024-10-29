@@ -151,4 +151,14 @@ router.get('/warehouses', async (req, res) => {
   }
 });
 
+router.get('/device-type', async (req, res) => {
+  try {
+
+    const deviceType = await deviceTypeService.getDeviceType();
+    return res.status(200).json(deviceType);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+});
+
 export default router;
