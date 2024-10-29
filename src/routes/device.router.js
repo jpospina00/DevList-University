@@ -7,12 +7,14 @@ import { createDeviceSchema } from "../schemas/device.schema.js";
 import { validateRequestBody } from "../middlewares/validate.handler.js";
 import StockService from "../services/stock.service.js";
 import { DeviceTypeService } from "../services/deviceType.service.js";
+import { WarehouseService } from "../services/warehouses.service.js";
 
 const router = express.Router();
 const storage = multer.memoryStorage();
 const deviceService = new DeviceService();
 const stockService = new StockService();
 const deviceTypeService = new DeviceTypeService();
+const warehouseService = new WarehouseService();
 /**
  * Middleware for handling file uploads using multer.
  *
@@ -133,9 +135,19 @@ router.post('/create-device-type', async (req, res) => {
   try {
     const { name } = req.body;
     const deviceType = await deviceTypeService.createDeviceType({ name });
-    res.status(200).json(deviceType);
+    return res.status(200).json(deviceType);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    return res.status(500).json({ error: error.message });
+  }
+});
+
+router.get('/warehouses', async (req, res) => {
+  try {
+
+    const warehouse = await warehouseService.getWarehouses();
+    return res.status(200).json(warehouse);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
   }
 });
 
