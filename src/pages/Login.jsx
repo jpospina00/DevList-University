@@ -22,7 +22,7 @@ export default function Login() {
     setError(null);
     console.log(user, password);
   };
-  
+
   const handleToggleConfirmPassword = () => {
     setShowConfirmPassword(!showConfirmPassword);
   };
@@ -47,9 +47,7 @@ export default function Login() {
           showConfirmButton: false,
           timer: 1500
         });
-        setTimeout(() => {
-          window.location.replace("/home");
-        }, 1000)
+        window.location.replace("/home");
       })
       .catch((error) => {
         console.log(error);
@@ -125,9 +123,9 @@ export default function Login() {
             type="button"
             disabled={loader}
             className={
-              loader ? 
-              "flex items-center justify-center bg-secondary0 w-[150px] rounded-xl h-[50px] text-background":
-              "flex items-center justify-center bg-secondary0 w-[150px] rounded-xl h-[50px] hover:bg-secondary0Hover text-background"
+              loader ?
+                "flex items-center justify-center bg-secondary0 w-[150px] rounded-xl h-[50px] text-background" :
+                "flex items-center justify-center bg-secondary0 w-[150px] rounded-xl h-[50px] hover:bg-secondary0Hover text-background"
             }
           >
             {
