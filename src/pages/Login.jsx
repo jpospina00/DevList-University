@@ -37,6 +37,7 @@ export default function Login() {
     await axios
       .post(`${Api}auth/login`, data)
       .then((res) => {
+        console.log(res);
         localStorage.setItem("token", JSON.stringify(res.data.token));
         setLoader(false);
         Swal.fire({

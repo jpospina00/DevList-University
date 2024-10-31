@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import imgDevice from '../assets/DeviceIcon.svg';
 import addDevice from '../assets/AddDevice.svg';
 import RemoveDevice from '../assets/RemoveDevice.svg';
@@ -12,10 +13,12 @@ export default function NavbarInventory() {
                 <img className='w-8 h-8' src={imgDevice} alt="Device" />
                 <p> Dispositivos </p>
             </div>
-            <div className='hover:cursor-pointer flex flex-col items-center text-center'>
-                <img className='w-8 h-8' src={addDevice} alt="AddDevice" />
-                <p> Añadir Dispositivo </p>
-            </div>
+            <Link to={"/add-device"}>
+                <div className='hover:cursor-pointer flex flex-col items-center text-center'>
+                    <img className='w-8 h-8' src={addDevice} alt="AddDevice" />
+                    <p> Añadir Dispositivo </p>
+                </div>
+            </Link>
             <div className='hover:cursor-pointer flex flex-col items-center text-center'>
                 <img className='w-8 h-8' src={RemoveDevice} alt="RemoveDevice" />
                 <p> Quitar Dispositivo </p>
