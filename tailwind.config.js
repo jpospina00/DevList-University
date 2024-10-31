@@ -10,7 +10,7 @@ module.exports = {
       primary0: "#229799",
       primary1: "#62b5b7",
       primary2: "#99cfd0",
-      disable: "#fdf5f5",
+      disable: "#FAFBFD",
       whiteColor: "#ffff",
       secondary0: "#214455",
       secondary0Hover: "#227b98",

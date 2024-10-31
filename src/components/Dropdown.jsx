@@ -20,7 +20,7 @@ export default function Dropdown({ selectedOption, list, handleOptionChange, set
                 </svg>
             </div>
             <div
-                className={`border border-dark flex gap-2 flex-col items-center rounded bg-disable absolute w-full transition-all duration-300 ${isOpen ? 'max-h-40 opacity-100 overflow-y-auto' : 'max-h-0 opacity-0 overflow-hidden'}`}
+                className={`border border-dark flex gap-2 flex-col items-center rounded bg-[#e9edf5] absolute w-full transition-all duration-300 ${isOpen ? 'max-h-40 opacity-100 overflow-y-auto' : 'max-h-0 opacity-0 overflow-hidden'}`}
             >
                 {list.map((option) => (
                     <div key={option} title={option} className='w-[95%]'>

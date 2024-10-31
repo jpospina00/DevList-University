@@ -4,11 +4,14 @@ import iconPasword from "../assets/icon pasword.svg";
 import { IoEye } from "react-icons/io5";
 import { IoEyeOff } from "react-icons/io5";
 import { useState, useRef } from "react";
+import Dropdown from "./Dropdown";
 
 export default function UserRegister() {
   const password = useRef();
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [showConfirmPassword2, setShowConfirmPassword2] = useState(false);
+  const [selectedOption, setSelectedOption] = useState('all');
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleToggleConfirmPassword = () => {
     setShowConfirmPassword(!showConfirmPassword);
@@ -17,6 +20,12 @@ export default function UserRegister() {
   const handleToggleConfirmPassword2 = () => {
     setShowConfirmPassword2(!showConfirmPassword2);
   };
+
+  const handleOptionChange = (event) => {
+    setSelectedOption(event.target.value);
+    setIsOpen(false); // Cierra el dropdown al seleccionar una opción
+  };
+
   return (
     <>
       <div className="flex justify-center h-screen pt-20 bg-disable w-[100%] items-center">
@@ -31,7 +40,7 @@ export default function UserRegister() {
           </div>
           <div className="flex flex-col justify-start items-center w-[100%] gap-4 ">
             {/* Input para Nombre */}
-            <div className="">
+            <div className="flex flex-col w-4/5 h-16 justify-around">
               <label
                 className="block text-gray-700 text-sm font-bold"
                 htmlFor="name"
@@ -42,12 +51,12 @@ export default function UserRegister() {
                 id="name"
                 type="text"
                 placeholder="Ingrese su nombre"
-                className="shadow appearance-none border rounded w-[600px] py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mt-4"
+                className="shadow appearance-none border rounded p-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               />
             </div>
 
             {/* Input para Correo Electrónico */}
-            <div className="">
+            <div className="flex flex-col w-4/5 h-16 justify-around">
               <label
                 className="block text-gray-700 text-sm font-bold"
                 htmlFor="email"
@@ -58,12 +67,12 @@ export default function UserRegister() {
                 id="email"
                 type="email"
                 placeholder="Ingrese su correo electrónico"
-                className="shadow appearance-none border rounded w-[600px] py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mt-4"
+                className="shadow appearance-none border rounded p-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               />
             </div>
 
             {/* Input para Número de Teléfono */}
-            <div className="">
+            <div className="flex flex-col w-4/5 h-16 justify-around">
               <label
                 className="block text-gray-700 text-sm font-bold"
                 htmlFor="phone"
@@ -74,35 +83,50 @@ export default function UserRegister() {
                 id="phone"
                 type="tel"
                 placeholder="Ingrese su número de teléfono"
-                className="shadow appearance-none border rounded w-[600px] py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mt-4"
+                className="shadow appearance-none border rounded p-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               />
             </div>
 
             {/* Input para Dirección */}
-            <div className="">
-              <label
-                className="block text-gray-700 text-sm font-bold"
-                htmlFor="address"
-              >
-                Dirección
-              </label>
-              <input
-                id="address"
-                type="text"
-                placeholder="Ingrese su dirección"
-                className="shadow appearance-none border rounded w-[600px] py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mt-4 "
-              />
+
+            <div className="flex w-4/5 gap-5">
+              <div className="flex flex-col w-4/5 h-16 justify-around">
+                <label
+                  className="block text-gray-700 text-sm font-bold"
+                  htmlFor="address"
+                >
+                  Dirección
+                </label>
+                <input
+                  id="address"
+                  type="text"
+                  placeholder="Ingrese su dirección"
+                  className="shadow appearance-none border rounded p-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline  "
+                />
+              </div>
+
+              {/* Input Dropdown */}
+              <div className="flex flex-col justify-around w-4/5 h-16">
+                <label className="block text-gray-700 text-sm font-bold"> Rol </label>
+                <Dropdown
+                  list={["all", "Monitor", "Profesor"]}
+                  handleOptionChange={handleOptionChange}
+                  selectedOption={selectedOption}
+                  setIsOpen={setIsOpen}
+                  isOpen={isOpen}
+                />
+              </div>
             </div>
 
             {/* Input para Contraseña */}
-            <div className="">
+            <div className="flex flex-col w-4/5 h-16 justify-around">
               <label
                 className="block text-gray-700 text-sm font-bold"
                 htmlFor="password"
               >
                 Contraseña
               </label>
-              <div className="flex gap-2 shadow appearance-none border rounded w-[600px] py-2 px-3 text-gray-700 bg-whiteColor mt-4 relative">
+              <div className="flex gap-2 shadow appearance-none border rounded p-2 text-gray-700 bg-whiteColor relative">
                 <img className="" src={iconPasword} />
                 <input
                   id="password"
@@ -114,20 +138,24 @@ export default function UserRegister() {
                   className="absolute top-2 right-3"
                   onClick={handleToggleConfirmPassword}
                 >
-                  {showConfirmPassword ? <IoEyeOff fontSize={25} /> : <IoEye fontSize={25} />}
+                  {showConfirmPassword ? (
+                    <IoEyeOff fontSize={25} />
+                  ) : (
+                    <IoEye fontSize={25} />
+                  )}
                 </span>
               </div>
             </div>
 
             {/* Input para Confirmar Contraseña */}
-            <div className="">
+            <div className="flex flex-col w-4/5 h-16 justify-around">
               <label
                 className="block text-gray-700 text-sm font-bold"
                 htmlFor="confirmPassword"
               >
                 Confirmar Contraseña
               </label>
-              <div className="flex gap-2 shadow appearance-none border rounded w-[600px] py-2 px-3 text-gray-700 bg-whiteColor mt-4 relative">
+              <div className="flex gap-2 shadow appearance-none border rounded p-2 text-gray-700 bg-whiteColor relative">
                 <img className="" src={iconPasword} />
                 <input
                   id="confirmPassword"
@@ -139,7 +167,11 @@ export default function UserRegister() {
                   className="absolute top-2 right-3"
                   onClick={handleToggleConfirmPassword2}
                 >
-                  {showConfirmPassword2 ? <IoEyeOff fontSize={25} /> : <IoEye fontSize={25} />}
+                  {showConfirmPassword2 ? (
+                    <IoEyeOff fontSize={25} />
+                  ) : (
+                    <IoEye fontSize={25} />
+                  )}
                 </span>
               </div>
             </div>
@@ -150,14 +182,14 @@ export default function UserRegister() {
                 className="bg-[#FFFFFF] hover:bg-secondary0Hover border border-secondary0 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-7"
                 type="submit"
               >
-                Guardar
+                Cancelar
               </button>
               <button
                 className="bg-[#FFFFFF] hover:bg-secondary0Hover border border-secondary0 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-7"
                 type="button"
                 // onClick={() => alert('Cancelar')}
               >
-                Cancelar
+                Guardar
               </button>
             </div>
           </div>
