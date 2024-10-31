@@ -1,4 +1,4 @@
-export default function Dropdown({ selectedOption, list, handleOptionChange, setIsOpen, isOpen }) {
+export default function Dropdown({ selectedOption, list, handleOptionChange, setIsOpen, isOpen, selectedOptionName }) {
     return (
         <div className="relative cursor-pointer transition duration-300 z-20">
             <div
@@ -6,7 +6,7 @@ export default function Dropdown({ selectedOption, list, handleOptionChange, set
                 onClick={() => setIsOpen(!isOpen)} // Alterna el estado del dropdown
             >
                 <span>
-                    {selectedOption === 'all' ? 'All' : selectedOption}
+                    {selectedOptionName == '' ? "Opciones" : selectedOptionName}
                 </span>
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -20,25 +20,24 @@ export default function Dropdown({ selectedOption, list, handleOptionChange, set
                 </svg>
             </div>
             <div
-                className={`border border-dark flex gap-2 flex-col items-center rounded bg-disable absolute w-full transition-all duration-300 ${isOpen ? 'max-h-40 opacity-100 overflow-y-auto' : 'max-h-0 opacity-0 overflow-hidden'}`}
+                className={`border border-dark flex gap-2 flex-col items-center rounded bg-[#e9edf5] absolute w-full transition-all duration-300 ${isOpen ? 'max-h-40 opacity-100 overflow-y-auto' : 'max-h-0 opacity-0 overflow-hidden'}`}
             >
                 {list.map((option) => (
-                    <div key={option} title={option} className='w-[95%]'>
+                    <div key={option.id} title={option.id} className='w-[95%]'>
                         <input
-                            id={option}
+                            id={option.name}
                             name="option"
                             type="radio"
-                            value={option}
-                            checked={selectedOption === option}
+                            value={option.id}
+                            checked={selectedOption === option.id}
                             onChange={handleOptionChange}
                             className="hidden"
                         />
                         <label
-                            className={`cursor-pointer border border-dark block rounded p-1 transition duration-300 mb-2 w-full text-left hover:bg-primary0 ${selectedOption === option ? 'hidden' : ''
-                                }`}
-                            htmlFor={option}
+                            className={`cursor-pointer border border-dark block rounded p-1 transition duration-300 mb-2 w-full text-left hover:bg-primary0 ${selectedOption == option.id ? 'hidden' : ''}`}
+                            htmlFor={option.name}
                         >
-                            {option === 'all' ? 'All' : option}
+                            {option.name}
                         </label>
                     </div>
                 ))}
