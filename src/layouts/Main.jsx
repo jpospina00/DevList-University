@@ -6,6 +6,7 @@ export default function Main() {
         <>
             <Header />
             <Outlet />
+            
         </>
     )
 }
