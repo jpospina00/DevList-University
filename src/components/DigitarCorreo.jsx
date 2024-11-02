@@ -4,7 +4,7 @@ import Api from "../Api";
 import axios from "axios";
 import Swal from "sweetalert2";
 
-export default function DigitarCorreo({ setShow, show }) {
+export default function DigitarCorreo() {
   const email = useRef();
   const [loader, setLoader] = useState(false);
   const submit = () => {
@@ -16,13 +16,19 @@ export default function DigitarCorreo({ setShow, show }) {
     axios.post(`${Api}auth/send-email-recovery`, data).then((res) => {
       setLoader(false);
       console.log(res);
-      setShow(!show);
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: `!!Email enviado a ${data.email} correctamente¡¡`,
+        timer: 1500
+      });
+      setTimeout(() => window.location.replace("/"), 1000);
     }).catch((err) => {
       setLoader(false);
       Swal.fire({
         icon: "error",
         title: "Oops...",
-        text: "!El usuario no existe¡"
+        text: "!El email no existe¡"
       });
     })
   }
@@ -52,8 +58,8 @@ export default function DigitarCorreo({ setShow, show }) {
             disabled={loader}
             className={
               loader ?
-              "flex items-center justify-center bg-secondary0 w-[192px] rounded-xl h-[50px] text-background font-montserrat rounder-[10px]" :
-              "flex items-center justify-center bg-secondary0 w-[192px] rounded-xl h-[50px] hover:bg-secondary0Hover text-background font-montserrat rounder-[10px]"
+                "flex items-center justify-center bg-secondary0 w-[192px] rounded-xl h-[50px] text-background font-montserrat rounder-[10px]" :
+                "flex items-center justify-center bg-secondary0 w-[192px] rounded-xl h-[50px] hover:bg-secondary0Hover text-background font-montserrat rounder-[10px]"
             }
             onClick={() => {
               submit();
@@ -61,7 +67,7 @@ export default function DigitarCorreo({ setShow, show }) {
           >
             {
               loader ? <div
-                class="z-50 w-10 h-10 border-4 border-t-primary0 border-dark rounded-full animate-spin"
+                className="z-50 w-10 h-10 border-4 border-t-primary0 border-dark rounded-full animate-spin"
               ></div> : "Aceptar"
             }
           </button>

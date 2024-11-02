@@ -10,6 +10,7 @@ export default function ChangeNewPassword({ token }) {
 
   const newPassword = useRef();
   const confirmPassword = useRef();
+  const [loader, setLoader] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const handleTogglePassword = () => {
@@ -20,6 +21,7 @@ export default function ChangeNewPassword({ token }) {
   };
 
   const submit = () => {
+    setLoader(!loader);
     const data = { password: newPassword.current.value?.trim() }
     const header = { headers: { 'Authorization': `Bearer ${token}` } }
     console.log(data);
@@ -37,6 +39,13 @@ export default function ChangeNewPassword({ token }) {
         setTimeout(() => {
           window.location.replace("/");
         }, 1000)
+      }).catch((err) => {
+        setLoader(false);
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "!No se pudo realizar el cambio de contraseña¡"
+        });
       });
       return;
     }
@@ -64,11 +73,12 @@ export default function ChangeNewPassword({ token }) {
           <input
             ref={newPassword}
             required
+            disabled={loader}
             type={showPassword ? "text" : "password"}
             className="peer w-full p-4 pt-6 pl-10 pr-4 bg-inherit border-2 rounded-full outline-none transition disabled:opacity-70 disabled:cursor-not-allowed border-gray-500 focus:border-purple-500"
             placeholder=""
             name="password"
-            id="username"
+            id="password"
           />
           <span
             className="absolute top-6 right-5"
@@ -79,7 +89,7 @@ export default function ChangeNewPassword({ token }) {
 
           <label
             className="absolute text-gray-500 text-base duration-150 transform -translate-y-3 top-5 z-10 origin-[0] left-10 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 peer-focus:text-purple-500"
-            for="username"
+            htmlFor="newPassword"
           >
             Nueva contraseña
           </label>
@@ -89,11 +99,12 @@ export default function ChangeNewPassword({ token }) {
           <input
             ref={confirmPassword}
             required
+            disabled={loader}
             type={showConfirmPassword ? "text" : "password"}
             className="peer w-full p-4 pt-6 pl-10 pr-4 bg-inherit border-2 rounded-full outline-none transition disabled:opacity-70 disabled:cursor-not-allowed border-gray-500 focus:border-purple-500"
             placeholder=""
-            name="username"
-            id="username"
+            name="confirmNewPassword"
+            id="confirmNewPassword"
           />
           <span
             className="absolute top-6 right-5"
@@ -104,7 +115,7 @@ export default function ChangeNewPassword({ token }) {
 
           <label
             className="absolute text-gray-500 text-base duration-150 transform -translate-y-3 top-5 z-10 origin-[0] left-10 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 peer-focus:text-purple-500"
-            for="username"
+            htmlFor="confirmNewPassword"
           >
             Confirmar nueva contraseña
           </label>
@@ -114,9 +125,15 @@ export default function ChangeNewPassword({ token }) {
           <button
             type="button"
             onClick={() => submit()}
-            className="bg-secondary0 w-[192px] rounded-xl h-[50px] hover:bg-secondary0Hover text-background font-montserrat rounder-[10px]"
+            disblead={loader}
+            className={loader ? 
+              "flex items-center justify-center bg-secondary0 w-[150px] rounded-xl h-[50px] text-background" 
+              : "bg-secondary0 w-[192px] rounded-xl h-[50px] hover:bg-secondary0Hover text-background font-montserrat rounder-[10px]"
+            }
           >
-            Cambiar contraseña
+            {loader ? <div
+              className="z-50 w-10 h-10 border-4 border-t-primary0 border-dark rounded-full animate-spin"
+            ></div> : "Cambiar contraseña"}
           </button>
         </div>
       </div>

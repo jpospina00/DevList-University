@@ -37,17 +37,8 @@ export default function Login() {
     await axios
       .post(`${Api}auth/login`, data)
       .then((res) => {
-        console.log(res);
         localStorage.setItem("token", JSON.stringify(res.data.token));
-        setLoader(false);
-        Swal.fire({
-          position: "center",
-          icon: "success",
-          title: "!Bienvenido a DevList¡",
-          showConfirmButton: false,
-          timer: 1500
-        });
-        window.location.replace("/home");
+        window.location.replace("/inventory");
       })
       .catch((error) => {
         console.log(error);
@@ -79,12 +70,12 @@ export default function Login() {
               type="text"
               className="peer w-full p-4 pt-6 pl-10 pr-4 bg-inherit border-2 rounded-full outline-none transition disabled:opacity-70 disabled:cursor-not-allowed border-gray-500 focus:border-purple-500"
               placeholder=""
-              name="password"
+              name="username"
               id="username"
             />
             <label
               className="absolute text-gray-500 text-base duration-150 transform -translate-y-3 top-5 z-10 origin-[0] left-10 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 peer-focus:text-purple-500"
-              for="username"
+              htmlFor="username"
             >
               Usuario
             </label>
@@ -98,8 +89,8 @@ export default function Login() {
               type={showConfirmPassword ? "text" : "password"}
               className="peer w-full p-4 pt-6 pl-10 pr-4 bg-inherit border-2 rounded-full outline-none transition disabled:opacity-70 disabled:cursor-not-allowed border-gray-500 focus:border-purple-500"
               placeholder=""
-              name="username"
-              id="username"
+              name="password"
+              id="password"
             />
             <span
               className="absolute top-6 right-5"
@@ -110,7 +101,7 @@ export default function Login() {
 
             <label
               className="absolute text-gray-500 text-base duration-150 transform -translate-y-3 top-5 z-10 origin-[0] left-10 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 peer-focus:text-purple-500"
-              for="username"
+              htmlFor="password"
             >
               Contraseña
             </label>
@@ -121,7 +112,7 @@ export default function Login() {
               submit();
             }}
             type="button"
-            disabled={loader}
+            disblead={loader}
             className={
               loader ?
                 "flex items-center justify-center bg-secondary0 w-[150px] rounded-xl h-[50px] text-background" :
@@ -130,7 +121,7 @@ export default function Login() {
           >
             {
               loader ? <div
-                class="z-50 w-10 h-10 border-4 border-t-primary0 border-dark rounded-full animate-spin"
+                className="z-50 w-10 h-10 border-4 border-t-primary0 border-dark rounded-full animate-spin"
               ></div> : "Iniciar sesión"
             }
           </button>
