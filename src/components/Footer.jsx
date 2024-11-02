@@ -1,87 +1,46 @@
-import logoHeader from "../assets/logoHeader.png";
-//import Divider from '@mui/material/Divider';
+import logo from "../assets/LogoSinFondo.svg"
+import locationIcon from '../assets/location.svg';
+import phone from '../assets/phone.png';
+import printer from '../assets/printer.png';
 
 export default function Footer() {
   return (
-    <footer className="py-12 lg:py-16 border-t border-neutral-100 bg-secondary0">
-      <div className="w-[70%] max-w-7xl mx-auto">
-        <div className="border-b border-neutral-100 pb-8 lg:pb-16 flex justify-between flex-col lg:flex-row items-center lg:items-start">
-          <div className="space-y-8 pb-8 border-b border-neutral-100 lg:pb-0 lg:border-none w-full flex flex-col lg:block items-center ">
-            <img src={logoHeader} alt="logo" class="w-fit" />
-            <ul class="flex gap-x-8 text-xs text-gray-500 flex-col lg:flex-row gap-y-6 text-center lg:text-start text-whiteColor">
-              <li>
-                <a href="#" class="hover:text-cyan-600">
-                  Products & Service
-                </a>
-              </li>
-              <li>
-                <a href="#" class="hover:text-cyan-600">
-                  Resources
-                </a>
-              </li>
-              <li>
-                <a href="#" class="hover:text-cyan-600">
-                  Contact
-                </a>
-              </li>
-              <li>
-                <a href="#" class="hover:text-cyan-600">
-                  About
-                </a>
-              </li>
-            </ul>
-
-            <div class="flex items-center gap-x-4 text-gray-700"></div>
+    <footer className="w-full h-[500px] bg-secondary0 p-24 mt-20">
+      <hr className="border w-full border-disable opacity-25" />
+      <div className="h-full grid grid-cols-1 md:grid-cols-2 justify-items-center">
+        <div className="w-full flex flex-col justify-around">
+          <div className="flex items-center justify-center h-[50%]">
+            <img className="h-[100%]" src={logo} alt="LOGO" />
+          </div>
+          <div className="text-disable h-[25%] flex flex-col items-center justify-center gap-5">
+            <div className="flex w-full justify-start">
+              <img src={locationIcon} alt="Location" />
+              <p> 345 Faulconer Drive, Suite 4 • Charlottesville, CA, 12345 </p>
+            </div>
+            <div className="flex w-full justify-start gap-36">
+              <div className="flex">
+                <img src={phone} alt="Phone" />
+                <p> (123) 456-7890 </p>
+              </div>
+              <div className="flex">
+                <img src={printer} alt="Printer" />
+                <p> (123) 456-7890 </p>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="pt-8 flex justify-between flex-col lg:flex-row gap-y-4 items-center">
-          {/* <ul class="flex gap-x-8 text-xs text-gray-500 text-whiteColor">
-            <li>
-              <a href="#" class="hover:text-cyan-600">
-                English
-              </a>
-            </li>
-            <li>
-              <a href="#" class="hover:text-cyan-600">
-                Privacy
-              </a>
-            </li>
-            <li>
-              <a href="#" class="hover:text-cyan-600">
-                Legal
-              </a>
-            </li>
-          </ul> */}
-          <p class="flex gap-x-8 text-xs text-gray-500 text-gray-400 text-whiteColor">
-            © 2024 Cadet UI. All Rights Reserved.
-          </p>
+        <div className="w-full text-disable flex items-center justify-end">
+          <div className="flex gap-5">
+            <p className="cursor-pointer hover:border-b hover:border-disable"> Sobre nosotros </p>
+            <p className="cursor-pointer hover:border-b hover:border-disable"> Ayuda </p>
+            <p className="cursor-pointer hover:border-b hover:border-disable"> Politicas de privacidad </p>
+          </div>
         </div>
+      </div>
+      <div className="w-full flex flex-col ">
+        <hr className="border w-full border-disable opacity-25" />
+        <p className="text-whiteColor self-end"> Copyright © 2018 • Lift Media Inc. </p>
       </div>
     </footer>
   );
 }
-
-//  <footer className="bg-secondary0 text-whiteColor py-8">
-//     <div className="flex flex-col items-center space-y-4 w-[40%]">
-
-//       {/* Logo */}
-//       <img src={logoHeader} alt="Devlist University Logo" className="h-20 mb-4" />
-
-//       {/* Dirección y contacto */}
-//       <div className="text justify-between">
-//         <p>345 Faulconer Drive, Suite 4 • Charlottesville, CA, 12345</p>
-//         <p>(123) 456-7890</p>
-//         <p>(123) 456-7890</p>
-//       </div>
-
-//       {/* Enlaces */}
-//       <div className="text-center space-y-2">
-//         <a href="#about" className="hover:underline">Sobre nosotros</a>
-//         <a href="#help" className="hover:underline">Ayuda</a>
-//         <a href="#privacy" className="hover:underline">Políticas de privacidad</a>
-//       </div>
-
-//       {/* Copyright */}
-//       <p className="text-sm mt-4">&copy; 2018 • Lift Media Inc.</p>
-//     </div>
-//   </footer>
