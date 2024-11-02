@@ -88,20 +88,25 @@ router.post("/create-user",authenticateToken, validateRequestBody(createUserSche
  * @throws {Object} - The error object if an error occurs.
  */
 
-router.patch("/disable-monitor/:id",authenticateToken, async (req, res) => {
+router.patch("/disable-or-enable-monitor/:id",authenticateToken, async (req, res) => {
   try {
     const { id } = req.params;
+    const { action } = req.body;
     const { role } = req.user; 
     if (!role) {
       return res.status(403).json({ message: "Role information missing from token", error: true });
+    }
+    if(action !== true && action !== false) {
+      return res.status(400).json({ message: "Action is required", error: true });
     }
     const roleData = await roleService.getRoleById(role);
     if (roleData.name !== 'administrator') {
       return res.status(401).json({ message: "Unauthorized", error: true });
     }
-    const updatedUser = await userService.updateUser(id, { active: false });
-    res.status(200).json({
+    const updatedUser = await userService.updateUser(id, { active: action });
+    return res.status(200).json({
       ok: true,
+      msg: "User updated successfully"
     });
   } catch (error) {
     res.status(400).json({ message: error.message, error: true });
