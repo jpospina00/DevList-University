@@ -1,7 +1,38 @@
+import { useState } from 'react';
 import logo from '../assets/LogoSinFondo.svg';
-import { Link } from 'react-router-dom';
+import ButtonNav from './ButtonNav';
+
 
 export default function HeaderDashboard() {
+
+    const [options, setOptions] = useState([
+        {
+            name: "Inicio",
+            selected: false,
+            to: "/home"
+        },
+        {
+            name: "Administrar",
+            selected: false,
+            to: "/inventory"
+        },
+        {
+            name: "Reportes",
+            selected: false,
+            to: "/home"
+        },
+        {
+            name: "Perfil",
+            selected: false,
+            to: "/home"
+        },
+        {
+            name: "Cerrar Sesión",
+            selected: false,
+            to: "/home"
+        }
+    ]);
+
     return (
         <header className='flex items-center justify-around w-full bg-primary0 h-[110px] fixed z-20'>
             <div className='flex w-[40%] justify-around'>
@@ -12,7 +43,8 @@ export default function HeaderDashboard() {
                 </div>
             </div>
             <div className='flex w-[40%] justify-around text-disable items-center'>
-                <Link to="/home" >
+                {options.map((option, index) => <ButtonNav key={index} name={option.name} selected={option.selected} to={option.to}/>)}
+                {/* <Link to="/home" >
                     <p className='hover:text-dark hover:bg-[#6ddbd8] w-[100px] h-[50px] flex items-center justify-center rounded-lg'> Inicio </p>
                 </Link>
                 <Link to="/inventory" >
@@ -26,7 +58,7 @@ export default function HeaderDashboard() {
                 </Link>
                 <Link to="/" >
                     <p className='hover:text-dark hover:bg-[#6ddbd8] w-[100px] h-[50px] flex items-center justify-center rounded-lg'> Volver </p>
-                </Link>
+                </Link> */}
             </div>
         </header>
     )
