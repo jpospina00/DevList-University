@@ -5,7 +5,7 @@ import printer from '../assets/printer.png';
 
 export default function Footer() {
   return (
-    <footer className="w-full h-[500px] bg-secondary0 p-24 mt-20">
+    <footer className="w-full h-[500px] bg-secondary0 p-24">
       <hr className="border w-full border-disable opacity-25" />
       <div className="h-full grid grid-cols-1 md:grid-cols-2 justify-items-center">
         <div className="w-full flex flex-col justify-around">

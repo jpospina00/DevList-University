@@ -8,6 +8,7 @@ import MainDashboard from '../layouts/MainDashboard';
 import Inventory from './Inventory';
 import FormAddDevice from './FormAddDevice';
 import UserRegister from '../components/UserRegister';
+import MainInventory from '../layouts/MainInventory';
 
 export default createBrowserRouter([
     {
@@ -25,9 +26,6 @@ export default createBrowserRouter([
                 }
             },
             {
-                path: '/add-device', element: <FormAddDevice />
-            },
-            {
                 path: '/UserRegister', element: <UserRegister />    
             }
 
@@ -42,7 +40,11 @@ export default createBrowserRouter([
                 }
             },
             {
-                path: '/inventory', element: <Inventory />, loader: () => {
+                path: '/', element: <MainInventory />, children: [
+                    {
+                        path: '/inventory', element: <Inventory />
+                    }
+                ], loader: () => {
                     const token = localStorage.getItem("token");
                     return (!token) && redirect("/")
                 }
