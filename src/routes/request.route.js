@@ -64,5 +64,40 @@ router.put("/deliver-request", async (req, res) => {
     }
 });
 
+router.put("/return-request", async (req, res) => {
+    const transaction = await sequelize.transaction()
+    try {
+        const { status, requestId, listObservation  } = req.body;
+        await requestStatus.updatedRequestStatus({status}, {
+            where: { requestId },
+            returning: true,
+            transaction
+            });
+
+            if (listObservation && Array.isArray(listObservation) && listObservation.length > 0) {
+                for(const observation of listObservation){
+                
+                
+                const observationsData = {
+                    requestId, // Asegúrate de que requestId esté relacionado con el ítem
+                    returnCommentTeacher: observation.text, // La observación del dispositivo
+                    deviceId: observation.deviceId, // El ID del dispositivo
+                }
+    
+                await requestItems.updatedRequestItems(observationsData, { where: {
+                    requestId: requestId, // Condición donde requestId coincida
+                            deviceId: observation.deviceId, // Condición donde deviceId coincida
+                } ,transaction });
+            }
+            }
+            await transaction.commit();
+        return res.status(200).json({ message: "Request updated successfully" });
+    } catch (error) {
+        await transaction.rollback();
+        console.log(error);
+        res.status(500).json({ error: error.message });
+    }
+});
+
 
 export default router;

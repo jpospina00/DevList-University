@@ -18,6 +18,20 @@ export class RequestItemsService {
       throw new Error(`Error creating RequestItems: ${error.message}`);
     }
   }
+
+  async updatedRequestItems(data,  options = {}) {
+    try {
+      
+        const [request] = await RequestItems.update(data, options);
+        if (request === 0) {
+          throw new Error("No rows updated. Please check the request ID.");
+      }
+        return request;
+      
+    } catch (error) {
+      throw new Error(`Error creating RequestItems: ${error.message}`);
+    }
+  }
 }
 
 export default new RequestItemsService();
