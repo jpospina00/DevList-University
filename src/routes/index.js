@@ -3,6 +3,7 @@ import userRoutes from './user.route.js';
 import authRoutes from './auth.route.js';
 import deviceRouter from './device.router.js';
 import scheduleRouter from './schedule.route.js';
+import requestRouter from './request.route.js';
 
 
 /**
@@ -17,6 +18,7 @@ function routerApi(app) {
     router.use('/auth', authRoutes);
     router.use('/device', deviceRouter);
     router.use('/schedule', scheduleRouter);
+    router.use('/request', requestRouter);
 }
 
 export default routerApi;

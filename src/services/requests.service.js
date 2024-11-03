@@ -1,0 +1,17 @@
+import Requests from "../models/request.js";
+
+export class RequestService {
+  constructor() {}
+
+  async createRequest(data,  options = {}) {
+    try {
+      const request = await Requests.create(data, options);
+      return request;
+    } catch (error) {
+      throw new Error(`Error creating Requests: ${error.message}`);
+    }
+  }
+}
+
+// Exporta una instancia de la clase RequestService
+export default new RequestService();
