@@ -48,5 +48,21 @@ router.post("/create-request", async (req, res) => {
     }
 });
 
+router.put("/deliver-request", async (req, res) => {
+    try {
+        const { status, requestId  } = req.body;
+        await requestStatus.updatedRequestStatus({status}, {
+            where: { requestId },
+            returning: true
+            });
+
+        return res.status(200).json({ message: "Request updated successfully" });
+    } catch (error) {
+
+        console.log(error);
+        res.status(500).json({ error: error.message });
+    }
+});
+
 
 export default router;
