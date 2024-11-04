@@ -12,7 +12,7 @@ import { sendAccountCreationEmail } from "../tools/emails.js";
 
 const router = express.Router();
 const userService = new UserService();
-const roleService = new RoleService();
+const  roleService = new RoleService();
 
 /**
  * Retrieves all users.
@@ -69,9 +69,10 @@ router.post("/create-user",authenticateToken, validateRequestBody(createUserSche
       roleId: roleId,
       password: hashedPassword, 
     });
-    await sendAccountCreationEmail(email, name);
+    await sendAccountCreationEmail(email, name, randomPassword);
     res.status(201).json({ message: "Create user successful" });
   } catch (error) {
+    console.log(error);
     res.status(401).json({ message: "Invalid credentials", error: true });
   }
 });
@@ -178,6 +179,16 @@ router.patch("/activation-user/:id",authenticateToken, async (req, res) => {
     res.status(400).json({ message: error.message, error: true });
   }
 });
+
+router.get("/roles", async (_, res) => {
+  try {
+    const roles = await roleService.getAllRoles();
+    return res.status(200).json(roles);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+}
+);
 
 
 export default router;

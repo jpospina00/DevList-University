@@ -55,7 +55,7 @@ export const sendPasswordResetEmail = async (to, name, resetLink) => {
         console.log('Email sent: ' + info.response);
 }
 
-export const sendAccountCreationEmail = async (to, name) => {
+export const sendAccountCreationEmail = async (to, name, password) => {
     const mailOptions = {
         from: config.email,
         to, 
@@ -77,6 +77,10 @@ export const sendAccountCreationEmail = async (to, name) => {
                             Iniciar sesión
                         </a>
                     </div>
+
+                    <p style="font-size: 14px; color: #999;">
+                        Su contraseña temporal es: <strong>${password}</strong>.
+                    </p>
                     
                     <p style="font-size: 14px; color: #999;">
                         Si tienes alguna pregunta o necesitas asistencia, no dudes en contactarnos.

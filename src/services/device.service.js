@@ -20,14 +20,61 @@ class DeviceService {
     }
   }
 
-  async getAllDevices() {
+  async getAllDevices(page = 1, pageSize = 10) {
     try {
-      const devices = await Device.findAll();
-      return devices;
+        // Configurar paginación
+        const offset = (page - 1) * pageSize;
+        const limit = pageSize;
+
+        // Obtener todos los dispositivos con paginación
+        const devices = await Device.findAndCountAll({
+            limit,
+            offset,
+            include: [
+                {
+                    model: DeviceType,
+                    attributes: ['name'], // Obtener solo el nombre del tipo de dispositivo
+                    include: [
+                        {
+                            model: Stock,
+                            attributes: ['quantity'], // Obtener la cantidad de stock
+                        },
+                    ],
+                },
+                {
+                    model: Warehouse, // Agregar la relación con Warehouse
+                    attributes: ['name'], // Obtener solo el nombre del almacén
+                },
+                {
+                    model: DeviceStatus, // Agregar la relación con DeviceStatus
+                    attributes: ['name'], // Obtener el nombre del estado del dispositivo
+                }
+            ],
+        });
+
+        // Formatear el resultado para que incluya la información deseada
+        const result = {
+            totalItems: devices.count, // Número total de dispositivos
+            totalPages: Math.ceil(devices.count / pageSize), // Número total de páginas
+            currentPage: page, // Página actual
+            data: devices.rows.map(device => ({
+                deviceId: device.deviceId,
+                name: device.name,
+                urlPicture: device.urlPicture,
+                warehouseId: device.warehouseId,
+                warehouseName: device.Warehouse ? device.Warehouse.name : null, // Nombre del almacén
+                deviceTypeId: device.deviceTypeId,
+                deviceTypeName: device.DeviceType.name,
+                quantity: device.DeviceType.Stocks.length > 0 ? device.DeviceType.Stocks[0].quantity : null,
+                deviceStatus: device.DeviceStatus ? device.DeviceStatus.name : null, // Estado del dispositivo
+            })),
+        };
+
+        return result;
     } catch (error) {
-      throw new Error(`Error fetching devices: ${error.message}`);
+        throw new Error(`Error fetching devices: ${error.message}`);
     }
-  }
+}
 
   async deleteAllDevices() {
     try {

@@ -113,7 +113,7 @@ router.post("/", authenticateToken, async (req, res) => {
       console.log(filters);
       devices = await deviceService.getDevicesByFilters(filters, page, pageSize);
     } else {
-      devices = await deviceService.getAllDevices();
+      devices = await deviceService.getAllDevices(page, pageSize);
     }
     res.status(200).json(devices);
   } catch (error) {
