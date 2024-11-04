@@ -17,15 +17,30 @@ export default function Inventory() {
     const [searchValues, setSearchValues] = useState("");
     const [open, setOpen] = useState(false);
     const [totalPages, setTotalPages] = useState(0);
+    const [next, setNext] = useState(null);
+    const [prev, setPrev] = useState(null);
+    const [current, setCurrent] = useState(1);
 
     const handleSearch = () => {
         setSearchValues(search.current.value?.trim());
     };
 
+    const handleNext = () => {
+        if (next <= totalPages) {
+            setCurrent(current + 1);
+        }
+    }
+
+    const handlePrev = () => {
+        if (prev >= 0) {
+            setCurrent(current - 1);
+        }
+    }
+
     useEffect(() => {
         console.log("hola")
         let filters = {
-            pageSize: 4,
+            pageSize: 20,
             page: 1
         };
         if (searchValues) {
@@ -33,7 +48,7 @@ export default function Inventory() {
                 filters: {
                     name: searchValues
                 },
-                pageSize: 4,
+                pageSize: 20,
                 page: 1
             };
         }
@@ -42,6 +57,8 @@ export default function Inventory() {
             console.log(res);
             setDevices(res.data.data);
             setTotalPages(res.data.totalPages);
+            // setNext(res.data.currentPage);
+            // setPrev((res.data.currentPage - 1) <= 0 ? null, res.data.currentPage - 1);
         }).catch((err) => {
             setNotFound(!notFound);
         })
@@ -129,8 +146,10 @@ export default function Inventory() {
                 <div className="pb-20 w-[90%] flex justify-between items-center text-secondary0">
                     <p> Página 1 de {totalPages} </p>
                     <div className="w-[30%] flex justify-around">
-                        <button disabled className="w-[100px] h-[30px] border border-secondary0 rounded-lg hover:bg-secondary0Hover hover:text-disable"> Volver </button>
-                        <button disabled className="w-[100px] h-[30px] border border-secondary0 rounded-lg hover:bg-secondary0Hover hover:text-disable"> Siguiente </button>
+                        {/* {prev && } */}
+                        <button onClick={handlePrev} disabled className="w-[100px] h-[30px] border border-secondary0 rounded-lg hover:bg-secondary0Hover hover:text-disable"> Volver </button>
+                        {/* {next && } */}
+                        <button onClick={handleNext} disabled className="w-[100px] h-[30px] border border-secondary0 rounded-lg hover:bg-secondary0Hover hover:text-disable"> Siguiente </button>
                     </div>
                 </div>
             </div>
