@@ -161,4 +161,32 @@ router.get('/device-type', async (req, res) => {
   }
 });
 
+/**
+ * Deletes a device and its associated image from Google Drive.
+ *
+ * @param {string} req.params.id - The ID of the device to be deleted.
+ */
+router.put(
+  "/:id",
+  authenticateToken,
+  async (req, res) => {
+    const deviceId = req.params.id;
+
+    try {
+      // Obtener el dispositivo de la base de datos
+      console.log(deviceId);
+      const device = await deviceService.getDeviceById(deviceId);
+
+      // Eliminar el dispositivo de la base de datos
+      const status = await deviceService.getStatusByDeviceId('Eliminado');
+      console.log(status);
+      await deviceService.updateDevice(deviceId, { statusId: status.statusId });
+      return res.status(200).json({ message: "Device and image deleted successfully.", ok: true });
+    } catch (error) {
+      console.error("Error deleting device:", error);
+      return res.status(500).json({ error: error.message });
+    }
+  }
+);
+
 export default router;

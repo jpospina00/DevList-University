@@ -146,6 +146,21 @@ class DeviceService {
       throw new Error(`Error deleting device: ${error.message}`);
     }
   }
+
+  async getStatusByDeviceId(name) {
+    try {
+      const status = await DeviceStatus.findOne({
+        where: { name },
+      });
+      if (!status) {
+        throw new Error("Status not found");
+      }
+      return status;
+
+    } catch (error) {
+      throw new Error(`Error fetching status: ${error.message}`);
+  }
+}
 }
 
 export default DeviceService;

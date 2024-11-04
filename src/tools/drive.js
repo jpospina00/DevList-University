@@ -63,3 +63,21 @@ export const uploadFile = async (authClient, fileName, mimeType, imageBuffer) =>
         });
     });
 }
+
+/**
+ * Deletes a file from Google Drive.
+ *
+ * @param {object} authClient - The authentication client for Google API.
+ * @param {string} fileId - The ID of the file to be deleted.
+ * @returns {Promise<void>} - A promise that resolves when the file is deleted.
+ */
+export const deleteFile = async (authClient, fileId) => {
+    const drive = google.drive({ version: 'v3', auth: authClient });
+    try {
+        await drive.files.delete({ fileId });
+        console.log(`File with ID ${fileId} deleted from Google Drive.`);
+    } catch (error) {
+        console.error("Error deleting file from Google Drive:", error);
+        throw error;
+    }
+};
