@@ -73,7 +73,7 @@ export const sendAccountCreationEmail = async (to, name) => {
                     </p>
                     
                     <div style="text-align: center; margin: 30px 0;">
-                        <a href="${config.appUrl}/login" style="background-color: #229799; color: white; text-decoration: none; padding: 10px 20px; border-radius: 5px; font-size: 16px;">
+                        <a href="http://localhost:5173" style="background-color: #229799; color: white; text-decoration: none; padding: 10px 20px; border-radius: 5px; font-size: 16px;">
                             Iniciar sesión
                         </a>
                     </div>
