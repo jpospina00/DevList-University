@@ -76,7 +76,7 @@ router.post('/send-email-recovery',validateRequestBody(getEmailForRecoveryPasswo
       config.jwtSecret, // La clave secreta
       { expiresIn: '1h' } // Tiempo de expiración
     );
-    await sendPasswordResetEmail(email, token);
+    await sendPasswordResetEmail(email, userAuthenticated.name, token);
     res.status(200).json({ message: "Generate token successfully", token });
   } catch (error) {
     res.status(500).json({ message: error.message, error: true });

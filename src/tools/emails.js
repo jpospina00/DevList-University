@@ -11,6 +11,7 @@ const transporter = nodemailer.createTransport({
 
 
 export const sendPasswordResetEmail = async (to, name, resetLink) => {
+    const url = `http://localhost:5173/restablecer-contraseña/${resetLink}`;
     const mailOptions = {
         from: config.email,
         to, 
@@ -30,7 +31,7 @@ export const sendPasswordResetEmail = async (to, name, resetLink) => {
                     </p>
                     
                     <div style="text-align: center; margin: 30px 0;">
-                        <a href="${resetLink}" style="background-color: #229799; color: white; text-decoration: none; padding: 10px 20px; border-radius: 5px; font-size: 16px;">
+                        <a href="${url}" style="background-color: #229799; color: white; text-decoration: none; padding: 10px 20px; border-radius: 5px; font-size: 16px;">
                             Restablecer contraseña
                         </a>
                     </div>
@@ -40,7 +41,7 @@ export const sendPasswordResetEmail = async (to, name, resetLink) => {
                     </p>
                     
                     <p style="font-size: 14px; color: #229799;">
-                        <a href="${resetLink}" style="color: #229799; text-decoration: none;">${resetLink}</a>
+                        <a href="${url}" style="color: #229799; text-decoration: none;">${url}</a>
                     </p>
 
                     <p style="font-size: 14px; color: #999;">Este enlace es válido por 1 hora.</p>
