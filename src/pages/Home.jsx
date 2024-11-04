@@ -47,7 +47,7 @@ export default function Home() {
             name: ""
         };
         console.log(filters);
-        axios.post(`${ApiUrl}device/`, filters, Headers()).then((res) => {
+        axios.post(`${ApiUrl}device/`, filters, Headers('application/json')).then((res) => {
             console.log(res);
             setDevices(res.data);
         }).catch((err) => {
@@ -56,15 +56,20 @@ export default function Home() {
     }, [])
 
     return (
-        <main className="relative top-[105px]">
-            <img className="absolute w-full h-[304px]" src={imgHome} alt="Fondo" />
+        <main className="relative">
+            <img className="absolute w-full h-[300px]" src={imgHome} alt="Fondo" />
             <div className='flex items-center justify-center h-[300px]'>
                 <h1 className='font-montserrat text-5xl'> Pagina Principal </h1>
             </div>
             <Filters />
-            <div className='w-full pt-28 pb-28 grid grid-cols-4 place-items-center gap-14 pl-10 pr-10'>
+            <div className='w-full pt-28 pb-28 grid grid-cols-4 place-items-center gap-14 pl-24 pr-24'>
                 {
-                    devices.map((device, i) => <Card key={i} img={device.urlPicture} title={device.name} available={device.statusId == 1} stock={5} />)
+                    devices.map((device, i) => <Card 
+                    key={i} 
+                    img={"https://drive.google.com/thumbnail?id=" + device.urlPicture} 
+                    title={device.name} 
+                    available={device.statusId == 1} 
+                    stock={5} />)
                 }
             </div>
         </main >

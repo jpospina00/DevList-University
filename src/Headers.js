@@ -1,10 +1,8 @@
-export default () => {
-    console.log('Token: ' + localStorage.getItem('token'));
-
+export default (type) => {
     return {
         headers: {
             'Authorization': `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
-            'Content-Type': 'multipart/form-data'
+            'Content-Type': type
         }
     }
 };

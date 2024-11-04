@@ -23,7 +23,7 @@ export default function Dropdown({ selectedOption, list, handleOptionChange, set
                 className={`border border-dark flex gap-2 flex-col items-center rounded bg-[#e9edf5] absolute w-full transition-all duration-300 ${isOpen ? 'max-h-40 opacity-100 overflow-y-auto' : 'max-h-0 opacity-0 overflow-hidden'}`}
             >
                 {list.map((option) => (
-                    <div key={option.id} title={option.id} className='w-[95%]'>
+                    <div key={option.id + option.name} title={option.id} className='w-[95%]'>
                         <input
                             id={option.name}
                             name="option"

@@ -16,6 +16,7 @@ export default function Inventory() {
     const [notFound, setNotFound] = useState(false);
     const [searchValues, setSearchValues] = useState("");
     const [open, setOpen] = useState(false);
+    const [totalPages, setTotalPages] = useState(0);
 
     const handleSearch = () => {
         setSearchValues(search.current.value?.trim());
@@ -24,12 +25,23 @@ export default function Inventory() {
     useEffect(() => {
         console.log("hola")
         let filters = {
-            name: searchValues
+            pageSize: 4,
+            page: 1
         };
+        if (searchValues) {
+            filters = {
+                filters: {
+                    name: searchValues
+                },
+                pageSize: 4,
+                page: 1
+            };
+        }
         console.log(filters);
-        axios.post(`${ApiUrl}device/`, filters, Headers()).then((res) => {
+        axios.post(`${ApiUrl}device/`, filters, Headers('application/json')).then((res) => {
             console.log(res);
-            setDevices(res.data);
+            setDevices(res.data.data);
+            setTotalPages(res.data.totalPages);
         }).catch((err) => {
             setNotFound(!notFound);
         })
@@ -106,16 +118,16 @@ export default function Inventory() {
                             activo={device.statusId == 1}
                             bodega={device.warehouseId}
                             fecha={device.updatedAt}
-                            img={device.urlPicture}
-                            referencia={"12345"}
-                            tipo={device.deviceId}
+                            img={"https://drive.google.com/thumbnail?id=" + device.urlPicture}
+                            referencia={device.deviceId}
+                            tipo={device.deviceTypeId}
                             title={device.name}
                             open={open}
                             setOpen={setOpen} />)
                     }
                 </div>
                 <div className="pb-20 w-[90%] flex justify-between items-center text-secondary0">
-                    <p> Página 1 de 1 </p>
+                    <p> Página 1 de {totalPages} </p>
                     <div className="w-[30%] flex justify-around">
                         <button disabled className="w-[100px] h-[30px] border border-secondary0 rounded-lg hover:bg-secondary0Hover hover:text-disable"> Volver </button>
                         <button disabled className="w-[100px] h-[30px] border border-secondary0 rounded-lg hover:bg-secondary0Hover hover:text-disable"> Siguiente </button>

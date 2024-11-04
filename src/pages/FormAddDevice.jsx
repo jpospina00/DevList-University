@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import imgAddDevice from '../assets/add-device-img.svg'
 import calendarIcon from '../assets/Calendar.svg';
 import { Link } from 'react-router-dom';
@@ -9,6 +9,7 @@ import axios from 'axios';
 import apiUrl from '../Api.js';
 import Headers from '../Headers.js';
 import Swal from 'sweetalert2';
+import Api from '../Api.js';
 
 export default function FormAddDevice() {
 
@@ -17,7 +18,9 @@ export default function FormAddDevice() {
     const brandDevice = useRef();
     const quantity = useRef();
     const [count, setCount] = useState(0);
+    const [types, setTypes] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
+    const [warehouse, setWarehouse] = useState([]);
     const [isOpenType, setIsOpenType] = useState(false);
     const [selectedImage, setSelectedImage] = useState(null);
     const [selectedOption, setSelectedOption] = useState('');
@@ -25,23 +28,32 @@ export default function FormAddDevice() {
     const [selectedOptionType, setSelectedOptionType] = useState('');
     const [selectedOptionTypeName, setSelectedOptionTypeName] = useState('');
 
-    const warehouse = [
-        {
-            id: 1,
-            name: 'Bodega 1'
-        }
-    ]
-
-    const types = [
-        {
-            id: 1,
-            name: 'laptop'
-        },
-        {
-            id: 2,
-            name: 'camaras'
-        }
-    ]
+    useEffect(() => {
+        axios.get(`${Api}device/warehouses`).then((res) => {
+            console.log(res.data);
+            let warehouseWithIds = [];
+            for (let i = 0; i < res.data.length; i++) {
+                const option = res.data[i];
+                warehouseWithIds.push({ id: option.warehouseId, name: option.name });
+            }
+            console.log(warehouseWithIds);
+            setWarehouse(warehouseWithIds);
+        }).catch((err) => {
+            console.log(err);
+        })
+        axios.get(`${Api}device/device-type`).then((res) => {
+            console.log(res.data);
+            let typesWithIds = [];
+            for (let i = 0; i < res.data.length; i++) {
+                const option = res.data[i];
+                typesWithIds.push({ id: option.deviceTypeId, name: option.name });
+            }
+            console.log(typesWithIds);
+            setTypes(typesWithIds);
+        }).catch((err) => {
+            console.log(err);
+        })
+    }, [])
 
     const loadImage = (event) => {
         setSelectedImage(event.target.files[0]);
@@ -78,14 +90,15 @@ export default function FormAddDevice() {
             let data = {
                 image: selectedImage,
                 deviceName: name.current.value?.trim(),
-                deviceType: parseInt(selectedOptionType),
-                warehouse: parseInt(selectedOption),
+                deviceType: selectedOptionType,
+                warehouse: selectedOption,
                 deviceStatus: 1,
                 deviceDescription: description.current.value?.trim(),
                 brand: brandDevice.current.value?.trim(),
                 quantity: parseInt(quantity.current.value)
             }
-            axios.post(`${apiUrl}device/create`, data, Headers()).then(res => {
+            console.log(data);
+            axios.post(`${apiUrl}device/create`, data, Headers("multipart/form-data")).then(res => {
                 Swal.fire({
                     position: "center",
                     icon: "success",
