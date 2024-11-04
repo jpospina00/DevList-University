@@ -132,7 +132,7 @@ export default function Inventory() {
                     {
                         devices.map((device, i) => <CardInventory
                             key={i}
-                            activo={device.statusId == 1}
+                            activo={device.deviceStatus == "Disponible"}
                             bodega={device.warehouseId}
                             fecha={device.updatedAt}
                             img={"https://drive.google.com/thumbnail?id=" + device.urlPicture}

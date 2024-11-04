@@ -49,7 +49,7 @@ export default function Home() {
         console.log(filters);
         axios.post(`${ApiUrl}device/`, filters, Headers('application/json')).then((res) => {
             console.log(res);
-            setDevices(res.data);
+            setDevices(res.data.data);
         }).catch((err) => {
             setNotFound(!notFound);
         })
@@ -68,7 +68,7 @@ export default function Home() {
                     key={i} 
                     img={"https://drive.google.com/thumbnail?id=" + device.urlPicture} 
                     title={device.name} 
-                    available={device.statusId == 1} 
+                    available={device.deviceStatus == "Disponible"} 
                     stock={5} />)
                 }
             </div>
