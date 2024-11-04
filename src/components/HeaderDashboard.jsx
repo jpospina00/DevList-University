@@ -42,7 +42,7 @@ export default function HeaderDashboard() {
     }
 
     return (
-        <header className='flex items-center justify-around w-full bg-primary0 h-[15%] z-20'>
+        <header className='flex items-center justify-around w-full bg-primary0 h-[15%]'>
             <div className='flex w-[40%] justify-around'>
                 <img className='w-[110px] h-[95px]' src={logo} alt="Logo" />
                 <div className='flex w-[400px] justify-around items-center text-5xl font-lilita'>

@@ -18,7 +18,7 @@ export default function Siderbar() {
     }, {
         title: "Añadir dispositivo",
         img: addDevice,
-        to: "/inventory"
+        to: "/add-device"
     }, {
         title: "Reportes",
         img: IconReport,

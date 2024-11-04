@@ -26,6 +26,9 @@ export default createBrowserRouter([
                 }
             },
             {
+                path: '/add-device', element: <FormAddDevice />    
+            },
+            {
                 path: '/UserRegister', element: <UserRegister />    
             }
 

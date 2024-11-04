@@ -5,9 +5,14 @@ import img from '../assets/Images/Images1.png';
 import img2 from "../assets/Images/Images2.png";
 import img3 from "../assets/Images/Images3.png";
 import img4 from "../assets/Images/Images4.png";
-
+import { useEffect, useState } from 'react';
+import ApiUrl from "../Api.js";
+import Headers from "../Headers.js";
+import axios from 'axios';
 
 export default function Home() {
+
+    const [devices, setDevices] = useState([]);
 
     const data = [
         {
@@ -36,6 +41,20 @@ export default function Home() {
         },
     ];
 
+    useEffect(() => {
+        console.log("hola")
+        let filters = {
+            name: ""
+        };
+        console.log(filters);
+        axios.post(`${ApiUrl}device/`, filters, Headers()).then((res) => {
+            console.log(res);
+            setDevices(res.data);
+        }).catch((err) => {
+            setNotFound(!notFound);
+        })
+    }, [])
+
     return (
         <main className="relative top-[105px]">
             <img className="absolute w-full h-[304px]" src={imgHome} alt="Fondo" />
@@ -45,7 +64,7 @@ export default function Home() {
             <Filters />
             <div className='w-full pt-28 pb-28 grid grid-cols-4 place-items-center gap-14 pl-10 pr-10'>
                 {
-                    data.map((device, i) => <Card key={i} img={device.img} title={device.title} available={device.available} stock={device.stock}/>)
+                    devices.map((device, i) => <Card key={i} img={device.urlPicture} title={device.name} available={device.statusId == 1} stock={5} />)
                 }
             </div>
         </main >
