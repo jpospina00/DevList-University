@@ -9,6 +9,7 @@ import Inventory from './Inventory';
 import FormAddDevice from './FormAddDevice';
 import UserRegister from '../components/UserRegister';
 import MainInventory from '../layouts/MainInventory';
+import RequestDevices from './RequestDevices';
 
 export default createBrowserRouter([
     {
@@ -26,10 +27,10 @@ export default createBrowserRouter([
                 }
             },
             {
-                path: '/add-device', element: <FormAddDevice />    
+                path: '/add-device', element: <FormAddDevice />
             },
             {
-                path: '/UserRegister', element: <UserRegister />    
+                path: '/UserRegister', element: <UserRegister />
             }
 
         ]
@@ -43,6 +44,10 @@ export default createBrowserRouter([
                 }
             },
             {
+                path: '/request-devices', element: <RequestDevices />
+
+            },
+            {
                 path: '/', element: <MainInventory />, children: [
                     {
                         path: '/inventory', element: <Inventory />
@@ -52,7 +57,7 @@ export default createBrowserRouter([
                     return (!token) && redirect("/")
                 }
             }
-          
-        ]       
+
+        ]
     },
 ])

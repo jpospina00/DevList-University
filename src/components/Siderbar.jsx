@@ -22,7 +22,7 @@ export default function Siderbar() {
     }, {
         title: "Reportes",
         img: IconReport,
-        to: "/inventory"
+        to: "/request-devices"
     }]);
 
     return (
