@@ -1,6 +1,6 @@
 import imagen1 from "../assets/Images/Images1.png";
 
-export default function CardDeviceRequest() {
+export default function CardDeviceRequest({ setShow }) {
     return (
         <div className="w-full h-[200px] bg-[#cfd7dc] rounded-3xl flex justify-around items-center border border-dark">
             <img className="h-[90%] border border-dark rounded-3xl" src={imagen1} alt="Imagen1" />
@@ -11,7 +11,8 @@ export default function CardDeviceRequest() {
                 <p className="font-montserrat font-medium text-base"> N° Bodega: 1 </p>
             </div>
             <div className="w-[15%] h-[80%] flex flex-col items-end justify-between">
-                <button className="group w-full h-[40px] border-2 border-[#9B2C2C] bg-[#F56565] hover:bg-[#c20000] rounded-lg text-disable flex justify-center items-center gap-5">
+                <button onClick={() => setShow(true)}
+                    className="group w-full h-[40px] border-2 border-[#9B2C2C] bg-[#F56565] hover:bg-[#c20000] rounded-lg text-disable flex justify-center items-center gap-5">
                     <p> Eliminar </p>
                     <div className="relative overflow-hidden h-[100%] flex flex-col justify-center">
                         <svg viewBox="0 0 1.625 1.625" className="absolute -top-7 fill-disable delay-100 group-hover:top-4 group-hover:animate-[spin_1.4s] group-hover:duration-1000" height={15} width={15}>
