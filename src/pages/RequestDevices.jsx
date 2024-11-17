@@ -1,6 +1,7 @@
 import { useState } from "react";
 import CardDeviceRequest from "../components/CardDeviceRequest";
 import PopupDelete from "../components/PopupDelete";
+import PopupRequest from "../components/PopupRequest";
 
 export default function RequestDevices() {
 
@@ -8,13 +9,12 @@ export default function RequestDevices() {
 
     return (
         <>
+            <PopupRequest/>
             {show && <PopupDelete setShow={setShow} show={show}/>}
             <div className="w-full h-full pt-5 flex flex-col items-center">
                 <div className="flex w-[90%] justify-between pb-5">
-                    <h1 className="font-montserrat font-semibold text-4xl"> Equipos Solicitados </h1>
+                    <h1 className="font-montserrat font-semibold text-4xl"> Equipos a solicitar </h1>
                     <div className="flex w-3/6 justify-end gap-5">
-                        <button className="w-[145px] h-[30px] border border-secondary0 text-secondary0 rounded-lg hover:bg-secondary0Hover hover:text-disable"> Volver </button>
-                        <button className="w-[145px] h-[30px] border border-secondary0 text-secondary0 rounded-lg hover:bg-secondary0Hover hover:text-disable"> Pedir equipo </button>
                         <button className="w-[145px] h-[30px] border border-secondary0 text-secondary0 rounded-lg hover:bg-secondary0Hover hover:text-disable"> Historial </button>
                     </div>
                 </div>
@@ -27,7 +27,11 @@ export default function RequestDevices() {
                         <CardDeviceRequest setShow={setShow}/>
                         <CardDeviceRequest setShow={setShow}/>
                     </div>
-                    <h2 className="font-montserrat font-bold text-2xl pt-5"> Total de dispositivos 4 </h2>
+                    <div className="flex justify-between h-[10%] items-center">
+                        <h2 className="font-montserrat font-bold text-2xl"> Total de dispositivos 4 </h2>
+                        <button className="w-[145px] h-[30px] border border-secondary0 text-secondary0 rounded-lg hover:bg-secondary0Hover hover:text-disable"> Solicitar </button>
+                    </div>
+                  
                 </div>
             </div>
         </>
