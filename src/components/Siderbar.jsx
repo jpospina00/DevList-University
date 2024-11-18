@@ -10,24 +10,42 @@ export default function Siderbar() {
     const [options, setOptions] = useState([{
         title: "Usuarios",
         img: iconUser,
-        to: "/inventory"
+        selected: false,
+        to: "/users"
     }, {
         title: "Dispositivos",
         img: imgDevice,
+        selected: false,
         to: "/inventory"
     }, {
         title: "Añadir dispositivo",
         img: addDevice,
+        selected: false,
         to: "/add-device"
     }, {
         title: "Reportes",
         img: IconReport,
-        to: "/request-devices"
+        selected: false,
+        to: "/inventory"
     }]);
 
+    const updateSelected = (option) => {
+        let optionsSelected = [];
+        for (let i = 0; i < options.length; i++) {
+            let optionFor = options[i];
+            if (optionFor.title == option.title) {
+                options[i].selected = true;
+            } else {
+                options[i].selected = false;
+            }
+            optionsSelected.push(optionFor);
+        }
+        setOptions(optionsSelected);
+    }
+
     return (
-        <div className="text-disable gap-20 flex flex-col items-center bg-[#18333F] h-[100%] pt-5">
-            { options.map((options, index) => <ButtonSidebar key={index} title={options.title} img={options.img} to={options.to} />) }
+        <div className="text-disable gap-20 flex flex-col items-center bg-[#18333F] pt-5">
+            {options.map((options, index) => <ButtonSidebar key={index} title={options.title} img={options.img} to={options.to} selected={options.selected} updateSelected={updateSelected} />)}
         </div>
     )
 }

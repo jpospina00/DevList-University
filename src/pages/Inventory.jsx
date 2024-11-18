@@ -17,8 +17,8 @@ export default function Inventory() {
     const [searchValues, setSearchValues] = useState("");
     const [open, setOpen] = useState(false);
     const [totalPages, setTotalPages] = useState(0);
-    const [next, setNext] = useState(null);
-    const [prev, setPrev] = useState(null);
+    const [next, setNext] = useState(0);
+    const [prev, setPrev] = useState(0);
     const [current, setCurrent] = useState(1);
 
     const handleSearch = () => {
@@ -26,30 +26,31 @@ export default function Inventory() {
     };
 
     const handleNext = () => {
-        if (next <= totalPages) {
+        console.log(current);
+        if (current <= totalPages) {
             setCurrent(current + 1);
         }
     }
 
     const handlePrev = () => {
-        if (prev >= 0) {
+        console.log(current);
+        if (current > 1) {
             setCurrent(current - 1);
         }
     }
 
     useEffect(() => {
-        console.log("hola")
         let filters = {
-            pageSize: 20,
-            page: 1
+            pageSize: 4,
+            page: current
         };
         if (searchValues) {
             filters = {
                 filters: {
                     name: searchValues
                 },
-                pageSize: 20,
-                page: 1
+                pageSize: 4,
+                page: current
             };
         }
         console.log(filters);
@@ -62,7 +63,7 @@ export default function Inventory() {
         }).catch((err) => {
             setNotFound(!notFound);
         })
-    }, [searchValues]);
+    }, [searchValues, current]);
 
     const data = [
         {
@@ -144,12 +145,10 @@ export default function Inventory() {
                     }
                 </div>
                 <div className="pb-20 w-[90%] flex justify-between items-center text-secondary0">
-                    <p> Página 1 de {totalPages} </p>
+                    <p> Página {current} de {totalPages} </p>
                     <div className="w-[30%] flex justify-around">
-                        {/* {prev && } */}
-                        <button onClick={handlePrev} disabled className="w-[100px] h-[30px] border border-secondary0 rounded-lg hover:bg-secondary0Hover hover:text-disable"> Volver </button>
-                        {/* {next && } */}
-                        <button onClick={handleNext} disabled className="w-[100px] h-[30px] border border-secondary0 rounded-lg hover:bg-secondary0Hover hover:text-disable"> Siguiente </button>
+                        {(current > 1) && <button onClick={handlePrev} className="w-[100px] h-[30px] border border-secondary0 rounded-lg hover:bg-secondary0Hover hover:text-disable"> Volver </button>}
+                        {(current < totalPages) && <button onClick={handleNext} className="w-[100px] h-[30px] border border-secondary0 rounded-lg hover:bg-secondary0Hover hover:text-disable"> Siguiente </button>}
                     </div>
                 </div>
             </div>

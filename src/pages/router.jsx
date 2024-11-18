@@ -10,6 +10,7 @@ import FormAddDevice from './FormAddDevice';
 import UserRegister from '../components/UserRegister';
 import MainInventory from '../layouts/MainInventory';
 import RequestDevices from './RequestDevices';
+import Users from './Users';
 
 export default createBrowserRouter([
     {
@@ -25,14 +26,7 @@ export default createBrowserRouter([
                     const token = localStorage.getItem("token");
                     return (token) && redirect("/home");
                 }
-            },
-            {
-                path: '/add-device', element: <FormAddDevice />
-            },
-            {
-                path: '/UserRegister', element: <UserRegister />
             }
-
         ]
     },
     {
@@ -44,17 +38,30 @@ export default createBrowserRouter([
                 }
             },
             {
-                path: '/request-devices', element: <RequestDevices />
-
+                path: '/request-devices', element: <RequestDevices />, loader: () => {
+                    const token = localStorage.getItem("token");
+                    const user = JSON.parse(localStorage.getItem("user"));
+                    return (!token) && (user.role != 1) && redirect("/home");
+                }
             },
             {
                 path: '/', element: <MainInventory />, children: [
                     {
                         path: '/inventory', element: <Inventory />
+                    },
+                    {
+                        path: '/users', element: <Users />
+                    },
+                    {
+                        path: '/add-device', element: <FormAddDevice />
+                    },
+                    {
+                        path: '/UserRegister', element: <UserRegister />
                     }
                 ], loader: () => {
                     const token = localStorage.getItem("token");
-                    return (!token) && redirect("/")
+                    const user = JSON.parse(localStorage.getItem("user"));
+                    return (!token) && (user.role != 1) && redirect("/home");
                 }
             }
 

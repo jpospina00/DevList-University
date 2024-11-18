@@ -24,7 +24,11 @@ export default function HeaderDashboard() {
     }, {
         name: "Cerrar Sesión",
         selected: false,
-        to: "/home"
+        to: "/",
+        onClick: () => {
+            localStorage.removeItem("token");
+            window.location.reload();
+        }
     }]);
 
     const updateSelected = (option) => {
@@ -51,7 +55,7 @@ export default function HeaderDashboard() {
                 </div>
             </div>
             <div className='flex w-[40%] justify-around text-disable items-center'>
-                {options.map((option, index) => <ButtonNav key={index} name={option.name} selected={option.selected} to={option.to} updateSelected={updateSelected} />)}
+                {options.map((option, index) => <ButtonNav key={index} name={option.name} selected={option.selected} to={option.to} updateSelected={updateSelected} onClick={option.onClick} />)}
             </div>
         </header>
     )

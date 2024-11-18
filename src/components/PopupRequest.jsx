@@ -3,7 +3,7 @@ import InputsDatepicker from "./InputsDatepicker";
 import DropDown from "./Dropdown";
 
 
-export default function PopupRequest() {
+export default function PopupRequest({ setShowRequest }) {
   const [showCalendar, setShowCalendar] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
   const [day, setDay] = useState("");
@@ -13,6 +13,14 @@ export default function PopupRequest() {
   const [selectedOption, setSelectedOption] = useState("");
   const [selectedOptionName, setSelectedOptionName] = useState("");
   const [list, setList] = useState([]);
+  const [value, setValue] = useState(0);
+
+  const handleChange = (e) => {
+    const newValue = Number(e.target.value);
+    if (newValue >= 0) {
+      setValue(newValue);
+    }
+  };
 
   useEffect(() => {
     generateHours();
@@ -67,7 +75,7 @@ export default function PopupRequest() {
             setShowCalendar={setShowCalendar}
           />
           <div className="flex flex-col gap-2 w-[30%] font-montserrat">
-            <label>hora</label>
+            <label className="text-[80%]">hora</label>
             <DropDown
               handleOptionChange={handleOptionChange}
               isOpen={isOpen}
@@ -78,18 +86,21 @@ export default function PopupRequest() {
             />
           </div>
           <div className="flex flex-col gap-2 items-end w-[25%] ">
-            <label className="w-full font-montserrat">
-                horas a usar
+            <label className="w-full font-montserrat text-[80%]">
+              horas a usar
             </label>
             <input
               required
+              value={value}
+              onChange={handleChange}
               className="p-2 w-full border border-dark rounded-lg hover:border-secondary0Hover outline-secondary0Hover"
               type="number"
             />
           </div>
         </div>
         <div className="flex justify-center gap-7 w-full h-[10%] font-montserrat">
-          <button className="w-1/5 h-full border border-secondary0 text-secondary0 rounded-lg hover:bg-secondary0Hover hover:text-disable">
+          <button onClick={() => setShowRequest(false)}
+            className="w-1/5 h-full border border-secondary0 text-secondary0 rounded-lg hover:bg-secondary0Hover hover:text-disable">
             Cancelar
           </button>
           <button className="w-1/5 h-full border border-secondary0 text-secondary0 rounded-lg hover:bg-secondary0Hover hover:text-disable">

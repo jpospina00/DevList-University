@@ -1,7 +1,9 @@
 import { useState } from "react";
 import CheckedIcon from "../assets/Checked.svg";
+import profesor from "../assets/Profesor.png";
+import monitor from "../assets/Monitor.png";
 
-export default function CardInventory({ img, title, referencia, bodega, tipo, fecha, activo, open, setOpen }) {
+export default function CardUsers({ userId, name, email, phone, createdAt, roleId, activo, open, setOpen }) {
 
     const [checked, setChecked] = useState(false);
     const [active, setActive] = useState(activo);
@@ -15,23 +17,23 @@ export default function CardInventory({ img, title, referencia, bodega, tipo, fe
     };
 
     return (
-        
+
         <div className='flex items-center w-full gap-4'>
-            <input id={referencia} type="checkbox" onChange={handleCheckboxChange} className="hidden" />
-            <label htmlFor={referencia} className={`cursor-pointer border border-[#000000] w-[30px] h-[30px] flex items-center justify-center ${checked ? "bg-[#14890D]" : ""}`}>
+            <input id={userId} type="checkbox" onChange={handleCheckboxChange} className="hidden" />
+            <label htmlFor={userId} className={`cursor-pointer border border-[#000000] w-[30px] h-[30px] flex items-center justify-center ${checked ? "bg-[#14890D]" : ""}`}>
                 {checked && <img src={CheckedIcon} alt="Check" />}
             </label>
             <div className="border flex w-[90%] rounded-[35px] bg-[#cfd7dc] h-[173px]">
-                <img className='border rounded-[23px] w-[200px] m-3' src={img} alt="Card" />
+                {roleId == 3 ? <img className='border rounded-[23px] w-[200px] m-3' src={profesor} alt="Card" />
+                    : <img className='border rounded-[23px] w-[200px] m-3' src={monitor} alt="Card" />}
                 <div className='flex items-center justify-between w-full m-5 text-[16px] text-[#000000]'>
                     <div className='flex h-full flex-col justify-around'>
-                        <h1>Nombre: {title} </h1>
-                        <p> N° Referencia: {referencia} </p>
-                        <p> N° Bodega: {bodega} </p>
-                        <p> Tipo de dispositivo: {tipo} </p>
+                        <h1> Nombre: {name} </h1>
+                        <p> Correo: {email} </p>
+                        <p> Numero de Telefono: {phone} </p>
                     </div>
                     <div className='flex h-full flex-col justify-around items-end'>
-                        <p> Agregado el {fecha} </p>
+                        <p> Agendado {createdAt} </p>
                         <button disabled={!checked} onClick={() => setOpen(!open)}
                             className={`flex gap-2 outline-none ${checked ? "text-dark" : "text-[#B1B1B1]"}`}>
                             <p> Editar </p>
@@ -42,13 +44,12 @@ export default function CardInventory({ img, title, referencia, bodega, tipo, fe
                         </button>
                         <div className="flex items-center justify-center gap-2">
                             <p> Activa/Desactivar </p>
-                            <input id={`active${referencia}`} type="checkbox" className="hidden" onChange={handleActiveChange} />
+                            <input id={`active${userId}`} type="checkbox" className="hidden" onChange={handleActiveChange} />
                             <label className={`w-[25px] h-[13px] flex rounded border border-[#18333F] relative ${active ? "bg-[#229799]" : "bg-[#ffffff]"}`}
-                                htmlFor={`active${referencia}`}>
+                                htmlFor={`active${userId}`}>
                                 <div className={`absolute w-[20px] h-[20px] border border-[#18333F] rounded-full ${active ? "-right-2 -top-1 bg-[#229799]" : "-left-2 -top-1 bg-[#ffffff]"}`}></div>
                             </label>
                         </div>
-                        <p className="hover:underline cursor-pointer"> Mas Detalles </p>
                     </div>
                 </div>
             </div>

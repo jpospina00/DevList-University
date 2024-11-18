@@ -2,19 +2,10 @@ import calendarIcon from "../assets/calendarIcon.svg";
 import DatePicker from "./DatePicker";
 import clearIcon from "../assets/clearIcon.svg";
 
-export default function InputsDatepicker({
-  showCalendar,
-  day,
-  month,
-  year,
-  getDate,
-  setSelectedDate,
-  selectedDate,
-  setShowCalendar,
-}) {
+export default function InputsDatepicker({ showCalendar, day, month, year, getDate, setSelectedDate, selectedDate, setShowCalendar }) {
   return (
     <div className="flex flex-col justify-around w-4/5 h-16 gap-2 font-montserrat">
-      <label> Fecha </label>
+      <label className="text-[80%]"> Fecha </label>
       <div className="flex w-full justify-between items-center relative">
         <input
           onClick={() => setShowCalendar(true)}
@@ -72,7 +63,7 @@ export default function InputsDatepicker({
             <path d="M8 12H16" stroke-width="1.5"></path>
             <path d="M12 16V8" stroke-width="1.5"></path>
           </svg>
-                 
+
         </button>
         {showCalendar && (
           <DatePicker

@@ -5,7 +5,7 @@ import Footer from "../components/Footer"
 
 export default function MainDashboard() {
     return (
-        <div className="w-full h-screen">
+        <div className="w-full">
             <HeaderDashboard />
             <Outlet />
             <Footer />

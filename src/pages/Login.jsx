@@ -34,21 +34,19 @@ export default function Login() {
       password: password.current.value?.trim(),
     };
     console.log(data)
-    await axios
-      .post(`${Api}auth/login`, data)
-      .then((res) => {
-        localStorage.setItem("token", JSON.stringify(res.data.token));
-        window.location.replace("/inventory");
-      })
-      .catch((error) => {
-        console.log(error);
-        setLoader(false);
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "!Credenciales Incorrectas¡"
-        });
+    await axios.post(`${Api}auth/login`, data).then((res) => {
+      localStorage.setItem("token", JSON.stringify(res.data.token));
+      localStorage.setItem("user", JSON.stringify(JSON.stringify({ name: res.data.name, role: res.data.role })));
+      window.location.replace("/inventory");
+    }).catch((error) => {
+      console.log(error);
+      setLoader(false);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "!Credenciales Incorrectas¡"
       });
+    });
   };
   return (
     <main className="flex justify-center items-center relative w-screen h-screen">

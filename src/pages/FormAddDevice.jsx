@@ -1,8 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import imgAddDevice from '../assets/add-device-img.svg'
-import calendarIcon from '../assets/Calendar.svg';
 import { Link } from 'react-router-dom';
-import DatePicker from '../components/DatePicker';
 import Dropdown from '../components/Dropdown';
 import InputText from '../components/InputText';
 import axios from 'axios';
@@ -136,8 +134,8 @@ export default function FormAddDevice() {
     }
 
     return (
-        <div className="h-screen w-full flex justify-around items-center">
-            <div className='flex flex-col justify-center gap-8 items-center font-montserrat font-semibold w-2/4 h-full shadow-[0_35px_35px_35px_rgba(0,0,0,0.3)]'>
+        <div className="w-full h-screen flex">
+            <div className='flex flex-col justify-center gap-14 items-center font-montserrat font-semibold w-2/4 shadow-[0_35px_35px_35px_rgba(0,0,0,0.3)]'>
                 <h1 className='text-2xl'> Agregar un dispositivo </h1>
                 <div className='flex w-4/5 gap-5'>
                     <div className='flex flex-col justify-around w-4/5 h-16'>
