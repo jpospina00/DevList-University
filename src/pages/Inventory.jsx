@@ -58,8 +58,6 @@ export default function Inventory() {
             console.log(res);
             setDevices(res.data.data);
             setTotalPages(res.data.totalPages);
-            // setNext(res.data.currentPage);
-            // setPrev((res.data.currentPage - 1) <= 0 ? null, res.data.currentPage - 1);
         }).catch((err) => {
             setNotFound(!notFound);
         })

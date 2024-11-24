@@ -14,9 +14,9 @@ export default function HeaderDashboard() {
         selected: false,
         to: "/inventory"
     }, {
-        name: "Reportes",
+        name: "Devoluciones",
         selected: false,
-        to: "/home"
+        to: "/return-devices"
     }, {
         name: "Perfil",
         selected: false,

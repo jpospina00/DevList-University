@@ -11,6 +11,7 @@ import UserRegister from '../components/UserRegister';
 import MainInventory from '../layouts/MainInventory';
 import RequestDevices from './RequestDevices';
 import Users from './Users';
+import FormReturnDevice from './FormReturnDevice';
 
 export default createBrowserRouter([
     {
@@ -43,8 +44,9 @@ export default createBrowserRouter([
                     const user = JSON.parse(localStorage.getItem("user"));
                     return (!token) && (user.role != 1) && redirect("/home");
                 }
-            },
-            {
+            }, {
+                path: '/return-devices', element: <FormReturnDevice />
+            }, {
                 path: '/', element: <MainInventory />, children: [
                     {
                         path: '/inventory', element: <Inventory />

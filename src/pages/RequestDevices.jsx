@@ -12,7 +12,7 @@ export default function RequestDevices() {
         <>
             {showRequest && <PopupRequest setShowRequest={setShowRequest} />}
             {show && <PopupDelete setShow={setShow} show={show} />}
-            <div className="w-full h-full pt-5 flex flex-col items-center">
+            <div className="w-full h-full pt-5 pb-5 flex flex-col items-center">
                 <div className="flex w-[90%] justify-between pb-5">
                     <h1 className="font-montserrat font-semibold text-4xl"> Equipos a solicitar </h1>
                     <div className="flex w-3/6 justify-end gap-5">
