@@ -1,0 +1,17 @@
+trigger:
+- back  # Cambia esto a la rama que desees
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- script: |
+    echo "Buscando 'console.log' en el código..."
+    # Buscar en todos los archivos JavaScript del repositorio
+    if grep -r "console.log" .; then
+      echo "Se encontró 'console.log' en el código. Por favor elimínalo."
+      exit 1
+    else
+      echo "No se encontró 'console.log'. El código está limpio."
+    fi
+  displayName: 'Validar ausencia de console.log'
