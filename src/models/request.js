@@ -11,7 +11,7 @@ const Requests = sequelize.define('Requests', {
   },
   monitorId: {
     type: DataTypes.INTEGER, 
-    allowNull: false,
+    allowNull: true,
     field: 'monitor_id',
     references: {
       model: 'users',

@@ -112,4 +112,8 @@ router.post('/recovery-password', authenticateToken, validateRequestBody(recover
   }
 });
 
+router.get('/logout', authenticateToken, async (req, res) => {
+  res.status(200).json({ message: "token successful" });
+});
+
 export default router;
