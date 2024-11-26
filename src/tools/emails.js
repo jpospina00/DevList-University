@@ -95,3 +95,51 @@ export const sendAccountCreationEmail = async (to, name, password) => {
     const info = await transporter.sendMail(mailOptions);
     console.log('Email sent: ' + info.response);
 }
+
+export const sendDeviceDeactivationReport = async (to, monitorName, deviceName, deviceId, reason) => {
+    const pdfPath = 'reporte_inactivacion.pdf'; // Asegúrate de que el archivo PDF ya se haya generado
+
+    // Crear el archivo PDF antes de enviarlo
+    // Llamamos a la función para generar el PDF con los detalles del dispositivo y el monitor
+
+    const mailOptions = {
+        from: config.email,
+        to,
+        subject: 'Reporte de Inactivación de Dispositivo',
+        html: `
+            <div style="font-family: Arial, sans-serif; color: #333; background-color: #f7f7f7; padding: 20px; border-radius: 10px;">
+                <div style="background-color: #18333F; color: white; padding: 15px; text-align: center; border-radius: 10px 10px 0 0;">
+                    <h1 style="margin: 0;">Reporte de Inactivación de Dispositivo</h1>
+                </div>
+                <div style="padding: 20px; background-color: white; border-radius: 0 0 10px 10px;">
+                    <p style="font-size: 16px; color: #18333F;">Estimado/a administrador/a,</p>
+                    <p style="font-size: 16px; color: #555;">
+                        Le enviamos el reporte de la inactivación del dispositivo con los siguientes detalles:
+                    </p>
+                    <p style="font-size: 16px; color: #18333F;">Nombre del dispositivo: ${deviceName}</p>
+                    <p style="font-size: 16px; color: #18333F;">ID del dispositivo: ${deviceId}</p>
+                    <p style="font-size: 16px; color: #18333F;">Motivo: ${reason}</p>
+                    <p style="font-size: 16px; color: #18333F;">Inactivado por: ${monitorName}</p>
+                    <p style="font-size: 16px; color: #555;">
+                        Puede revisar el documento PDF adjunto para obtener más detalles.
+                    </p>
+                    <p style="font-size: 14px; color: #999;">Saludos cordiales,<br>El equipo de DevList University</p>
+                </div>
+            </div>
+        `,
+        attachments: [
+            {
+                filename: 'reporte_inactivacion.pdf', // El nombre del archivo adjunto
+                path: pdfPath, // La ruta al archivo PDF
+                contentType: 'application/pdf' // Tipo de contenido
+            }
+        ]
+    };
+
+    try {
+        const info = await transporter.sendMail(mailOptions);
+        console.log('Email enviado: ' + info.response);
+    } catch (error) {
+        console.error('Error enviando el correo:', error);
+    }
+};

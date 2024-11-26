@@ -8,12 +8,17 @@ import { validateRequestBody } from "../middlewares/validate.handler.js";
 import StockService from "../services/stock.service.js";
 import { DeviceTypeService } from "../services/deviceType.service.js";
 import { WarehouseService } from "../services/warehouses.service.js";
+import UserService from "../services/user.service.js";
+import { createPDF } from "../tools/pdf.js";
+import { sendDeviceDeactivationReport } from "../tools/emails.js";
+import fs from 'fs';
 
 const router = express.Router();
 const storage = multer.memoryStorage();
 const deviceService = new DeviceService();
 const stockService = new StockService();
 const deviceTypeService = new DeviceTypeService();
+const userService = new UserService();
 const warehouseService = new WarehouseService();
 /**
  * Middleware for handling file uploads using multer.
@@ -189,4 +194,56 @@ router.put(
   }
 );
 
+
+router.put(
+  "/desactivate/:id",
+  authenticateToken,
+  async (req, res) => {
+    const deviceId = req.params.id;
+
+    try {
+      // Obtener el dispositivo de la base de datos
+
+      const device = await deviceService.getDeviceById(deviceId);
+      const { userId } = req.user; 
+      const {signature, observation} = req.body;
+      console.log(userId);
+      // Eliminar el dispositivo de la base de datos
+      const status = await deviceService.getStatusByDeviceId('No Disponible');
+      await deviceService.updateDevice(deviceId, { statusId: status.statusId });
+
+      const userAdmin = await userService.getUserByRole(1);
+      const userMonitor = await userService.getUserById(userId);
+      createPDF( userMonitor.name, userMonitor.email ,device.name, device.deviceId, observation,  signature);
+      for (let i = 0; i < userAdmin.length; i++) {
+        await sendDeviceDeactivationReport(
+          userAdmin[i].email, // Enviar a los administradores
+          userMonitor.name,
+          device.name,
+          device.deviceId,
+          observation,
+      );
+      }
+    //   await sendDeviceDeactivationReport(
+    //     'juangamerospina@gmail.com', // Enviar a los administradores
+    //     userMonitor.name,
+    //     device.name,
+    //     device.deviceId,
+    //     'Desactivado',
+    //     'Juan Pérez' // Firma
+    // );
+    fs.unlink('reporte_inactivacion.pdf', (err) => {
+      if (err) {
+        console.error("Error al eliminar el archivo PDF:", err);
+      } else {
+        console.log("Archivo PDF eliminado correctamente.");
+      }
+    });
+      return res.status(200).json({ message: "Device successfully deactivated.", ok: true });
+    } catch (error) {
+      console.error("Error disabling device:", error);
+      return res.status(500).json({ error: error.message });
+    }
+  }
+);
 export default router;

@@ -23,6 +23,15 @@ class UserService {
     }
   }
 
+  async getUserByRole(roleId) {
+    try {
+      const users = await User.findAll({ where: { roleId } });
+      return users;
+    } catch (error) {
+      throw new Error(`Error fetching users: ${error.message}`);
+    }
+  }
+
   async getUserById(id) {
     try {
       const user = await User.findByPk(id);
