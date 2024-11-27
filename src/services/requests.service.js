@@ -11,6 +11,22 @@ export class RequestService {
       throw new Error(`Error creating Requests: ${error.message}`);
     }
   }
+
+  async addMonitorToRequest(requestId, monitorId) {
+    console.log(requestId, monitorId);
+    try {
+      const [request] = await Requests.update(
+        { monitorId },
+        { where: { requestId }}
+      );
+      if (request === 0) {
+        throw new Error("Request not found");
+      }
+      return request;
+    } catch (error) {
+      throw new Error(`Error adding monitor to Requests: ${error.message}`);
+    }
+  }
 }
 
 // Exporta una instancia de la clase RequestService

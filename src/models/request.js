@@ -10,7 +10,7 @@ const Requests = sequelize.define('Requests', {
     field: 'request_id',
   },
   monitorId: {
-    type: DataTypes.INTEGER, 
+    type: DataTypes.STRING(50),    // Relación con la tabla 'device_types'
     allowNull: true,
     field: 'monitor_id',
     references: {
@@ -20,7 +20,7 @@ const Requests = sequelize.define('Requests', {
     onDelete: 'SET NULL',
   },
   teacherId: {
-    type: DataTypes.INTEGER,    // Relación con la tabla 'device_types'
+    type: DataTypes.STRING(50),    // Relación con la tabla 'device_types'   // Relación con la tabla 'device_types'
     allowNull: false,
     field: 'teacher_id',
     references: {
