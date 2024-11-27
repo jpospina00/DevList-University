@@ -1,8 +1,9 @@
 import pdfkit from 'pdfkit';
 import fs from 'fs';
+import SVGtoPDF from 'svg-to-pdfkit'; // Importa la biblioteca para SVG
 
 export function createPDF(monitorName, monitorEmail, deviceName, deviceId, reason, signature) {
-    const doc = new pdfkit();
+  const doc = new pdfkit();
 
   // Generar la fecha actual
   const currentDate = new Date().toLocaleDateString("es-ES", {
@@ -16,20 +17,30 @@ export function createPDF(monitorName, monitorEmail, deviceName, deviceId, reaso
   const stream = fs.createWriteStream(filePath);
   doc.pipe(stream);
 
-  // Estilos básicos y encabezado
+  // Insertar el SVG en el encabezado
+  const svgPath = "./src/tools/LogoSinFondo.svg"; // Ruta del archivo SVG
+  SVGtoPDF(doc, fs.readFileSync(svgPath, "utf8"), 50, 50, {
+    width: 100, // Ajusta el ancho del logo
+    height: 50, // Ajusta la altura del logo
+  });
+
+  // Mover la posición del cursor para el texto después del logo
+  doc.moveDown(3);
+
+  // Estilos básicos y encabezado después del logo
   doc
     .fontSize(12)
     .font("Helvetica")
     .fillColor("#333")
-    .text(`Fecha de generación: ${currentDate}`, { align: "right" })
-    .moveDown(2);
+    .text(`Fecha de generación: ${currentDate}`, 50, 120, { align: "left" })
+    .moveDown(1);
 
   doc
     .fontSize(20)
     .font("Helvetica-Bold")
     .fillColor("#18333F")
     .text("Reporte de Inactivación de Dispositivo", { align: "center" })
-    .moveDown(1);
+    .moveDown(2);
 
   // Contenido principal
   doc
@@ -89,6 +100,4 @@ export function createPDF(monitorName, monitorEmail, deviceName, deviceId, reaso
   doc.end();
 
   console.log(`PDF creado con éxito en: ${filePath}`);
-    }
-    
-
+}
