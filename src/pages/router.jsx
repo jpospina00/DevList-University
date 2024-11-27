@@ -12,6 +12,7 @@ import MainInventory from '../layouts/MainInventory';
 import RequestDevices from './RequestDevices';
 import Users from './Users';
 import FormReturnDevice from './FormReturnDevice';
+import HistoryRequestDevices from './HistoryRequestDevices';
 
 export default createBrowserRouter([
     {
@@ -46,6 +47,8 @@ export default createBrowserRouter([
                 }
             }, {
                 path: '/return-devices', element: <FormReturnDevice />
+            }, {
+                path: '/history', element: <HistoryRequestDevices />
             }, {
                 path: '/', element: <MainInventory />, children: [
                     {
