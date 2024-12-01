@@ -19,6 +19,15 @@ export class RequestItemsService {
     }
   }
 
+  async getRequestItems(options = {}) {
+    try {
+      const requests = await RequestItems.findAll(options);
+      return requests;
+    } catch (error) {
+      throw new Error(`Error getting RequestItems: ${error.message}`);
+    }
+  }
+
   async updatedRequestItems(data,  options = {}) {
     try {
       

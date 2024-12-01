@@ -12,6 +12,19 @@ export class RequestService {
     }
   }
 
+  async updatedRequest(requestId, data, options = {}) {
+    try {
+      console.log(requestId, data, options);
+      const [request] = await Requests.update(data, { where: { requestId }, ...options });
+      if (request === 0) {
+        throw new Error("Request not found");
+      }
+      return request;
+    } catch (error) {
+      throw new Error(`Error updating Requests: ${error.message}`);
+    }
+  }
+
   async addMonitorToRequest(requestId, monitorId) {
     console.log(requestId, monitorId);
     try {

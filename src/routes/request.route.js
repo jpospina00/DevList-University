@@ -3,13 +3,16 @@ import { RequestService } from "../services/requests.service.js";
 import { RequestStatusService } from "../services/requestStatus.service.js";
 import { RequestItemsService } from "../services/requestItems.service.js";
 import { sequelize } from "../lib/connection.js";
-import { where } from "sequelize";
 import authenticateToken from "../middlewares/auth.handler.js";
+import DeviceService from "../services/device.service.js";
+import StockService from "../services/stock.service.js";
 
 const router = express.Router();
 const requests = new RequestService();
 const requestStatus = new RequestStatusService();
 const requestItems = new RequestItemsService();
+const deviceService = new DeviceService();
+const stock = new StockService();
 
 router.post("/create-request",authenticateToken, async (req, res) => {
     const transaction = await sequelize.transaction()
@@ -18,9 +21,6 @@ router.post("/create-request",authenticateToken, async (req, res) => {
         const { userId } = req.user; 
         const requestData = {
             teacherId: userId,
-            requestDate: request.requestDate,
-            requestTime: request.requestTime,
-            hoursRequested: request.hoursRequested
         };
 
         // Crea la solicitud
@@ -29,7 +29,7 @@ router.post("/create-request",authenticateToken, async (req, res) => {
         // Crea el estado inicial de la solicitud
         const requestStatusData = {
             requestId: requestCreated.requestId,
-            status: "Pending",
+            status: "Waited",
         };
         await requestStatus.createRequestStatus(requestStatusData, {transaction});
 
@@ -40,6 +40,15 @@ router.post("/create-request",authenticateToken, async (req, res) => {
             quantity: item.quantity
         }));
         await requestItems.createRequestItems(requestItemsData, {transaction});
+        for (const devices of request.device) {
+        const getDevice = await deviceService.getDeviceById(devices.deviceId);
+        const getStock = (await stock.getStocksByFilters({ deviceTypeId: getDevice.deviceTypeId }))[0];
+
+        if (getStock.quantity < devices.quantity) {
+            throw new Error(`Device with ID ${devices.deviceId} has not enough stock.`);
+        }
+        getStock.update({ quantity: getStock.quantity - devices.quantity }, { transaction });
+      }
         await transaction.commit();
         return res.status(200).json({ message: "Request created successfully", request });
     } catch (error) {
@@ -49,25 +58,24 @@ router.post("/create-request",authenticateToken, async (req, res) => {
     }
 });
 
-router.post("/separate-devices", authenticateToken, async (req, res) => {
+router.post("/pending-devices/:requestId", authenticateToken, async (req, res) => {
   const transaction = await sequelize.transaction()
   try {
       const { request } = req.body;
+      const { requestId } = req.params;
       const requestData = {
-          monitorId: request.monitorId,
-          teacherId: request.teacherId,
           requestDate: request.requestDate,
           requestTime: request.requestTime,
           hoursRequested: request.hoursRequested
       };
 
       // Crea la solicitud
-      const requestCreated = await requests.createRequest(requestData, {transaction});
+      const requestCreated = await requests.updatedRequest(requestId,requestData, {transaction});
 
       // Crea el estado inicial de la solicitud
       const requestStatusData = {
-          requestId: requestCreated.requestId,
-          status: "notConfirmed",
+          requestId: requestId,
+          status: "Pending",
       };
       await requestStatus.createRequestStatus(requestStatusData, {transaction});
 
@@ -77,9 +85,31 @@ router.post("/separate-devices", authenticateToken, async (req, res) => {
           deviceId: item.deviceId,
           quantity: item.quantity
       }));
-      await requestItems.createRequestItems(requestItemsData, {transaction});
+      const existingItems = await requestItems.getRequestItems({where: {requestId: requestId}});
+      for (const device of request.device) {
+        const existingItem = existingItems.find(
+          (item) => item.deviceId === device.deviceId
+        );
+        if (!existingItem) {
+          throw new Error(`Device with ID ${device.deviceId} not found in request.`);
+        }
+        if (existingItem.quantity !== device.quantity) {
+          await existingItem.update(
+            { quantity: device.quantity },
+            { transaction }
+          );
+          const getDevice = await deviceService.getDeviceById(device.deviceId);
+        const getStock = (await stock.getStocksByFilters({ deviceTypeId: getDevice.deviceTypeId }))[0];
+
+        if (getStock.quantity < device.quantity) {
+            throw new Error(`Device with ID ${device.deviceId} has not enough stock.`);
+        }
+        getStock.update({ quantity: getStock.quantity - device.quantity });
+        }
+      }
+      // await requestItems.createRequestItems(requestItemsData, {transaction});
       await transaction.commit();
-      return res.status(200).json({ message: "Request created successfully", request });
+      return res.status(200).json({ message: "Request updated successfully", request });
   } catch (error) {
       await transaction.rollback();
       console.log(error);

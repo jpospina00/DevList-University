@@ -158,6 +158,7 @@ class DeviceService {
 
   async getDeviceById(id) {
     try {
+      console.log(id);
       const device = await Device.findByPk(id);
       if (!device) {
         throw new Error("Device not found");

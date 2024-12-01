@@ -31,17 +31,17 @@ const Requests = sequelize.define('Requests', {
   },
   requestDate: {
     type: DataTypes.DATE,    // Relación con la tabla 'warehouses'
-    allowNull: false,
+    allowNull: true,
     field: 'request_date',
   },
   requestTime: {
     type: DataTypes.TIME,  // Limitar a 50 caracteres si es VARCHAR(50) en la BD
-    allowNull: false,
+    allowNull: true,
     field: 'request_time',
   },
   hoursRequested: {
     type: DataTypes.INTEGER,     // Relación con la tabla 'statuses'
-    allowNull: false,
+    allowNull: true,
     field: 'hours_requested',
   },
   createdAt: {
