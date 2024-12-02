@@ -246,4 +246,27 @@ router.put(
     }
   }
 );
+
+router.get('/get-device/:deviceId', authenticateToken, async (req, res) => {
+  try {
+    const { deviceId } = req.params;
+    const device = await deviceService.getDeviceById(deviceId);
+    return res.status(200).json(device);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+}
+);
+
+router.put('/update-device/:deviceId', authenticateToken, async (req, res) => {
+  try {
+    const { deviceId } = req.params;
+    const data = req.body;
+    const device = await deviceService.updateDevice(deviceId, data);
+    return res.status(200).json({ message: "Device updated successfully", ok: true });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+}
+);
 export default router;
