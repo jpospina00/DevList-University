@@ -1,4 +1,9 @@
-import Requests from "../models/request.js";
+import Device from "../models/device.model.js";
+import Requests from "../models/request.model.js";
+import RequestItems from "../models/requestItems.js";
+import RequestStatus from "../models/requestStatus.js";
+import "../models/associations.js";
+import { Op } from "sequelize";
 
 export class RequestService {
   constructor() {}
@@ -52,6 +57,47 @@ export class RequestService {
       throw new Error(`Error getting Requests: ${error.message}`);
     }
   }
+
+  async getAllRequests() {
+    try {
+      const requests = await Requests.findAll();
+      return requests;
+    } catch (error) {
+      throw new Error(`Error getting Requests: ${error.message}`);
+    }
+  }
+
+  async getDevicesWithWaitedStatus (status) {
+    try {
+      const result = await Requests.findAll({
+        include: [
+          {
+            model: RequestStatus,
+            status: { [Op.or]: [status] },// Filtrar por status 'Waited'
+            attributes: ['status', 'statusTimestamp'],
+          required: true, // Asegura que solo se incluyan Requests con los estados deseados
+          // Solo incluye el estado más reciente
+          order: [['statusTimestamp', 'DESC']],
+          limit: 1,
+          },
+          {
+            model: RequestItems,
+            include: [
+              {
+                model: Device,
+                attributes: ['deviceId', 'name'], // Campos necesarios del dispositivo
+              },
+            ],
+          },
+        ],
+      });
+  
+      return result;
+    } catch (error) {
+      console.error('Error fetching devices with Waited status:', error);
+      throw error;
+    }
+  };
 }
 
 

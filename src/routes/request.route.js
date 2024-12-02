@@ -27,7 +27,7 @@ router.post("/create-request",authenticateToken, async (req, res) => {
 
         // Crea la solicitud
         const requestCreated = await requests.createRequest(requestData, {transaction});
-
+        console.log(requestCreated.requestId);
         // Crea el estado inicial de la solicitud
         const requestStatusData = {
             requestId: requestCreated.requestId,
@@ -54,7 +54,7 @@ router.post("/create-request",authenticateToken, async (req, res) => {
         await getStock.update({ quantity: getStock.quantity - devices.quantity }, { transaction });
       }
         await transaction.commit();
-        return res.status(200).json({ message: "Request created successfully", request });
+        return res.status(200).json({ message: "Request created successfully", request, requestId: requestCreated.requestId });
     } catch (error) {
         await transaction.rollback();
         console.log(error);
@@ -194,7 +194,8 @@ router.put("/return-request", authenticateToken, async (req, res) => {
 router.get("/waited", authenticateToken, async (req, res) => {
     try {
         const { userId } = req.user;
-        const requestsList = await requests.getRequestByTeacherId({where: {teacherId: userId}});
+        const requestsList = await requests.getAllRequests();
+
         const requestsStatus = await requestStatus.getRequestStatus({where: {requestId: requestsList[requestsList.length - 1].requestId}});
         if(requestsStatus[requestsStatus.length - 1].status !== "Waited"){
             return res.status(200).json({message: "Request is still waiting for approval"});
@@ -212,6 +213,25 @@ router.get("/waited", authenticateToken, async (req, res) => {
 
         }
         return res.status(200).json(createResponse);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: error.message });
+    }
+  });
+
+router.get("/", authenticateToken, async (req, res) => {
+    try {
+        const { userId, role } = req.user;
+        console.log('Role: ', role);
+        if(role !== 3) {
+            const requestsList = await requests.getDevicesWithWaitedStatus(["Pending", "Closed"]);
+            return res.status(200).json(requestsList);
+        } else if(role == 3) {
+            const requestsList = await requests.getDevicesWithWaitedStatus(["Waited", "Delivered"]);
+            return res.status(200).json(requestsList);
+        }
+        
+        return res.status(200).json({ message: "Request updated successfully" });
     } catch (error) {
         console.log(error);
         res.status(500).json({ error: error.message });
