@@ -23,6 +23,18 @@ export class RequestStatusService {
         throw new Error(`Error updating RequestStatus: ${error.message}`);
     }
 }
+
+  async getRequestStatus(where) {
+    try {
+      const request = await RequestStatus.findAll(where);
+      if (!request) {
+        throw new Error("RequestStatus not found");
+      }
+      return request;
+    } catch (error) {
+      throw new Error(`Error getting RequestStatus: ${error.message}`);
+    }
+  }
 }
 
 

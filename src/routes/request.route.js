@@ -6,6 +6,7 @@ import { sequelize } from "../lib/connection.js";
 import authenticateToken from "../middlewares/auth.handler.js";
 import DeviceService from "../services/device.service.js";
 import StockService from "../services/stock.service.js";
+import { WarehouseService } from "../services/warehouses.service.js";
 
 const router = express.Router();
 const requests = new RequestService();
@@ -13,6 +14,7 @@ const requestStatus = new RequestStatusService();
 const requestItems = new RequestItemsService();
 const deviceService = new DeviceService();
 const stock = new StockService();
+const warehouse = new WarehouseService();
 
 router.post("/create-request",authenticateToken, async (req, res) => {
     const transaction = await sequelize.transaction()
@@ -45,9 +47,11 @@ router.post("/create-request",authenticateToken, async (req, res) => {
         const getStock = (await stock.getStocksByFilters({ deviceTypeId: getDevice.deviceTypeId }))[0];
 
         if (getStock.quantity < devices.quantity) {
-            throw new Error(`Device with ID ${devices.deviceId} has not enough stock.`);
+          await transaction.rollback();
+            return res.status(500).json({ message: `Device with ID ${devices.deviceId} has not enough stock.`, error: true });
+            // throw new Error(`Device with ID ${devices.deviceId} has not enough stock.`);
         }
-        getStock.update({ quantity: getStock.quantity - devices.quantity }, { transaction });
+        await getStock.update({ quantity: getStock.quantity - devices.quantity }, { transaction });
       }
         await transaction.commit();
         return res.status(200).json({ message: "Request created successfully", request });
@@ -102,7 +106,8 @@ router.post("/pending-devices/:requestId", authenticateToken, async (req, res) =
         const getStock = (await stock.getStocksByFilters({ deviceTypeId: getDevice.deviceTypeId }))[0];
 
         if (getStock.quantity < device.quantity) {
-            throw new Error(`Device with ID ${device.deviceId} has not enough stock.`);
+          await transaction.rollback();
+            return res.status(500).json({ message: `Device with ID ${device.deviceId} has not enough stock.`, error: true });
         }
         getStock.update({ quantity: getStock.quantity - device.quantity });
         }
@@ -186,5 +191,32 @@ router.put("/return-request", authenticateToken, async (req, res) => {
     }
   });
 
+router.get("/waited", authenticateToken, async (req, res) => {
+    try {
+        const { userId } = req.user;
+        const requestsList = await requests.getRequestByTeacherId({where: {teacherId: userId}});
+        const requestsStatus = await requestStatus.getRequestStatus({where: {requestId: requestsList[requestsList.length - 1].requestId}});
+        if(requestsStatus[requestsStatus.length - 1].status !== "Waited"){
+            return res.status(200).json({message: "Request is still waiting for approval"});
+        }
+        const requestsDevices = await requestItems.getRequestItems({where: {requestId: requestsList[requestsList.length - 1].requestId}});
+        const createResponse = [];
+        for (const requestDevice of requestsDevices) {
+            const device = await deviceService.getDeviceById(requestDevice.deviceId);
+            const warehouseName = await warehouse.getWarehouseById(device.warehouseId);
+            createResponse.push({
+                ...requestDevice.dataValues,
+                ...device.dataValues,
+                warehouseName: warehouseName.dataValues.name
+            });
+
+        }
+        return res.status(200).json(createResponse);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: error.message });
+    }
+  });
+  
 
 export default router;

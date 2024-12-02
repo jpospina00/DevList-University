@@ -40,7 +40,21 @@ export class RequestService {
       throw new Error(`Error adding monitor to Requests: ${error.message}`);
     }
   }
+
+  async getRequestByTeacherId(where) {
+    try {
+      const request = await Requests.findAll(where);
+      if (!request) {
+        throw new Error("Request not found");
+      }
+      return request;
+    } catch (error) {
+      throw new Error(`Error getting Requests: ${error.message}`);
+    }
+  }
 }
+
+
 
 // Exporta una instancia de la clase RequestService
 export default new RequestService();
