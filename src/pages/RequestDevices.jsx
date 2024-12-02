@@ -1,12 +1,25 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CardDeviceRequest from "../components/CardDeviceRequest";
 import PopupDelete from "../components/PopupDelete";
 import PopupRequest from "../components/PopupRequest";
+import axios from "axios";
+import Api from "../Api";
+import Headers from "../Headers";
 
 export default function RequestDevices() {
 
     const [show, setShow] = useState(false);
     const [showRequest, setShowRequest] = useState(false);
+    const [devices, setDevices] = useState([]);
+
+    useEffect(() => {
+        axios.get(`${Api}request/waited`, Headers('application/json')).then(res => {
+            console.log(res.data);
+            setDevices(res.data);
+        }).catch(err => {
+            console.log(err);
+        })
+    }, []);
 
     return (
         <>
@@ -23,10 +36,7 @@ export default function RequestDevices() {
                 <div className="w-[90%] h-full flex flex-col pt-5">
                     <h2 className="font-montserrat font-bold text-2xl pb-5"> Dispositivos </h2>
                     <div className="w-full h-[70%] overflow-scroll flex flex-col gap-5">
-                        <CardDeviceRequest setShow={setShow} referencia={12}/>
-                        <CardDeviceRequest setShow={setShow} referencia={13}/>
-                        <CardDeviceRequest setShow={setShow} referencia={14}/>
-                        <CardDeviceRequest setShow={setShow} referencia={15}/>
+                        {devices.map(device => <CardDeviceRequest key={device.devdeviceId} device={device} setShow={setShow} />)}
                     </div>
                     <div className="flex justify-between h-[10%] items-center">
                         <h2 className="font-montserrat font-bold text-2xl">

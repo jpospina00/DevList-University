@@ -1,28 +1,35 @@
 import { useState } from "react";
 import imagen1 from "../assets/Images/Images1.png";
 import CheckedIcon from "../assets/Checked.svg";
+import axios from "axios";
+import Api from "../Api";
 
-export default function CardDeviceRequest({ setShow, referencia }) {
-    
-    const [checked, setChecked] = useState(false);
-    
+export default function CardDeviceRequest({ setShow, device }) {
+
+    const [checked, setChecked] = useState(true);
+
     const handleCheckboxChange = () => {
         setChecked(!checked);
     };
-    
+
+    // const requestDevices = () => {
+    //     axios.post(`${Api}`)
+    // }
+
     return (
         <div className="flex items-center gap-5 p-2">
-            <input id={referencia} type="checkbox" onChange={handleCheckboxChange} className="hidden" />
-            <label htmlFor={referencia} className={`cursor-pointer border border-[#000000] w-[30px] h-[30px] flex items-center justify-center ${checked ? "bg-[#14890D]" : ""}`}>
+            <input id={device.deviceId} type="checkbox" onChange={handleCheckboxChange} className="hidden" />
+            <label htmlFor={device.deviceId} className={`cursor-pointer border border-[#000000] w-[30px] h-[30px] flex items-center justify-center ${checked ? "bg-[#14890D]" : ""}`}>
                 {checked && <img src={CheckedIcon} alt="Check" />}
             </label>
             <div className="w-full h-[200px] bg-[#cfd7dc] rounded-3xl flex justify-around items-center border border-dark">
-                <img className="h-[90%] border border-dark rounded-3xl" src={imagen1} alt="Imagen1" />
+                <img className="h-[90%] w-[20%] border border-dark rounded-3xl" src={"https://drive.google.com/thumbnail?id=" + device.urlPicture} alt="Imagen1" />
                 <div className="flex flex-col w-[50%] h-[90%] justify-center gap-4">
-                    <p className="font-montserrat font-medium text-base"> Nombre: Laptop Dell Inspiron 15 </p>
-                    <p className="font-montserrat font-medium text-base"> N° Referencia: 23445 </p>
-                    <p className="font-montserrat font-medium text-base"> Tipo de dispositivo: Pc </p>
-                    <p className="font-montserrat font-medium text-base"> N° Bodega: 1 </p>
+                    <p className="font-montserrat font-medium text-base"> Nombre: {device.name} </p>
+                    <p className="font-montserrat font-medium text-base"> N° Referencia: {device.deviceId} </p>
+                    <p className="font-montserrat font-medium text-base"> Tipo de dispositivo: {device.brand} </p>
+                    <p className="font-montserrat font-medium text-base"> N° Bodega: {device.warehouseId} </p>
+                    <p className="font-montserrat font-medium text-base"> Nombre Bodega: {device.warehouseName} </p>
                 </div>
                 <div className="w-[15%] h-[80%] flex flex-col items-end justify-between">
                     <button onClick={() => setShow(true)}
@@ -50,6 +57,7 @@ export default function CardDeviceRequest({ setShow, referencia }) {
                     </button>
                     <div className="flex items-center w-full justify-center gap-2">
                         <button
+                            onClick={() => device.quantity -= 1}
                             title="Add New"
                             className="group cursor-pointer outline-none hover:rotate-180 duration-300"
                         >
@@ -59,8 +67,10 @@ export default function CardDeviceRequest({ setShow, referencia }) {
                             </svg>
 
                         </button>
-                        <p className="font-montserrat font-semibold text-2xl"> 1 </p>
-                        <button title="Add New" className="group cursor-pointer outline-none hover:rotate-90 duration-300" >
+                        <p className="font-montserrat font-semibold text-2xl"> {device.quantity} </p>
+                        <button
+                            onClick={() => device.quantity += 1}
+                            title="Add New" className="group cursor-pointer outline-none hover:rotate-90 duration-300" >
                             <svg width="30px" height="30px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="stroke-secondary2 fill-none group-active:stroke-dark group-active:duration-0 duration-300" >
                                 <path d="M12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22Z" stroke-width="1.5" ></path>
                                 <path d="M8 12H16" stroke-width="1.5"></path>
