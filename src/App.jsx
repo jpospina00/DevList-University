@@ -16,6 +16,7 @@ export default function App() {
       }).catch((err) =>{
         console.log(err);
         localStorage.removeItem('token');
+        window.location.reload();
       });
     }
   }, []);
