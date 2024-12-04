@@ -5,6 +5,7 @@ import PopupRequest from "../components/PopupRequest";
 import axios from "axios";
 import Api from "../Api";
 import Headers from "../Headers";
+import { Link } from "react-router-dom";
 
 export default function RequestDevices() {
 
@@ -29,7 +30,9 @@ export default function RequestDevices() {
                 <div className="flex w-[90%] justify-between pb-5">
                     <h1 className="font-montserrat font-semibold text-4xl"> Equipos a solicitar </h1>
                     <div className="flex w-3/6 justify-end gap-5">
-                        <button className="w-[145px] h-[30px] border border-secondary0 text-secondary0 rounded-lg hover:bg-secondary0Hover hover:text-disable"> Historial </button>
+                        <Link to={'/history'} className="flex items-center justify-center w-[135px] h-[35px] border border-secondary0 text-secondary0 rounded-lg hover:bg-secondary0Hover hover:text-disable"> 
+                            Historial 
+                        </Link>
                     </div>
                 </div>
                 <hr className="border w-[90%] border-secondary0" />
