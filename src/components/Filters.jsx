@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import filterIcon from "../assets/Filter.svg";
 import portafolio from "../assets/portafolio.svg";
 
-export default function Filters({ addRequest }) {
+export default function Filters() {
   return (
     <div className="flex w-full h-[70px] items-center justify-center bg-[#18333F] text-disable">
       <div className="flex w-[90%] items-center justify-center">
@@ -52,7 +52,7 @@ export default function Filters({ addRequest }) {
           </button>
         </form>
       </div>
-      <Link onClick={addRequest} to={"/request-devices"} className="flex w-[8%] items-center justify-end " >
+      <Link to={"/request-devices"} className="flex w-[8%] items-center justify-end " >
         <img src={portafolio}/>
       </Link>
     </div>

@@ -1,17 +1,20 @@
-export default function PopupDisableDevices({ setShow, handleActiveChange }) {
+import axios from "axios";
+import Api from "../Api";
 
-    
+export default function PopupDisableDevices({ setShow, handleActiveChange, description, signature }) {
+
   return (
-    <div className="fixed w-screen h-screen bg-dark flex items-center justify-center bg-opacity-50 z-50 top-0 left-0">
+    <div className="fixed w-screen h-screen bg-dark flex items-center justify-center bg-opacity-25 z-50 top-0 left-0">
       <div className="flex flex-col bg-disable w-[478px] h-[400px] items-center justify-center gap-5 rounded-3xl">
         <div className="flex flex-col justify-around w-4/5 relative gap-3">
           <h1 className="font-montserrat font-bold text-[24px]">Motivo</h1>
-          <textarea
+          <textarea ref={description}
             placeholder="Escriba su observación"
-            className=" h-28 max-h-32 min-h-10 p-3 border border-dark rounded"
+            className="h-28 max-h-32 min-h-10 p-3 border border-dark rounded"
           ></textarea>
-         <div className="w-[383px] h-[58px] relative">
+          <div className="w-[383px] h-[58px] relative">
             <input
+              ref={signature}
               type="text"
               // className="peer text-start h-20 max-h-10 p-2 w-full pb-12 border rounded mt-3 border-dark pt-6  pr-4 "
               className="peer w-full p-4 pt-6  pr-4 bg-inherit border-2 rounded outline-none transition disabled:opacity-70 disabled:cursor-not-allowed border-gray-500 focus:border-purple-500"

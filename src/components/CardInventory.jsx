@@ -1,34 +1,62 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import CheckedIcon from "../assets/Checked.svg";
 import PopupDisableDevices from "./PopupDisableDevices";
+import PopupEdit from "./PopupEdit";
+import Api from "../Api";
+import Headers from "../Headers";
+import axios from "axios";
+import Swal from "sweetalert2";
 
-export default function CardInventory({
-  img,
-  title,
-  referencia,
-  bodega,
-  tipo,
-  fecha,
-  activo,
-  open,
-  setOpen,
-}) {
+export default function CardInventory({ img, title, referencia, bodega, tipo, fecha, activo, open, setOpen, show, setShow }) {
+
+  const description = useRef();
+  const signature = useRef();
   const [checked, setChecked] = useState(false);
   const [active, setActive] = useState(activo);
-  const [show, setShow] = useState(false);
-
+  const [device, setDevice] = useState({});
 
   const handleCheckboxChange = () => {
     setChecked(!checked);
   };
 
   const handleActiveChange = () => {
-    setActive(!active);
+    let data = {
+      signature: signature.current.value?.trim(),
+      observation: description.current.value?.trim()
+    }
+    axios.put(`${Api}device/desactivate/${referencia}`, data, Headers('application/json')).then(res => {
+      console.log(res);
+      setActive(!active);
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "¡¡Dispositivo Desactivado correctamente!!",
+        showConfirmButton: false,
+        timer: 1500
+      });
+      setShow(false);
+    }).catch(err => {
+      setShow(false);
+      Swal.fire({
+        icon: "error",
+        title: `${err.message}`
+      });
+    })
   };
+
+  const getDevice = () => {
+    localStorage.setItem('device', referencia);
+    setOpen(!open);
+  }
 
   return (
     <>
-      {show && <PopupDisableDevices  setShow={setShow} handleActiveChange={handleActiveChange} />}
+      {open && <PopupEdit open={open} setOpen={setOpen} />}
+      {show && <PopupDisableDevices
+        setShow={setShow}
+        handleActiveChange={handleActiveChange}
+        description={description}
+        signature={signature} />}
       <div className="flex items-center w-full gap-4">
         <input
           id={referencia}
@@ -38,9 +66,8 @@ export default function CardInventory({
         />
         <label
           htmlFor={referencia}
-          className={`cursor-pointer border border-[#000000] w-[30px] h-[30px] flex items-center justify-center ${
-            checked ? "bg-[#14890D]" : ""
-          }`}
+          className={`cursor-pointer border border-[#000000] w-[30px] h-[30px] flex items-center justify-center ${checked ? "bg-[#14890D]" : ""
+            }`}
         >
           {checked && <img src={CheckedIcon} alt="Check" />}
         </label>
@@ -61,10 +88,9 @@ export default function CardInventory({
               <p> Agregado el {fecha} </p>
               <button
                 disabled={!checked}
-                onClick={() => setOpen(!open)}
-                className={`flex gap-2 outline-none ${
-                  checked ? "text-dark" : "text-[#B1B1B1]"
-                }`}
+                onClick={getDevice}
+                className={`flex gap-2 outline-none ${checked ? "text-dark" : "text-[#B1B1B1]"
+                  }`}
               >
                 <p> Editar </p>
                 <svg
@@ -89,20 +115,19 @@ export default function CardInventory({
                   id={`active${referencia}`}
                   type="checkbox"
                   className="hidden"
+                  checked={activo}
                   onChange={() => setShow(true)}
                 />
                 <label
-                  className={`w-[25px] h-[13px] flex rounded border border-[#18333F] relative ${
-                    active ? "bg-[#229799]" : "bg-[#ffffff]"
-                  }`}
+                  className={`w-[25px] h-[13px] flex rounded border border-[#18333F] relative ${activo ? "bg-[#229799]" : "bg-[#ffffff]"
+                    }`}
                   htmlFor={`active${referencia}`}
                 >
                   <div
-                    className={`absolute w-[20px] h-[20px] border border-[#18333F] rounded-full ${
-                      active
-                        ? "-right-2 -top-1 bg-[#229799]"
-                        : "-left-2 -top-1 bg-[#ffffff]"
-                    }`}
+                    className={`absolute w-[20px] h-[20px] border border-[#18333F] rounded-full ${activo
+                      ? "-right-2 -top-1 bg-[#229799]"
+                      : "-left-2 -top-1 bg-[#ffffff]"
+                      }`}
                   ></div>
                 </label>
               </div>

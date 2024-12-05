@@ -9,7 +9,8 @@ import axios from 'axios';
 export default function Home() {
 
     const [devices, setDevices] = useState([]);
-    const [addDevices, setAddDevices] = useState([]);
+    const [waited, setWaited] = useState(null);
+    const [reloadWaited, setReloadWaited] = useState(false);
 
     useEffect(() => {
         let filters = {
@@ -22,42 +23,65 @@ export default function Home() {
         }).catch((err) => {
             setNotFound(!notFound);
         })
-    }, [])
+    }, [reloadWaited])
 
-    const addRequest = async () => {
-        let resultado = [];
-        console.log(resultado);
-        for (let i = 0; i < addDevices.length; i++) {
-            const element = addDevices[i];
-            let encontrado = resultado.find(device => element.deviceId === device.deviceId);
-            if (encontrado) {
-                encontrado.quantity += 1; // Aumenta la cantidad si ya existe
-            } else {
-                resultado.push({ deviceId: element.deviceId, quantity: 1 }); // Agrega un nuevo objeto si no existe
-            }
-        }
-        let data = {
-            request: {
-                device: resultado
-            }
-        }
-        console.log(data);
-        axios.post(`${ApiUrl}request/create-request`, data, Headers('application/json')).then(res => {
-            console.log(res)
+    useEffect(() => {
+        axios.get(`${ApiUrl}request/waited`, Headers('application/json')).then(res => {
+            console.log(res.data);
+            setWaited(res.data);
         }).catch(err => {
             console.log(err);
         })
-    }
+    }, [reloadWaited]);
 
     const addDevice = (device) => {
-        let devices = [...addDevices];
-        let data = {
-            deviceId: device.deviceId,
-            quantity: 1
+        console.log(device);
+        if (waited.length == 0) {
+            let data = {
+                request: {
+                    device: [
+                        {
+                            deviceId: device.deviceId,
+                            quantity: 1
+                        }
+                    ]
+                }
+            }
+            console.log(data);
+            axios.post(`${ApiUrl}request/create-request`, data, Headers('application/json')).then(res => {
+                console.log(res);
+                setReloadWaited(!reloadWaited);
+            }).catch(err => {
+                console.log(err);
+            })
+        } else {
+            console.log(waited);
+            let resultado = [...waited];
+            console.log(resultado);
+            let encontrado = resultado.find(result => device.deviceId === result.deviceId);
+            console.log(encontrado);
+            if (encontrado) {
+                encontrado.quantity += 1;
+                encontrado = {
+                    deviceId: encontrado.deviceId,
+                    quantity: encontrado.quantity
+                }
+            } else {
+                resultado.push({ deviceId: device.deviceId, quantity: 1 });
+            }
+            let data = {
+                request: {
+                    device: resultado.map(dev => { return { deviceId: dev.deviceId, quantity: dev.quantity } })
+                }
+            }
+            console.log(data);
+            axios.post(`${ApiUrl}request/create-request`, data, Headers('application/json')).then(res => {
+                console.log(res);
+                setReloadWaited(!reloadWaited);
+            }).catch(err => {
+                console.log(err);
+            })
         }
-        devices.push(data);
-        setAddDevices(devices);
-        console.log(devices);
     }
 
     return (
@@ -66,7 +90,7 @@ export default function Home() {
             <div className='flex items-center justify-center h-[300px]'>
                 <h1 className='font-montserrat text-5xl'> Pagina Principal </h1>
             </div>
-            <Filters addRequest={addRequest} />
+            <Filters />
             <div className='w-full pt-28 pb-28 grid grid-cols-4 place-items-center gap-14 pl-24 pr-24'>
                 {
                     devices.map((device) => <Card

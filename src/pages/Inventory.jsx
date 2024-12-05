@@ -7,7 +7,6 @@ import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import ApiUrl from "../Api.js";
 import Headers from "../Headers.js";
-import PopupEdit from "../components/PopupEdit.jsx";
 
 export default function Inventory() {
 
@@ -17,9 +16,8 @@ export default function Inventory() {
     const [searchValues, setSearchValues] = useState("");
     const [open, setOpen] = useState(false);
     const [totalPages, setTotalPages] = useState(0);
-    const [next, setNext] = useState(0);
-    const [prev, setPrev] = useState(0);
     const [current, setCurrent] = useState(1);
+    const [show, setShow] = useState(false);
 
     const handleSearch = () => {
         setSearchValues(search.current.value?.trim());
@@ -61,50 +59,10 @@ export default function Inventory() {
         }).catch((err) => {
             setNotFound(!notFound);
         })
-    }, [searchValues, current]);
-
-    const data = [
-        {
-            img: imagen1,
-            title: "Laptop Dell Inspiron 15",
-            referencia: "1234",
-            bodega: 1,
-            tipo: "PC",
-            fecha: "11/03/2024",
-            activo: true
-        },
-        {
-            img: imagen1,
-            title: "Laptop Dell Inspiron 15",
-            referencia: "12345",
-            bodega: 1,
-            tipo: "PC",
-            fecha: "11/03/2024",
-            activo: false
-        },
-        {
-            img: imagen1,
-            title: "Laptop Dell Inspiron 15",
-            referencia: "123456",
-            bodega: 1,
-            tipo: "PC",
-            fecha: "11/03/2024",
-            activo: true
-        },
-        {
-            img: imagen1,
-            title: "Laptop Dell Inspiron 15",
-            referencia: "1234567",
-            bodega: 1,
-            tipo: "PC",
-            fecha: "11/03/2024",
-            activo: false
-        }
-    ];
+    }, [searchValues, current, show]);
 
     return (
         <>
-            {open && <PopupEdit open={open} setOpen={setOpen} />}
             <div className="w-full h-[100%] overflow-hidden flex flex-col gap-5 items-center pt-5">
                 <div className="flex w-[90%] justify-between">
                     <div className="flex items-center justify-around w-[70%]">
@@ -131,7 +89,7 @@ export default function Inventory() {
                     {
                         devices.map((device, i) => <CardInventory
                             key={i}
-                            activo={device.deviceStatus == "Disponible"}
+                            activo={device.deviceStatus === "Disponible"}
                             bodega={device.warehouseId}
                             fecha={device.updatedAt}
                             img={"https://drive.google.com/thumbnail?id=" + device.urlPicture}
@@ -139,7 +97,9 @@ export default function Inventory() {
                             tipo={device.deviceTypeId}
                             title={device.name}
                             open={open}
-                            setOpen={setOpen} />)
+                            setOpen={setOpen} 
+                            setShow={setShow}
+                            show={show}/>)
                     }
                 </div>
                 <div className="pb-20 w-[90%] flex justify-between items-center text-secondary0">
