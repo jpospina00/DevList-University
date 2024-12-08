@@ -197,9 +197,6 @@ router.get("/waited", authenticateToken, async (req, res) => {
         const requestsList = await requests.getAllRequests();
 
         const requestsStatus = await requestStatus.getRequestStatus({where: {requestId: requestsList[requestsList.length - 1].requestId}});
-        if(requestsStatus[requestsStatus.length - 1].status !== "Waited"){
-            return res.status(200).json({message: "Request is still waiting for approval"});
-        }
         const requestsDevices = await requestItems.getRequestItems({where: {requestId: requestsList[requestsList.length - 1].requestId}});
         const createResponse = [];
         for (const requestDevice of requestsDevices) {
