@@ -250,13 +250,14 @@ router.put(
 router.get('/get-device/:deviceId', authenticateToken, async (req, res) => {
   try {
     const { deviceId } = req.params;
-    const device = await deviceService.getDeviceById(deviceId);
+    const device = await deviceService.getDeviceByIdWithAll(deviceId);
     return res.status(200).json(device);
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
 }
 );
+
 
 router.put('/update-device/:deviceId', authenticateToken, async (req, res) => {
   try {

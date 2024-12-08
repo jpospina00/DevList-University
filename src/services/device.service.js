@@ -169,6 +169,32 @@ class DeviceService {
     }
   }
 
+  async getDeviceByIdWithAll(id) {
+    try {
+      console.log(id);
+      const device = await Device.findByPk(id, {
+        include: [
+          {
+            model: DeviceType,
+            attributes: ['name'], // Solo obtenemos el nombre del tipo de dispositivo
+          },
+          {
+            model: Warehouse,
+            attributes: ['name'], // Solo obtenemos el nombre del almacén
+          },
+        ],
+      });
+  
+      if (!device) {
+        throw new Error("Device not found");
+      }
+  
+      return device;
+    } catch (error) {
+      throw new Error(`Error fetching device: ${error.message}`);
+    }
+  }
+
   async updateDevice(id, data) {
     try {
       const [updated] = await Device.update(data, {

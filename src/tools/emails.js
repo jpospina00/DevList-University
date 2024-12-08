@@ -11,7 +11,7 @@ const transporter = nodemailer.createTransport({
 
 
 export const sendPasswordResetEmail = async (to, name, resetLink) => {
-    const url = `http://localhost:5173/restablecer-contraseña/${resetLink}`;
+    const url = `https://dev-list-university-nine.vercel.app/restablecer-contraseña/${resetLink}`;
     const mailOptions = {
         from: config.email,
         to, 
@@ -73,7 +73,7 @@ export const sendAccountCreationEmail = async (to, name, password) => {
                     </p>
                     
                     <div style="text-align: center; margin: 30px 0;">
-                        <a href="http://localhost:5173" style="background-color: #229799; color: white; text-decoration: none; padding: 10px 20px; border-radius: 5px; font-size: 16px;">
+                        <a href="https://dev-list-university-nine.vercel.app" style="background-color: #229799; color: white; text-decoration: none; padding: 10px 20px; border-radius: 5px; font-size: 16px;">
                             Iniciar sesión
                         </a>
                     </div>
